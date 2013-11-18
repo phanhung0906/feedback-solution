@@ -1,0 +1,26 @@
+Options +FollowSymlinks -MultiViews
+RewriteRule ^(.+)(\s|%20)(.+)$ /$1-$3 [R=301,QSA,L,NE]
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_URI} !^.*\/asset/(.*)$
+RewriteCond %{REQUEST_URI} !^.*\/picture/(.*)$
+RewriteCond %{REQUEST_URI} !^\/(.*).php$
+RewriteRule ^(.*)/(.*)/collaboration$ index.php?user=$1&project_name=$2&action=collaboration  [L]
+RewriteCond %{REQUEST_URI} !^.*\/asset/(.*)$
+RewriteCond %{REQUEST_URI} !^.*\/picture/(.*)$
+RewriteRule ^(.*)/(.*)/(.*)$ index.php?user=$1&project=$2&id_pro=$3  [L]
+RewriteCond %{REQUEST_URI} !^.*\/asset/(.*)$
+RewriteCond %{REQUEST_URI} !^.*\/picture/(.*)$
+RewriteRule setting/(.*)$ index.php?action=$1  [L]
+RewriteCond %{REQUEST_URI} !^.*\/asset/(.*)$
+RewriteCond %{REQUEST_URI} !^.*\/picture/(.*)$
+RewriteRule ^(.*)/(.*)$ index.php?user=$1&project_name=$2  [L]
+RewriteCond %{REQUEST_URI} !^.*\/asset/(.*)$
+RewriteCond %{REQUEST_URI} !^.*\/picture/(.*)$
+RewriteCond %{REQUEST_URI} !^\/(.*).php$
+RewriteRule ^(.*)$ index.php?user=$1    [L]
+</IfModule>
+<IfModule !mod_rewrite.c>
+    ErrorDocument 404 /index.php
+</IfModule>
