@@ -1,0 +1,208 @@
+body{
+    background:#ffffff;
+    padding-top: 49.5px;
+    overflow: auto;
+}
+body.modal-open-noscroll {
+    margin-right: 0!important;
+    overflow: hidden;
+}
+.modal-open-noscroll .navbar-fixed-top, .modal-open .navbar-fixed-bottom {
+    margin-right: 0!important;
+}
+html, body
+{
+    height: 100%;
+}
+.allpage{
+    min-height: 100%;
+}
+
+button:active {
+    background-color: blue;
+}
+.breadcrumb {
+    padding: 8px 15px;
+    margin-bottom: 21px;
+    list-style: none;
+    background-color: #ecf0f1;
+    border-radius: 4px;
+    margin-top:11px;
+}
+#move{
+    box-shadow: 3px 3px 30px ;
+}
+.cmt{
+    width:300px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    min-height: 35px;
+    max-height: 100px;
+    border: 1px solid #EBEBEB;
+    background: #F6F6F6;
+    color: #8B8B8B;
+    padding: 8px 5px;
+}
+.changecmt{
+    min-height: 100px;
+    border: 1px solid #EBEBEB;
+    background: #F6F6F6;
+    color: #8B8B8B;
+    padding: 8px 5px;
+    font-size: 13px;
+}
+.submit{
+    width:300px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+footer{
+    font-size: .9em;
+    color: #ec9483;
+    font-family: Brandon Text, Helvetica, sans-serif;
+}
+.projectPage a{
+    cursor: pointer;
+}
+
+li{
+    margin-left: 3px;
+}
+.showmenu{
+    /*height:100%;*/
+    /*position:fixed;*/
+    /*background:#F8F8F8;*/
+    /*padding-right: 0;*/
+    /*border-right: 1px solid #ccc;*/
+}
+.showmenu ul{
+    margin: 0px;
+    /*padding: 0px;*/
+}
+.showmenu li{
+    /*list-style: none;*/
+    /*line-height: 40px;*/
+    /*text-indent: 90px;*/
+}
+.showmenu li a{
+    /*color: #000000;*/
+    /*text-decoration: none;*/
+    /*display: block;*/
+    /*margin: 0px;*/
+    /*padding: 0px;*/
+}
+.showmenu li a:hover{
+    /*color: #000000;*/
+    /*background: #ffffff;*/
+}
+
+.onepic a{
+    color:#F8F8F8;
+    text-decoration: none;
+}
+.onepic a:hover{
+    font-weight: bold;
+}
+.missionImg a{
+    display: block;
+}
+.missionImg li{
+    background: #ffffff;
+    width:182px;
+    /*height:280px;*/
+    padding:9px;
+    margin-left:24px;
+    margin-bottom: 40px;
+    margin-right:24px;
+    box-shadow: 1px 1px 8px rgba(0,0,0,0.16);
+    border: 1px solid #acacac;
+    text-align:left;
+}
+.missionImg .missionName{
+    font-weight: bold;
+    padding-top: 5px;
+}
+.missionImg .numImg{
+    padding: 5px;
+}
+.projectImg li{
+    margin-left:32px;
+    margin-right:32px;
+    margin-bottom:40px;
+    padding:7px;
+    border:1px solid #acacac;
+    box-shadow: 1px 1px 8px rgba(0,0,0,0.16);
+    width:165px;
+    text-align:left;
+}
+.projectImg .deleteImg, .missionImg .deleteMission{
+    color:#646060;
+}
+.projectImg .deleteImg:hover, .missionImg .deleteMission:hover{
+    color:#000000;
+}
+.projectImg .name{
+    font-weight: bold;
+    padding-top: 5px;
+}
+.note{
+    /*background: url(http://images.redpen.local/picture/notes-bg.png) no-repeat 0 0;*/
+    width: 25px;
+    height: 25px;
+    /*background-position: -150px 0;*/
+    /*background-position-x: -150px;*/
+    /*background-position-y: 0px;*/
+}
+.contentcmt{
+    font-size: 12px;
+}
+.divlink{
+    margin-top: 11px;
+}
+textarea{
+    resize: none;
+}
+.comment{
+    text-align: left;
+}
+.container1{
+    padding-right: 55px;
+    padding-left: 55px;
+    margin: 0 auto;
+    min-width: 90%;
+}
+.formuploads{
+    width: 100%;
+}
+#target{
+    width:100%;
+    cursor: pointer;
+    overflow:inherit;
+    border:dashed 2px #848484;
+    margin-top:10px;
+    /*box-shadow: 0 0 50px rgba(0,0,0,0.13);*/
+    /*background:#ECECEC;height:100%;*/
+    display:none;
+}
+/*::-webkit-scrollbar{*/
+    /*width: 10px;*/
+/*}*/
+/*::-webkit-scrollbar-track {*/
+    /*background-color: #eaeaea;*/
+    /*border-left: 1px solid #ccc;*/
+/*}*/
+/*::-webkit-scrollbar-thumb {*/
+    /*background-color: #ccc;*/
+    /*border-radius: 10px;*/
+/*}*/
+/*::-webkit-scrollbar-thumb:hover {*/
+    /*background-color: #aaa;*/
+/*}*/
+.modal-open{
+    overflow: auto;
+}
+#modalDelete{
+    overflow: hidden;
+}
