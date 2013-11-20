@@ -4,7 +4,7 @@
 $newget = str_replace("-"," ",$get);
 ?>
 <ol class="breadcrumb">
-    <li><a href="http://<?= ROOT_URL.'/'.$_GET['user'] ?>">Dasbboard</a></li>
+    <li><a href="http://<?= ROOT_URL ?>">Dasbboard</a></li>
     <li class="active"><b ><?= $newget ?></b></li>
 </ol>
 <div class="page">
@@ -40,33 +40,36 @@ $newget = str_replace("-"," ",$get);
         <div class='container'>
             <div class="container text-center">
                 <ul class='list-unstyled projectImg' style='display: inline-block'>
+                    @for($i=0; $i< count($image);$i++)
+                        <li class='pull-left'>
+                            <a href="http://<?= ROOT_URL .'/'. $_GET['user'].'/'.$image[$i]->mission_name.'/'.$image[$i]->name ?>" class="picture">
+                                <img src="http://<?= IMAGES_URL . $image[$i]->url_square ?>" class="img img-thumbnail" "/>
+                            </a>
+                            <div class="name" style="height:43px;overflow: hidden;cursor: default" title="Click to change name project">{{$image[$i]->name}}</div>
 
+                            <?php if(Session::has('user') && isset($_GET['user'])): ?>
+                                <?php if(Session::get('user') == ($_GET['user'])): ?>
+                                    <a class="deleteImg pull-right" data-toggle="modal" href="#modalDelete" data-id="<?= $image[$i]->id_pro ?>" style="padding-left: 2px"><span class="fa fa-trash-o"></span></a>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                            <span>Size: <?= $image[$i]->size ?>  <span class="badge pull-right"><?= $numcmt[$i]->numcomment ?></span></span>
+                        </li>
+                    @endfor
                 </ul>
             </div>
 
             <div class="container text-center">
                 <ul class="pagination projectPage">
-
+                    @if($num_page > 1)
+                        @for($j=1; $j< ($num_page+1); $j++)
+                             <li <?php if($_GET['page'] == $j) echo "class='active'" ?>><a href="http://<?= ROOT_URL.'/'.$_GET['user'].'/'.$_GET['project_name'].'/page/'.$j ?>"><?= $j ?></a></li>
+                        @endfor
+                    @endif
                 </ul>
             </div>
         </div>
     </div>
 
-    <div class="projecttemp hide">
-        <li class='pull-left'>
-            <a href="#link#" class="picture">
-                <img src="http://<?= IMAGES_URL ?>#url#" class="img img-thumbnail" "/>
-            </a>
-            <div class="name" style="height:43px;overflow: hidden;cursor: default" title="Click to change name project">#name#</div>
-
-            <?php if(Session::has('user') && isset($_GET['user'])): ?>
-                <?php if(Session::get('user') == ($_GET['user'])): ?>
-                    <a class="deleteImg pull-right" data-toggle="modal" href="#modalDelete" data-id="#id#" style="padding-left: 2px"><span class="fa fa-trash-o"></span></a>
-                <?php endif; ?>
-            <?php endif; ?>
-            <span>Size: #size#  <span class="badge pull-right">#numcomment#</span></span>
-        </li>
-    </div>
 </div>
 </div>
     <script type="text/javascript">
@@ -75,72 +78,6 @@ $newget = str_replace("-"," ",$get);
                $get = $_GET['project_name'];
                $newget = str_replace("-"," ",$get);
             ?>
-            function listpicture(user,mission,page){
-                $PERPAGE = 15;
-                $.ajax({
-                    type: 'post',
-                    url : 'http://<?= ROOT_URL ?>/listImage',
-                    dataType: 'json',
-                    data:{
-                        user : user,
-                        mission : mission
-                    }
-                }).done(function(response){
-                        var num = response.result.length
-                        var current_page = parseInt(page);
-                        if(num%$PERPAGE == 0 ){
-                            var num_link_page = parseInt(num/$PERPAGE);
-                        }else
-                            var num_link_page = parseInt(num/$PERPAGE) +1;
-                        for(var j=1 ; j <= num_link_page; j++){
-                            var start_page = (j-1)*$PERPAGE+1;
-                            if ( num > j*$PERPAGE){
-                                var end_page = j*$PERPAGE;
-                            }else {
-                                end_page = num;
-                            }
-                            var template3 = $('.missionPageTemp').html().replace(/#numpage#/g,j)
-                                .replace(/#page#/g,j);
-                            $('<li/>').html(template3).on('click',function(){
-                                $('.projectPage').html('');
-                                $('.projectImg').html('');
-                                $page = $(this).find('a').attr('data-page');
-                                listpicture("<?= $_GET['user'] ?>",'<?= $newget ?>',$page);
-                            }).appendTo('.projectPage');
-
-                            if ( j != current_page ) {
-                                continue;
-                            }
-                            $('.projectPage').find("[data-page='" + j + "']").parent('li').addClass('active');
-                            $('.projectImg').html('');
-                            for (var k = start_page-1; k < end_page; k++) {
-                                var template = $('.projecttemp').html().replace(/#url#/g, response.result[k].url_square)
-                                    .replace(/#id#/g,response.result[k].id_pro)
-                                    .replace(/#name#/g,response.result[k].name)
-                                    .replace(/#size#/g,response.result[k].size+' Mb')
-                                    .replace(/#numcomment#/g,response.cmt[k].numcomment)
-                                    .replace(/#link#/g,'http://'+'<?= ROOT_URL .'/'. $_GET['user'] ?>'+'/'+ response.result[k].mission_name+'/'+ response.result[k].name);
-                                $(template).appendTo('.projectImg');
-                            }
-                        }
-                        if( j==2 ) $('.projectPage').html('');
-                        var collaborators = response.collaborators[0];
-                        switch(collaborators){
-                            case 'public':
-                                $('.project').find('.setting').html('').append("<span class='glyphicon glyphicon-globe'></span> Setting");
-                                break;
-                            case 'private':
-                                $('.project').find('.setting').html('').append("<span class='glyphicon glyphicon-lock'></span> Setting");
-                                break;
-                            default :
-                                $('.project').find('.setting').html('').append("<span class='glyphicon glyphicon-user'></span> Setting");
-                                break;
-                        }
-                    });
-            }
-
-            listpicture("<?= $_GET['user'] ?>",'<?= $newget ?>',1);
-
             // Edit name of Image in project_name
             $('.projectImg').on('click','.name',function(){
                 $self = $(this);
@@ -185,18 +122,13 @@ $newget = str_replace("-"," ",$get);
                                 id_pro: $self.data('currentImgId'),
                                 name: name
                             }
-                        }).done(function(response){ console.log(response);
+                        }).done(function(response){
                                 $('.opacity').hide();
                                 if (response != 'false') {
                                     $self.parent('li').find('.name').html('').show().html(response);
+                                    $url = "<?= 'http://'.ROOT_URL .'/'. $_GET['user'].'/'.$_GET['project_name'].'/' ?>"+response;
+                                    $self.prev().attr('href',$url);
                                     $self.hide().appendTo('.divchangename');
-                                    <?php if(isset($_GET['user']) && isset($_GET['project_name'])): ?>
-                                    <?php
-                                        $get = $_GET['project_name'];
-                                        $newget = str_replace("-"," ",$get);
-                                    ?>
-                                    listpicture("<?= $_GET['user'] ?>",'<?= $newget ?>',1);
-                                    <?php endif; ?>
                                 }else {
                                     $('.alertEditImg').show().delay(2000).fadeOut(1);
                                     $('.projectImg').find('.name').show();

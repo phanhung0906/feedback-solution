@@ -37,17 +37,6 @@
         </li>
     </div>
 
-    <div class="option hide">
-        <option>#mission#</option>
-    </div>
-
-    <div class="missionMenu hide">
-        <li><a href="#url#" data-id="#mission#">#mission#</a></li>
-    </div>
-    <div class="missioncurrent hide">
-        <span>Project / #mission#</span>
-    </div>
-
     <!-- temp -->
 </div>
 <script type="text/javascript">
@@ -68,6 +57,7 @@
                     if(response.result==''){
                         $('.showmenu').find('.active').hide();
                     }else{
+                        // Show menu and choose Project in upload
                         $('#target').show();
                         $('.chooseProject').show();
                         $('.projectmenu').show();
@@ -106,13 +96,14 @@
                     $($('.menu').html()).appendTo($('.showmenu').find('.project'));
 
                     <?php if(isset($_GET['project_name'])): ?>
-                    <?php
-                          $get = $_GET['project_name'];
-                          $newget = str_replace("-"," ",$get);
-                    ?>
-                    var template = $('.missioncurrent').html().replace(/#mission#/g,'<?= $newget ?>');
-                    $(template).appendTo($('.showmenu').find('.mission'));
+                        <?php
+                              $get = $_GET['project_name'];
+                              $newget = str_replace("-"," ",$get);
+                        ?>
+                        var template = $('.missioncurrent').html().replace(/#mission#/g,'<?= $newget ?>');
+                        $(template).appendTo($('.showmenu').find('.mission'));
                     <?php endif; ?>
+
                     $.ajax({
                         type:'post',
                         url:'http://<?= ROOT_URL.'/ProjectImg' ?>',
@@ -137,14 +128,12 @@
                                 var template3 = $('.missionPageTemp').html().replace(/#numpage#/g,j)
                                     .replace(/#page#/g,j);
                                 $('<li/>').html(template3).on('click',function(){
-
                                     $('.missionPage').html('');
                                     $('.missionImg').html('');
                                     $('.menu').html('');
                                     $page = $(this).find('a').attr('data-page');
                                     listMission($page,user);
                                 }).appendTo('.missionPage');
-
                                 if ( j != current_page ) {
                                     continue;
                                 }
@@ -152,7 +141,6 @@
                                 for (var k = start_page-1; k < end_page; k++) {
                                     <?php if( Session::has('user') && isset($_GET['user']) && (!isset($_GET['project_name']) && !isset($_GET['project']))): ?>
                                         <?php if( Session::get('user') != $_GET['user']): ?>
-                                  //  console.log( response2.result[k].collaborators);
                                             if( response2.result[k].collaborators != "public" ){
                                                 if( response2.result[k].collaborators == "private" ){
                                                     ++end_page;
@@ -187,9 +175,9 @@
                 });
         }
         <?php if(isset($_GET['user'])): ?>
-        listMission(1,"<?= $_GET['user'] ?>");
+<!--              listMission(1,"--><?//= $_GET['user'] ?><!--");-->
         <?php elseif(Session::has('user')): ?>
-        listMission(1,"<?= Session::get('user') ?>");
+<!--              listMission(1,"--><?//= Session::get('user') ?><!--");-->
         <?php endif; ?>
         $('.share').click(function(){
             $('.projectmenu').hide();

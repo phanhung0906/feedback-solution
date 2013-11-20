@@ -6,11 +6,13 @@
                     <input type="text" class="form-control textMission" placeholder="Add to project ...">
                 </div>
                 <button type="submit" class="btn btn-default addMission"><span class="fa fa-plus"></span> Create</button>
-                <span class="chooseProject" style="display: none;">
+                <span class="chooseProject" <?php if(count($project) ==0) echo "style='display: none;'" ?>>
                     <span style="font-size:18px;padding-left:3%;padding-right:3%">Or Choose Project:</span>
                     <div class="form-group">
                         <select class="form-control listMission" style="min-width:100px">
-
+                            @for($i = 0; $i < count($project); $i++)
+                            <option>{{$project[$i]->mission_name}}</option>
+                            @endfor
                         </select>
                     </div>
                 </span>
@@ -18,7 +20,7 @@
             </div>
             <div class="formuploads">
                 <div id="dropzone">
-                    <form action="/upload" enctype="multipart/form-data" method="post" id="target" class="col-md-8">
+                    <form action="/upload" enctype="multipart/form-data" method="post" id="target" class="col-md-8" <?php if(count($project) ==0) echo "style='display: none;'" ?>>
                         <input id="uploader" type="file" name="file" class="hide file"> <br>
 
                         <div class="text-center dz-default dz-message">
@@ -87,7 +89,7 @@
                 });
                 myDropzone.on("success", function(file, response) {
                     $project = $('.listMission').val();
-                    window.location = "http://<?= ROOT_URL.'/'.Session::get('user') ?>/"+$project;
+                    window.location = "http://<?= ROOT_URL.'/'.Session::get('user') ?>/"+$project+'/page/1';
                     $('.opacity').hide().css({'cursor':'auto'});
                 });
                 myDropzone.on("error", function(file, response) {

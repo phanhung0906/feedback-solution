@@ -1,13 +1,23 @@
 <?php
 Class ImageController extends Controller{
     protected $imageModel;
+    protected $projecModel;
 
     function __construct(){
         $this->imageModel = new ImageModel();
+        $this->projectModel = new ProjectModel;
     }
 
     function index(){
-        return View::make('project.image');
+        $get = $_GET['project_name'];
+        $newget = str_replace("-"," ",$get);
+        $user = $_GET['user'];
+        $mission = $newget;
+        $page = $_GET['page'];
+        $data = $this->projectModel->listProject($user);
+        $image = $this->imageModel->listImage($user,$mission,$page);
+        return View::make('project.image')->with('project',$data['result'])->with('image',$image['result'])->with('numcmt',$image['cmt'])
+            ->with('num_page',$image['num_page']);
     }
 
      function upload(){
@@ -68,9 +78,10 @@ Class ImageController extends Controller{
          echo $this->imageModel->editImage($id_pro,$name);
     }
 
-     function listImage(){
-        $user = $_POST['user'];
-        $mission = $_POST['mission'];
-        echo $this->imageModel->listImage($user,$mission);
-    }
+//     function listImage(){
+//        $user = $_POST['user'];
+//        $mission = $_POST['mission'];
+//        $page = $_GET['page'];
+//        echo $this->imageModel->listImage($user,$mission,$page);
+//    }
 }

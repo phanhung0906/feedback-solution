@@ -7,7 +7,12 @@ Class ProjectController extends Controller{
     }
 
     function index(){
-        return View::make('project.project');
+        $user = $_GET['user'];
+        $page = $_GET['page'];
+        $data = $this->projectModel->listProject($user);
+        $project = $this->projectModel->ProjectImg($user,$page);
+        return View::make('project.project')->with('project',$data['result'])->with('projectImg',$project['result'])->with('num_page',$project['num_page']);
+
     }
 
      function addProject(){
@@ -26,13 +31,13 @@ Class ProjectController extends Controller{
         echo $this->projectModel->editProject($id,$mission_name);
     }
 
-     function listProject(){
-        $user = $_POST['user'];
-        echo $this->projectModel->listProject($user);
-     }
+//     function listProject(){
+//        $user = $_POST['user'];
+//        echo $this->projectModel->listProject($user);
+//     }
 
-     function ProjectImg(){
-        $user=$_POST['user'];
-        echo $this->projectModel->ProjectImg($user);
-    }
+//     function ProjectImg(){
+//        $user=$_POST['user'];
+//        echo $this->projectModel->ProjectImg($user);
+//    }
 }

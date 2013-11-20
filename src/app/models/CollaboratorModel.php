@@ -1,5 +1,6 @@
 <?php
 Class CollaboratorModel extends Eloquent{
+    protected $projectModel;
 
     function addCollaborator($mission_name,$value){
         if($value == 'public' || $value == 'private'){

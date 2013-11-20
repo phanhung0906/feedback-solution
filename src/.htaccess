@@ -6,6 +6,12 @@ RewriteBase /
 RewriteCond %{REQUEST_URI} !^.*\/asset/(.*)$
 RewriteCond %{REQUEST_URI} !^.*\/picture/(.*)$
 RewriteCond %{REQUEST_URI} !^\/(.*).php$
+RewriteRule ^(.*)/(.*)/page/(.*)$ index.php?user=$1&project_name=$2&page=$3  [L]
+RewriteCond %{REQUEST_URI} !^.*\/asset/(.*)$
+RewriteCond %{REQUEST_URI} !^.*\/picture/(.*)$
+RewriteRule ^(.*)/page/(.*)$ index.php?user=$1&page=$2  [L]
+RewriteCond %{REQUEST_URI} !^.*\/asset/(.*)$
+RewriteCond %{REQUEST_URI} !^.*\/picture/(.*)$
 RewriteRule ^(.*)/(.*)/collaboration$ index.php?user=$1&project_name=$2&action=collaboration  [L]
 RewriteCond %{REQUEST_URI} !^.*\/asset/(.*)$
 RewriteCond %{REQUEST_URI} !^.*\/picture/(.*)$

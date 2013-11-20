@@ -1,7 +1,7 @@
 @extends('layout.layout')
 @section('page')
 <ol class="breadcrumb">
-    <li><a href="http://<?= ROOT_URL.'/'.Session::get('user') ?>">Dasbboard</a></li>
+    <li><a href="http://<?= ROOT_URL ?>">Dasbboard</a></li>
     <li class="active"><b>Password</b></li>
 </ol>
 <div class="page">

@@ -9,13 +9,13 @@ Class UserController extends Controller {
     public function getLogin(){
         if(!Session::has('user')){
         return View::make('user.login')->with('error','');
-        } else return Redirect::to('/'.Session::get('user'));
+        } else return Redirect::to('/');
     }
 
     public function getRegister(){
         if(!Session::has('user')){
         return View::make('user.register')->with('error','');
-        }else return Redirect::to('/'.Session::get('user'));
+        }else return Redirect::to('/');
     }
 
     function postRegister(){

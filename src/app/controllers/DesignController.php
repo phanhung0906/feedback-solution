@@ -1,13 +1,17 @@
 <?php
 Class DesignController extends Controller{
      protected $designModel;
+     protected $projectModel;
 
      function __construct(){
          $this->designModel = new DesignModel();
+         $this->projectModel = new ProjectModel;
      }
 
      function index(){
-         return View::make('design.design');
+         $user = $_GET['user'];
+         $data = $this->projectModel->listProject($user);
+         return View::make('design.design')->with('project',$data['result']);
      }
 
      function design(){

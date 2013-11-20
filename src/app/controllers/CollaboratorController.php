@@ -1,13 +1,17 @@
 <?php
 Class CollaboratorController extends Controller{
     protected $collaboratorModel;
+    protected $projectModel;
 
     function __construct(){
         $this->collaboratorModel = new CollaboratorModel();
+        $this->projectModel = new ProjectModel;
     }
 
     function index(){
-        return View::make('user.collaborator')->with('error','');
+        $user = $_GET['user'];
+        $data = $this->projectModel->listProject($user);
+        return View::make('user.collaborator')->with('error','')->with('project',$data['result']);
     }
 
      function addCollaborator(){

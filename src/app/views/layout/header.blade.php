@@ -2,7 +2,7 @@
 <div class="menu hide">
 </div>
 <div class="navbar navbar-default navbar-fixed-top">
-    <a class="navbar-brand" href="http://<?= ROOT_URL.'/'.Session::get('user') ?>">Feedback Solution</a>
+    <a class="navbar-brand" href="http://<?= ROOT_URL ?>">Feedback Solution</a>
     <div class="nav-collapse">
 
         <ul class="nav navbar-nav showmenu">
@@ -13,16 +13,23 @@
                 <?php $get = $_GET['project'];
                 $newget = str_replace("-"," ",$get);
                 ?>
-                <li class="projectname"><a href="http://<?= ROOT_URL.'/'.Session::get('user').'/'.$_GET['project'] ?>"><span class="fa fa-arrow-left"></span> <?= $newget ?></a></li>
+                <li class="projectname"><a href="http://<?= ROOT_URL.'/'.Session::get('user').'/'.$_GET['project'].'/page/1' ?>"><span class="fa fa-arrow-left"></span> <?= $newget ?></a></li>
             <?php endif; ?>
-            <li class="dropdown projectmenu" style="display:none">
+            <li class="dropdown projectmenu" <?php if((count($project) == 0) || !isset($_GET['project_name'])) echo "style='display: none;'" ?>>
                 <a href="" class="dropdown-toggle" data-toggle="dropdown"> Project <b class="caret"></b></a>
-                <ul class="dropdown-menu project">
-
+                <ul class="dropdown-menu project" style="overflow: auto;max-height: 400px;">
+                    <?php if(isset($_GET['user'])): ?>
+                        @foreach($project as $project)
+                                  <li><a href="http://<?= ROOT_URL.'/'.$_GET['user'].'/'.$project->mission_name.'/page/1' ?>" data-id="<?= $project->mission_name ?>">{{$project->mission_name}}</a></li>
+                        @endforeach
+                    <?php else: ?>
+                        @foreach($project as $project)
+                                  <li><a href="http://<?= ROOT_URL.'/'.Session::get('user').'/'.$project->mission_name.'/page/1' ?>" data-id="<?= $project->mission_name ?>">{{$project->mission_name}}</a></li>
+                        @endforeach
+                    <?php endif; ?>
                 </ul>
             </li>
             <?php if((isset($_GET['project_name']) && !isset($_GET['action'])) || isset($_GET['project']) ): ?>
-
                 <li class="share"><a style="cursor: pointer">Share</a></li>
                 <div class="navbar-form navbar-left inputshare" style="display:none;margin-top: 18.5px;">
                     <span class="fa fa-arrow-left back" style="color:white;padding-right: 6px;padding-bottom:1px;border-right:1px solid;cursor: pointer"></span>
@@ -60,9 +67,17 @@
                         <?php if($_GET['user'] == Session::get('user')): ?>
                             <?php $link = $_SERVER["SERVER_NAME"]."/".$_GET['user']."/".$_GET['project_name']; ?>
                             <!-- Collaborators -->
-                            <li role="presentation" class="divider"></li>
-                            <li class="dropdown-header mission"></li>
-                            <li><a href="http://<?= $link ?>/collaboration" data-id="Collaborators">Collaborators</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li class="dropdown-header mission">
+                                    <?php if(isset($_GET['project_name'])): ?>
+                                        <?php
+                                        $get = $_GET['project_name'];
+                                        $newget = str_replace("-"," ",$get);
+                                        ?>
+                                        <span>Project / </span>
+                                    <?php endif;?>
+                                </li>
+                                <li><a href="http://<?= $link ?>/collaboration" data-id="Collaborators">Collaborators</a></li>
                             <!-- /Collaborators -->
                         <?php endif; ?>
                     <?php endif; ?>
@@ -83,4 +98,15 @@
         </ul>
     </div>
 
+</div>
+<!-- temp -->
+<div class="option hide">
+    <option>#mission#</option>
+</div>
+
+<div class="missionMenu hide">
+    <li><a href="#url#" data-id="#mission#">#mission#</a></li>
+</div>
+<div class="missioncurrent hide">
+    <span>Project / #mission#</span>
 </div>

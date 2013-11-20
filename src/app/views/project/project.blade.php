@@ -35,13 +35,30 @@
             </div>
             <div class="container text-center">
                 <ul class='list-unstyled missionImg' style='display:inline-block'>
-
+                    @foreach($projectImg as $projectImg)
+                        <li class='pull-left'>
+                            <a href="http://<?= ROOT_URL.'/'.$_GET['user'].'/'. $projectImg['mission'].'/page/1' ?>" class="picture">
+                                <img src="http://<?= IMAGES_URL.$projectImg['img'] ?>" class="img img-thumbnail"/>
+                            </a>
+                            <div class="missionName" style="overflow: hidden;height:43px;cursor:default;" title="Click to change name project">{{$projectImg['mission']}}</div>
+                            <span class="numImg">Images <span class="badge">{{$projectImg['num_img']}}</span></span>
+                            <?php if(Session::has('user') && isset($_GET['user'])): ?>
+                                <?php if(Session::get('user') == ($_GET['user'])): ?>
+                                    <a class="deleteMission pull-right" data-toggle="modal" href="#modalDeleteMission" data-id={{$projectImg['id']}}><span class="fa fa-trash-o"></span></a>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
 
             <div class="container text-center">
                 <ul class="pagination missionPage">
-
+                    @if($num_page > 1)
+                        @for($i=1 ;$i<$num_page+1;$i++)
+                           <li <?php if($_GET['page'] == $i) echo "class='active'" ?>> <a href="http://<?= ROOT_URL.'/'.$_GET['user'].'/page/'.$i ?>">{{$i}}</a></li>
+                        @endfor
+                    @endif
                 </ul>
             </div>
         </div>
@@ -110,8 +127,9 @@
                                 $('.opacity').hide();
                                 if (response != 'false') {
                                     $self.parent('li').find('.missionName').html('').show().html(response);
+                                    $url = "<?= 'http://'.ROOT_URL .'/'. $_GET['user'].'/' ?>" + response+'/page/1';
+                                    $self.prev().attr('href',$url);
                                     $self.hide().appendTo('.divchangename');
-                                    listMission(1,"<?= $_GET['user'] ?>");
                                 }
                                 if (response == 'false'){
                                     $('.home').find('.alertEditProject').show().delay(2000).fadeOut(1);

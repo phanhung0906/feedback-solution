@@ -31,6 +31,9 @@ button:active {
 }
 #move{
     box-shadow: 3px 3px 30px ;
+    max-width:100%;
+    margin: 0 auto;
+    box-shadow: 2px 2px 20px black;
 }
 .cmt{
     width:300px;
@@ -45,7 +48,26 @@ button:active {
     color: #8B8B8B;
     padding: 8px 5px;
 }
+.onepicture{
+    text-align:center;
+}
+.divcmt{
+    border-radius: 10px;
+    width:100%;
+}
+.showdeletebtn{
+    color:red;
+    cursor:pointer;
+    font-size:12px;
+}
+.deletebtn{
+    color:red;
+    cursor: pointer;
+    font-size: 12px;
+    display:none;
+}
 .changecmt{
+    display: none;
     min-height: 100px;
     border: 1px solid #EBEBEB;
     background: #F6F6F6;
@@ -63,9 +85,9 @@ footer{
     color: #ec9483;
     font-family: Brandon Text, Helvetica, sans-serif;
 }
-.projectPage a{
-    cursor: pointer;
-}
+/*.projectPage a{*/
+    /*cursor: pointer;*/
+/*}*/
 
 li{
     margin-left: 3px;
@@ -97,13 +119,25 @@ li{
     /*color: #000000;*/
     /*background: #ffffff;*/
 }
-
+.image{
+    height: 100%
+}
+.onepic{
+    padding-bottom: 50px;
+    margin-top:30px;
+    text-align: center;
+    height:100%;
+}
 .onepic a{
     color:#F8F8F8;
     text-decoration: none;
 }
 .onepic a:hover{
     font-weight: bold;
+}
+.oneimg{
+    position: relative;
+    display: inline-block;
 }
 .missionImg a{
     display: block;
@@ -127,26 +161,6 @@ li{
 .missionImg .numImg{
     padding: 5px;
 }
-.projectImg li{
-    margin-left:32px;
-    margin-right:32px;
-    margin-bottom:40px;
-    padding:7px;
-    border:1px solid #acacac;
-    box-shadow: 1px 1px 8px rgba(0,0,0,0.16);
-    width:165px;
-    text-align:left;
-}
-.projectImg .deleteImg, .missionImg .deleteMission{
-    color:#646060;
-}
-.projectImg .deleteImg:hover, .missionImg .deleteMission:hover{
-    color:#000000;
-}
-.projectImg .name{
-    font-weight: bold;
-    padding-top: 5px;
-}
 .note{
     /*background: url(http://images.redpen.local/picture/notes-bg.png) no-repeat 0 0;*/
     width: 25px;
@@ -157,6 +171,12 @@ li{
 }
 .contentcmt{
     font-size: 12px;
+    background:#F6F5F5;
+    padding:5px 0 10px 13px;
+}
+.deletecmt{
+    margin-left: 5px;
+    display: none;
 }
 .divlink{
     margin-top: 11px;
@@ -166,6 +186,8 @@ textarea{
 }
 .comment{
     text-align: left;
+    display: none;
+    box-shadow: 2px 2px 20px;
 }
 .container1{
     padding-right: 55px;
@@ -182,9 +204,6 @@ textarea{
     overflow:inherit;
     border:dashed 2px #848484;
     margin-top:10px;
-    /*box-shadow: 0 0 50px rgba(0,0,0,0.13);*/
-    /*background:#ECECEC;height:100%;*/
-    display:none;
 }
 /*::-webkit-scrollbar{*/
     /*width: 10px;*/
@@ -205,4 +224,63 @@ textarea{
 }
 #modalDelete{
     overflow: hidden;
+}
+/* header */
+.projectmenu{
+    display:none;
+}
+.inputshare{
+    display:none;
+    margin-top: 18.5px;
+}
+.inputshare .form-group{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.back{
+    color:white;
+    padding-right: 6px;
+    padding-bottom:1px;
+    border-right:1px solid;
+    cursor: pointer;
+}
+/* layout */
+.changename{
+    display: none;
+    width:135px;
+    display: inline-block;
+}
+/* Image */
+.projectImg{
+    display: inline-block;
+}
+.projectImg .deleteImg, .missionImg .deleteMission{
+    color:#646060;
+}
+.projectImg .deleteImg:hover, .missionImg .deleteMission:hover{
+    color:#000000;
+}
+.projectImg .name{
+    font-weight: bold;
+    padding-top: 5px;
+}
+.projectImg li{
+    margin-left:32px;
+    margin-right:32px;
+    margin-bottom:40px;
+    padding:7px;
+    border:1px solid #acacac;
+    box-shadow: 1px 1px 8px rgba(0,0,0,0.16);
+    width:165px;
+    text-align:left;
+}
+.deleteImg{
+    padding-left: 2px;
+}
+/* Project */
+.alertEditProject{
+    display: none;
+}
+.missionImg{
+    display:inline-block;
 }

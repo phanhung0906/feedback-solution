@@ -80,47 +80,113 @@ Class ProjectModel extends Eloquent{
     function listProject($user){
         $list = array(
             'result'     => array(),
-            'numImg'     =>array()
         );
+        $result = array();
         $results = DB::select('SELECT * FROM mission WHERE user = ? ORDER BY id DESC', array($user));
         foreach ($results as $results)
         {
-            $list['result'][] = $results;
+            $result[] = $results;
         }
-        $num = count($list['result']);
+        $num = count($result);
         for($i=0;$i<$num ;$i++){
-            $result2 = DB::select('SELECT COUNT(id_pro) AS numImg FROM project WHERE mission_name = ?', array($list['result'][$i]->mission_name));
-            $list['numImg'][] = $result2[0]->numImg;
+            if( Session::has('user') && isset($_GET['user'])){
+                if( Session::get('user') != $user ){
+                    if( $result[$i]->collaborators != "public"){
+                        if( $result[$i]->collaborators == "private"){
+                            unset($result[$i]);
+                            continue;
+                        }
+                        $userArray = explode(',',$result[$i]->collaborators);
+                        $numarray = count($userArray);
+                        $temp = true;
+                        for($q=0 ; $q< $numarray; $q++){
+                                if( $userArray[$q] == Session::get('user')){
+                                    $temp = false;
+                                }
+                        }
+                        if($temp){
+                            unset($result[$i]);
+                            continue;
+                        }
+                    }
+                }
+            }
         }
-        return json_encode($list);
+        foreach($result as $result){
+            $list['result'][] = $result;
+        }
+        return $list;
     }
 
-    function ProjectImg($user){
+    function ProjectImg($user,$page){
+        $PER_PAGE = 10;
         $list = array(
+            'num_page' => 1,
             'result'     => array(),
+            'numImg'     =>array()
         );
         $missionArray = array();
+        $result = array();
         $no_img = "/picture/no_image.gif";
         $results = DB::select('SELECT * FROM mission where user = ?  ORDER BY id DESC', array($user));
         foreach ($results as $results)
         {
-            $missionArray[] = $results;
+            $result[] = $results;
+        }
+        $num = count($result);
+        for($i = 0 ;$i < $num; $i++){
+            if( Session::has('user') && isset($_GET['user'])){
+                if( Session::get('user') != $user ){
+                    if( $result[$i]->collaborators != "public"){
+                        if( $result[$i]->collaborators == "private"){
+                            unset($result[$i]);
+                            continue;
+                        }
+                        $userArray = explode(',',$result[$i]->collaborators);
+                        $numarray = count($userArray);
+                        $temp = true;
+                        for($q=0 ; $q< $numarray; $q++){
+                            if( $userArray[$q] == Session::get('user')){
+                                $temp = false;
+                            }
+                        }
+                        if($temp){
+                            unset($result[$i]);
+                            continue;
+                        }
+                    }
+                }
+            }
         }
 
-        $num = count($missionArray);
-        for($i = 0 ;$i < $num; $i++){
+        foreach($result as $result){
+            $missionArray[] = $result;
+        }
+        $num = count($missionArray); /* num: number of project */
+        $list['num_page'] = ceil($num / $PER_PAGE);
+            $start_page = ($page-1)*$PER_PAGE+1;
+            if ( $num > $page*$PER_PAGE){
+                 $end_page = $page*$PER_PAGE;
+            }else {
+                $end_page = $num;
+            }
+
+        for($i = $start_page-1 ;$i < $end_page; $i++){
             $projectArray = array();
             $results2 = DB::select('SELECT * FROM project where user = ?  AND BINARY mission_name= ?', array($user,$missionArray[$i]->mission_name));
+            $result2 = DB::select('SELECT COUNT(id_pro) AS numImg FROM project WHERE mission_name = ?', array($missionArray[$i]->mission_name));
+
             foreach ($results2 as $results2)
             {
                 $projectArray[] = $results2->id_pro;
             }
-            if($projectArray ==null ){
-                $arrayTemp =array(
+            if($projectArray == null ){
+                $arrayTemp = array(
                     'mission' => $missionArray[$i]->mission_name,
                     'img'     =>  $no_img,
                     'id'      => $missionArray[$i]->id,
                     'collaborators' =>(string)$missionArray[$i]->collaborators,
+                    'num_img'   =>  $result2[0]->numImg
                 );
                 $list['result'][] = $arrayTemp;
                 continue;
@@ -132,16 +198,15 @@ Class ProjectModel extends Eloquent{
                     $projectId = $projectArray[$j];
             }
             $results3 = DB::select('SELECT * FROM project where user = ?  AND id_pro= ?', array($user,$projectId));
-
-
             $arrayTemp =array(
                 'mission' => $missionArray[$i]->mission_name,
                 'img'     =>  $results3[0]->url_square,
                 'id'      => $missionArray[$i]->id,
                 'collaborators' => (string)$missionArray[$i]->collaborators,
+                'num_img'   =>  $result2[0]->numImg
             );
             $list['result'][] = $arrayTemp;
         }
-            return json_encode($list);
+            return $list;
     }
 }

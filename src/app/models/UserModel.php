@@ -1,5 +1,10 @@
 <?php
 Class UserModel extends Eloquent{
+    protected $projectModel;
+
+    public function __construct(){
+        $this->projectModel = new ProjectModel;
+    }
 
     function register($userName,$password){
         $error1 = View::make('error.register1');
@@ -14,7 +19,7 @@ Class UserModel extends Eloquent{
         if($results == null){
             DB::insert('INSERT INTO user (user, passwd) values (?, ?)', array($userName, $password));
             Session::put('user',$userName);
-            return Redirect::to('/'.$userName);
+            return Redirect::to('/');
         }else return View::make('user.register')->with('error',$error2);
     }
 
@@ -28,11 +33,13 @@ Class UserModel extends Eloquent{
 //            }else{
 //                setcookie('user', $_POST['user_name'], time() + 3600);
 //            }
-            return Redirect::to('/'.$userName);
+            return Redirect::to('/');
         }else return View::make('user.login')->with('error',$error);
     }
 
     function password($oldpass,$newpass,$confirm,$userName){
+        $user = Session::get('user');
+        $data = $this->projectModel->listProject($user);
         $error = View::make('error.password');
         $result = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
         if( md5($oldpass) == $result[0]->passwd){
@@ -40,6 +47,6 @@ Class UserModel extends Eloquent{
                 DB::update('UPDATE user SET passwd = ? WHERE user = ?', array(md5($newpass),$userName));
                 return  Redirect::to('/'.$userName);
             }
-        }else return View::make('user.password')->with('error',$error);
+        }else return View::make('user.password')->with('error',$error)->with('project',$data['result']);
     }
 }

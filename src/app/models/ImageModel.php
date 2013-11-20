@@ -62,17 +62,19 @@ Class ImageModel extends Eloquent{
         return $name;
     }
 
-    function listImage($user,$mission){
+    function listImage($user,$mission,$page){
+        $PER_PAGE = 15;
         $list = array(
             'result'     => array(),
             'cmt'       => array(),
-            'collaborators' => array(),
+            'num_page'  => 1,
         );
-        $result = DB::select('SELECT * FROM project WHERE user= ? AND BINARY mission_name= ? ORDER BY id_pro DESC',array($user,$mission));
+        $num_page_result = DB::select('SELECT COUNT(id_pro) AS total FROM project WHERE user= ? AND BINARY mission_name= ?',array($user,$mission));
+        $num_page = $num_page_result[0]->total;
+        $result = DB::select('SELECT * FROM project WHERE user= ? AND BINARY mission_name= ? ORDER BY id_pro DESC LIMIT ?,? ',array($user,$mission,($page-1)*$PER_PAGE,$PER_PAGE));
         foreach( $result as $result){
             $list['result'][] = $result;
         }
-
         $num = count($list['result']);
         for($i=0 ; $i< $num; $i++){
             $result2 = DB::select('SELECT COUNT(id_pro) AS numcomment FROM button WHERE id_pro= ? ',array($list['result'][$i]->id_pro));
@@ -80,8 +82,7 @@ Class ImageModel extends Eloquent{
                 $list['cmt'][] = $result2;
             }
         }
-        $result3 = DB::select('SELECT * FROM mission WHERE user= ? AND BINARY mission_name= ?',array($user,$mission));
-        $list['collaborators'][] = $result3[0]->collaborators;
-        return json_encode($list);
+        $list['num_page'] = ceil($num_page/$PER_PAGE);
+        return $list;
     }
 }
