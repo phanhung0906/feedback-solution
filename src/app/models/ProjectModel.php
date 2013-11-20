@@ -12,11 +12,11 @@ Class ProjectModel extends Eloquent{
         }
         for($i=0 ; $i < count($array); $i++ ){
             if($array[$i] == $mission_name){
-                return "false";
+                return false;
             }
         }
         DB::insert('INSERT INTO mission (user,mission_name,collaborators) values (?, ?,?)', array($user,$mission_name, 'public'));
-        return "OK";
+        return true;
     }
 
     function deleteProject($id){
@@ -35,14 +35,13 @@ Class ProjectModel extends Eloquent{
         for($i=0;$i< $num; $i++){
             DB::delete('DELETE FROM comment WHERE id_pro= ?',array($array['id_pro'][$i]));
         }
-        return "OK";
+        return true;
     }
 
     function editProject($id,$mission_name){
         $temp = explode('(',$mission_name);
         if(count($temp) > 1){
-            return 'false';
-            die();
+            return false;
         }
         $array = array();
         $result = DB::select('SELECT * FROM mission WHERE id != ?',array($id));

@@ -22,7 +22,6 @@
                 <div id="dropzone">
                     <form action="/upload" enctype="multipart/form-data" method="post" id="target" class="col-md-8" <?php if(count($project) ==0) echo "style='display: none;'" ?>>
                         <input id="uploader" type="file" name="file" class="hide file"> <br>
-
                         <div class="text-center dz-default dz-message">
                             <h1>Click or drag files here to upload ...</h1>
                         </div>
@@ -53,7 +52,7 @@
                             }
                         }).done(function(response){
                                 $('.opacity').hide();
-                                if(response == "OK"){
+                                if(response){
                                     var template = $('.option').html().replace(/#mission#/g,$mission_name);
                                     $self.parent('.missionForm').find('.listMission').append(template);
                                     var template2 = $('.missionMenu').html().replace(/#mission#/g,$mission_name)

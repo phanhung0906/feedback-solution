@@ -105,7 +105,7 @@ $newget = str_replace("-"," ",$get);
                         for(var i= 0; i<name.length ; i++){
                             if(name.charAt(i)== '-'){
                                 $.notify("Image 's name have character '-'");
-                                return 'false';
+                                return;
                             }
                         }
                         if (name == '') {
@@ -124,7 +124,7 @@ $newget = str_replace("-"," ",$get);
                             }
                         }).done(function(response){
                                 $('.opacity').hide();
-                                if (response != 'false') {
+                                if (response != false) {
                                     $self.parent('li').find('.name').html('').show().html(response);
                                     $url = "<?= 'http://'.ROOT_URL .'/'. $_GET['user'].'/'.$_GET['project_name'].'/' ?>"+response;
                                     $self.prev().attr('href',$url);
@@ -165,7 +165,8 @@ $newget = str_replace("-"," ",$get);
                         }
                     }).done(function(response){
                             $('.opacity').hide();
-                            if(response == "OK"){
+                            $('.projectImg').find('.changename').hide().appendTo('.divchangename');
+                            if(response){
                                 $.notify('Delete successfully','success');
                                 $self.parent('.pull-left').remove();
                             }

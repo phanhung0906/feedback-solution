@@ -8,13 +8,13 @@ Class ButtonModel extends Eloquent{
         }
         if($array == null){
             DB::delete('DELETE FROM button WHERE id_btn= ?',array($id_btn));
-            return "OK";
-        }else return "undelete";
+            return true;
+        }else return false;
     }
 
     function deleteButton($id_btn){
         DB::delete('DELETE FROM comment WHERE id_btn= ?',array($id_btn));
         DB::delete('DELETE FROM button WHERE id_btn= ?',array($id_btn));
-        return "OK";
+        return true;
     }
 }

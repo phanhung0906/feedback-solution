@@ -21,12 +21,12 @@ Class ImageModel extends Eloquent{
         DB::delete('DELETE FROM project WHERE id_pro= ?',array($id_pro));
         DB::delete('DELETE FROM button WHERE id_pro= ?',array($id_pro));
         DB::delete('DELETE FROM comment WHERE id_pro= ?',array($id_pro));
-        return "OK";
+        return true;
     }
 
     function editImage($id_pro,$name){
         $temp = explode('(',$name);
-        if(count($temp) > 1) return 'false';
+        if(count($temp) > 1) return false;
         $array1 = array();
         $result = DB::select('SELECT * FROM project WHERE id_pro != ?',array($id_pro));
         foreach( $result as $result){

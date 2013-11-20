@@ -28,13 +28,13 @@ Class CommentModel extends Eloquent{
 
     function deleteComment($id){
         DB::delete('DELETE FROM comment WHERE id= ?',array($id));
-        return "OK";
+        return true;
     }
 
     function editComment($id){
         $new_comment = $_POST['new_comment'];
         DB::update('UPDATE comment SET comment= ? WHERE id= ?',array($new_comment,$id));
-        return "OK";
+        return true;
     }
 
     function listComment($id_btn){

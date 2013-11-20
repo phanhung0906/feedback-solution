@@ -237,7 +237,8 @@
                 data:{
                     id : $id
                 }
-            }).done(function(response){
+            }).done(function(success){
+                    if(success){
                     $self1.parents('.divcmt').remove();
                     $.ajax({
                         type:"post",
@@ -246,11 +247,12 @@
                             id_btn : id_submit
                         }
                     }).done(function(response){
-                            if(response == "OK"){
+                            if(response){
                                 $('.onepic').find("[data-id='"+id_submit+"']").remove();
                                 $('.comment').hide();
                             }
                         });
+                    }
                 });
         });
 
@@ -267,7 +269,7 @@
                     id_btn : id_submit
                 }
             }).done(function(response){
-                    if(response == "OK"){
+                    if(response){
                         $('.onepic').find("[data-id='"+id_submit+"']").remove();
                         $('.comment').hide();
                     }
@@ -295,7 +297,6 @@
                 if (r == null) {
                     return 0;
                 }
-
                 var re = el.createTextRange(),
                     rc = re.duplicate();
                 re.moveToBookmark(r.getBookmark());
@@ -340,7 +341,7 @@
                             new_comment : new_comment
                         }
                     }).done(function(response){
-                            if( response == "OK"){
+                            if( response ){
                                 $self.prev().find('span').html('').html(nl2br(new_comment)).end().show();
                                 $self.hide().appendTo('.divchangecmt');
                             }
@@ -380,13 +381,12 @@
                         $(template).appendTo('.showcmt');
                         $('.showcmt').find("[data-user='"+"<?= Session::get('user') ?>"+"']").find('.editcmt').show();
                         <?php if(Session::get('user') == $_GET['user']): ?>
-                        $('.showcmt').find(".divcmt").find('.deletecmt').show();
+                           $('.showcmt').find(".divcmt").find('.deletecmt').show();
                         <?php endif; ?>
                         $('.tick').hide();
                         $('.cmt').val('');
                         if(id_submit ==0){
                             $('.comment').hide();
-
                             $image ="<?= $_GET['id_pro'] ?>";
                             $new_image = $image.replace(/-/g,' ');
                             picture('<?=$_GET['user']?>',$new_image);
@@ -395,7 +395,6 @@
             }
         });
         $('.changecmt').tooltip('show');
-
     });
     </script>
 @endsection

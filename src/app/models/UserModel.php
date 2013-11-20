@@ -11,10 +11,6 @@ Class UserModel extends Eloquent{
         $error2 = View::make('error.register2');
         if($userName==null || $userName=='private' || $userName=='public' || $password==null || $userName==' ' || $password==' ')
             return View::make('user.register')->with('error',$error1);
-        $array1 = explode(' ',$userName);
-        if(count($array1) >1)
-            return 'have space';
-        if( strlen($password) < 3 ) return 5;
         $results = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
         if($results == null){
             DB::insert('INSERT INTO user (user, passwd) values (?, ?)', array($userName, $password));

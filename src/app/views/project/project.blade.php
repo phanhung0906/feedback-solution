@@ -106,7 +106,7 @@
                         var name = $(this).val();
                         for(var i= 0; i<name.length ; i++){
                             if(name.charAt(i)== '-'){
-                                return 'false';
+                                return;
                             }
                         }
                         if (name == '') {
@@ -125,13 +125,13 @@
                             }
                         }).done(function(response){
                                 $('.opacity').hide();
-                                if (response != 'false') {
+                                if (response != false) {
                                     $self.parent('li').find('.missionName').html('').show().html(response);
                                     $url = "<?= 'http://'.ROOT_URL .'/'. $_GET['user'].'/' ?>" + response+'/page/1';
                                     $self.prev().attr('href',$url);
                                     $self.hide().appendTo('.divchangename');
                                 }
-                                if (response == 'false'){
+                                if (response == false){
                                     $('.home').find('.alertEditProject').show().delay(2000).fadeOut(1);
                                     $('.missionImg').find('.missionName').show();
                                     $self.hide().appendTo('.divchangename');
@@ -164,7 +164,7 @@
                         }
                     }).done(function(response){
                             $('.opacity').hide();
-                            if(response == "OK"){
+                            if(response ){
                                 $.notify('Delete successfully','success');
                                 $self.parent('.pull-left').remove();
                             }
