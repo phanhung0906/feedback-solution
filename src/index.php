@@ -2,9 +2,9 @@
     define('ROOT_DIR', __DIR__);
     define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'test'));
     include_once ROOT_DIR . '/config/config.'.APPLICATION_ENV.'.php';
-    if(isset($_SESSION['user'])){
+    if(Sesion::has('user')){
         if($_SERVER["REQUEST_URI"]=='/'){
-            header('location:http://'.ROOT_URL.'/'.$_SESSION['user']);
+            header('location:http://'.ROOT_URL.'/'.Session::get('user'));
         }
     }
 
