@@ -1,23 +1,27 @@
 <?php
-Class DesignController extends Controller{
+Class DesignController extends Controller
+{
      protected $designModel;
      protected $projectModel;
 
-     function __construct(){
+     public function __construct()
+     {
          $this->designModel = new DesignModel();
-         $this->projectModel = new ProjectModel;
+         $this->projectModel = new ProjectModel();
      }
 
-     function index(){
+     public function indexAction()
+     {
          $user = $_GET['user'];
-         $data = $this->projectModel->listProject($user);
-         return View::make('design.design')->with('project',$data['result']);
+         $data = $this->projectModel->find($user);
+         return View::make('design.design')->with('project', $data['result']);
      }
 
-     function design(){
+    public function listAction()
+    {
         $user = $_POST['user'];
         $name = $_POST['name'];
         $mission = $_POST['mission'];
-        echo $this->designModel->design($name,$mission,$user);
+        echo $this->designModel->find($name, $mission, $user);
     }
 }

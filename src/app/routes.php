@@ -2,54 +2,57 @@
 
     Route::get('/', function()
     {
-        if(!Session::has('user')){
+        if (!Session::has('user')) {
             return View::make('index');
-        }else return Redirect::to('/'.Session::get('user').'/page/1');
+        } else return Redirect::to('/'.Session::get('user').'/page/1');
     });
-    Route::filter('check-user',function(){
-        if(!Session::has('user'))
+
+    Route::filter('check-user',function()
+    {
+        if (!Session::has('user'))
             return Redirect::to('login');
     });
 
-    if(!Session::has('user')){
-        Route::controller('/','UserController');
+    if (!Session::has('user')) {
+        Route::controller('/', 'UserController');
     }
 
-    Route::group(array('before'=>'check-user'),function(){
-        # For ajax
+    Route::group(array('before'=>'check-user'), function()
+    {
+       # For ajax
        # Route::post('listproject','ProjectController@listProject');
        # Route::post('ProjectImg','ProjectController@ProjectImg');
-        Route::post('editProject','ProjectController@editProject');
-        Route::post('deleteProject','ProjectController@deleteProject');
-        Route::post('addProject','ProjectController@addProject');
-        Route::post('upload','ImageController@upload');
-      #  Route::post('listImage','ImageController@listImage');
-        Route::post('editImage','ImageController@editImage');
-        Route::post('deleteImage','ImageController@deleteImage');
-        Route::post('design','DesignController@design');
-        Route::post('addComment','CommentController@addComment');
-        Route::post('deleteComment','CommentController@deleteComment');
-        Route::post('editComment','CommentController@editComment');
-        Route::post('listComment','CommentController@listComment');
-        Route::post('checkDeleteButton','ButtonController@checkDeleteButton');
-        Route::post('deleteButton','ButtonController@deleteButton');
-        Route::post('addCollaborator','CollaboratorController@addCollaborator');
-        Route::post('deleteCollaborator','CollaboratorController@deleteCollaborator');
-        Route::post('listCollaborator','CollaboratorController@listCollaborator');
-        Route::post('userCollaborator','CollaboratorController@userCollaborator');
+        Route::post('editProject', 'ProjectController@editAction');
+        Route::post('deleteProject', 'ProjectController@deleteAction');
+        Route::post('addProject', 'ProjectController@addAction');
+        Route::post('upload', 'ImageController@uploadAction');
+       # Route::post('listImage','ImageController@listImage');
+        Route::post('editImage', 'ImageController@editAction');
+        Route::post('deleteImage', 'ImageController@deleteAction');
+        Route::post('design', 'DesignController@listAction');
+        Route::post('addComment', 'CommentController@addAction');
+        Route::post('deleteComment', 'CommentController@deleteAction');
+        Route::post('editComment', 'CommentController@editAction');
+        Route::post('listComment', 'CommentController@listAction');
+        Route::post('checkDeleteButton', 'ButtonController@checkAction');
+        Route::post('deleteButton', 'ButtonController@deleteAction');
+        Route::post('addCollaborator', 'CollaboratorController@addAction');
+        Route::post('deleteCollaborator', 'CollaboratorController@deleteAction');
+        Route::post('listCollaborator', 'CollaboratorController@listAction');
+        Route::post('userCollaborator', 'CollaboratorController@listUserAction');
 
         # Load page
-        Route::get('/{user}/{project}/page/{num_page}','ImageController@index');
-        Route::get('/{user}/{project}/collaboration','CollaboratorController@index');
-        Route::get('/{user}/page/{num_page}','ProjectController@index');
+        Route::get('/{user}/{project}/page/{num_page}', 'ImageController@indexAction');
+        Route::get('/{user}/{project}/collaboration', 'CollaboratorController@indexAction');
+        Route::get('/{user}/page/{num_page}', 'ProjectController@indexAction');
         Route::get('setting/{action}', function($action)
         {
-            $projectModel = new ProjectModel;
+            $projectModel = new ProjectModel();
             $user = Session::get('user');
-            $data = $projectModel->listProject($user);
-            return View::make('user.'.$action)->with('error','')->with('project',$data['result']);
+            $data = $projectModel->find($user);
+            return View::make('user.'.$action)->with('error', '')->with('project', $data['result']);
         });
-        Route::get('/{user}/{project}/{id_pro}','DesignController@index');
-        Route::get('/logout','UserController@logout');
-        Route::post('setting/password','UserController@password');
+        Route::get('/{user}/{project}/{id_pro}', 'DesignController@indexAction');
+        Route::get('/logout', 'UserController@logoutAction');
+        Route::post('setting/password', 'UserController@changeAction');
     });

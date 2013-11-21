@@ -1,19 +1,22 @@
 <?php
-Class ButtonController extends Controller{
+Class ButtonController extends Controller
+{
     protected $buttonModel;
 
-     function __construct(){
+    public function __construct()
+    {
          $this->buttonModel = new ButtonModel();
      }
 
-     function checkDeleteButton(){
+    public function checkAction()
+    {
          $id_btn = $_POST['id_btn'];
-         echo $this->buttonModel->checkDeleteButton($id_btn);
+         echo $this->buttonModel->check($id_btn);
     }
 
-     function deleteButton(){
+    public function deleteAction()
+    {
         $id_btn =$_POST['id_btn'];
-        echo $this->buttonModel->deleteButton($id_btn);
+        echo $this->buttonModel->delete($id_btn);
     }
-
 }
