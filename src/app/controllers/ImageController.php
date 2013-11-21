@@ -75,7 +75,9 @@ Class ImageController extends Controller{
      function editImage(){
          $id_pro = $_POST['id_pro'];
          $name = $_POST['name'];
-         echo $this->imageModel->editImage($id_pro,$name);
+         $user = $_POST['user'];
+         $mission = $_POST['mission'];
+         echo $this->imageModel->editImage($id_pro,$name,$user,$mission);
     }
 
 //     function listImage(){

@@ -28,7 +28,8 @@ Class ProjectController extends Controller{
      function editProject(){
         $id = $_POST['id'];
         $mission_name = $_POST['mission_name'];
-        echo $this->projectModel->editProject($id,$mission_name);
+        $user = $_POST['user'];
+        echo $this->projectModel->editProject($id,$mission_name,$user);
     }
 
 //     function listProject(){

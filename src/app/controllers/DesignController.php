@@ -17,6 +17,7 @@ Class DesignController extends Controller{
      function design(){
         $user = $_POST['user'];
         $name = $_POST['name'];
-        echo $this->designModel->design($name,$user);
+        $mission = $_POST['mission'];
+        echo $this->designModel->design($name,$mission,$user);
     }
 }
