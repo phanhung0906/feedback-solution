@@ -3,7 +3,7 @@
     Route::get('/', function()
     {
         if(!Session::has('user')){
-        return View::make('index');
+            return View::make('index');
         }else return Redirect::to('/'.Session::get('user').'/page/1');
     });
     Route::filter('check-user',function(){
@@ -11,18 +11,6 @@
             return Redirect::to('login');
     });
 
-//    Route::get('/login',function(){
-//        if(!Session::has('user')){
-//            return View::make('login');
-//        } else return Redirect::to('/'.Session::get('user'));
-//    });
-//
-//    Route::get('/register',function(){
-//        if(!Session::has('user')){
-//            return View::make('register');
-//        }else return Redirect::to('/'.Session::get('user'));
-//
-//    });
     if(!Session::has('user')){
         Route::controller('/','UserController');
     }
