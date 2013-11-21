@@ -38,22 +38,22 @@ Class ProjectModel extends Eloquent{
         return true;
     }
 
-    function editProject($id,$mission_name){
+    function editProject($id,$mission_name,$user){
         $temp = explode('(',$mission_name);
         if(count($temp) > 1){
             return false;
         }
         $array = array();
-        $result = DB::select('SELECT * FROM mission WHERE id != ?',array($id));
+        $result = DB::select('SELECT * FROM mission WHERE id != ? AND user= ?',array($id,$user));
         foreach ($result as $result)
         {
             $array[] = $result->mission_name;
         }
-        $result2 = DB::select('SELECT COUNT(id) AS num FROM mission WHERE id != ? AND (mission_name= ? OR mission_name LIKE ? )',array($id,$mission_name,$mission_name.'(%'));
+        $result2 = DB::select('SELECT COUNT(id) AS num FROM mission WHERE id != ? AND user=? AND (mission_name= ? OR mission_name LIKE ? )',array($id,$user,$mission_name,$mission_name.'(%'));
         $n = $result2[0]->num;
 
         if($n > 0){
-            $result3 = DB::select('SELECT * FROM mission WHERE id = ?',array($id));
+            $result3 = DB::select('SELECT * FROM mission WHERE id = ? AND user=?',array($id,$user));
             $name = $result3[0]->mission_name;
             $new_mission_name = $mission_name.'('.$n.')';
             for($i=0 ; $i< count($array);$i++){
@@ -65,13 +65,13 @@ Class ProjectModel extends Eloquent{
             }
             if($n == 0)  $new_mission_name = $mission_name;
             DB::update('UPDATE mission SET mission_name = ? WHERE id = ?', array($new_mission_name,$id));
-            DB::update('UPDATE project SET mission_name = ? WHERE mission_name = ?', array($new_mission_name,$name));
+            DB::update('UPDATE project SET mission_name = ? WHERE mission_name = ? AND user= ?', array($new_mission_name,$name,$user));
             return $new_mission_name;
         }else{
             $result3 = DB::select('SELECT * FROM mission WHERE id = ?',array($id));
             $name = $result3[0]->mission_name;
             DB::update('UPDATE mission SET mission_name = ? WHERE id = ?', array($mission_name,$id));
-            DB::update('UPDATE project SET mission_name = ? WHERE mission_name = ?', array($mission_name,$name));
+            DB::update('UPDATE project SET mission_name = ? WHERE mission_name = ? AND user= ?', array($mission_name,$name,$user));
             return $mission_name;
         }
     }

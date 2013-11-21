@@ -24,32 +24,33 @@ Class ImageModel extends Eloquent{
         return true;
     }
 
-    function editImage($id_pro,$name){
+    function editImage($id_pro,$name,$user,$mission){
         $temp = explode('(',$name);
         if(count($temp) > 1) return false;
         $array1 = array();
-        $result = DB::select('SELECT * FROM project WHERE id_pro != ?',array($id_pro));
+        $result = DB::select('SELECT * FROM project WHERE id_pro != ? AND user = ? AND mission_name = ?',array($id_pro,$user,$mission));
         foreach( $result as $result){
             $array1[] = $result->name;
         }
-        $result2 = DB::select('SELECT COUNT(id_pro) AS num FROM project WHERE id_pro != ? AND (name = ? OR name LIKE ? )',array($id_pro,$name,$name.'(%'));
+        $result2 = DB::select('SELECT COUNT(id_pro) AS num FROM project WHERE id_pro != ? AND user = ? AND mission_name = ? AND (name = ? OR name LIKE ? )',array($id_pro,$user,$mission,$name,$name.'(%'));
 
         $n = $result2[0]->num;
         if($n > 0){
             $new_name = $name.'('.$n.')';
-            for($i=0 ; $i< count($array1);$i++){
+            $count_array1 =  count($array1);
+            for($i=0 ; $i< $count_array1;$i++){
                 if($array1[$i] == $new_name){
                     --$n;
                     $new_name = $name.'('.$n.')';
                     $i =0;
                 }
             }
-            if($n == 0)  $new_name = $name;
+            if($n == 0) $new_name = $name;
             DB::update('UPDATE project SET name= ? WHERE id_pro = ?',array($new_name,$id_pro));
             return $new_name;
         }
         $array = array();
-        $result3 = DB::select('SELECT * FROM project');
+        $result3 = DB::select('SELECT * FROM project WHERE user = ? AND mission_name = ?',array($user,$mission));
         foreach( $result3 as $result3){
             $array[] = $result3->name;
         }
