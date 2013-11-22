@@ -20,7 +20,8 @@ Class ProjectController extends Controller
     public function addAction()
     {
         $user = $_POST['user'];
-        echo $this->projectModel->add($user);
+        $missionName = $_POST['missionName'];
+        echo $this->projectModel->add($user, $missionName);
     }
 
     public function deleteAction()
@@ -32,8 +33,8 @@ Class ProjectController extends Controller
     public function editAction()
     {
         $id = $_POST['id'];
-        $mission_name = $_POST['mission_name'];
+        $missionName = $_POST['mission_name'];
         $user = $_POST['user'];
-        echo $this->projectModel->edit($id, $mission_name, $user);
+        echo $this->projectModel->edit($id, $missionName, $user);
     }
 }

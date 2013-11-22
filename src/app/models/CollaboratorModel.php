@@ -3,42 +3,42 @@ Class CollaboratorModel
 {
     protected $projectModel;
 
-    public function add($mission_name, $value)
+    public function add($mission, $value)
     {
-        if($value == 'public' || $value == 'private') {
-            DB::update('UPDATE mission SET collaborators= ? WHERE mission_name= ?', array($value,$mission_name));
+        if ($value == 'public' || $value == 'private') {
+            DB::update('UPDATE mission SET collaborators= ? WHERE mission_name= ?', array($value, $mission));
             return "OK";
         }
-        $alluser = array();
+        $allUser = array();
         $result = DB::select('SELECT * FROM user');
         foreach($result as $result) {
-            $alluser[] = $result->user;
+            $allUser[] = $result->user;
         }
-        $check_user = false ;
-        $num_user = count($alluser);
-        for ($i = 0; $i < $num_user; $i++) {
-            if ($value == $alluser[$i]) {
-                $check_user = true;
+        $check = false ;
+        $count = count($allUser);
+        for ($i = 0; $i < $count; $i++) {
+            if ($value == $allUser[$i]) {
+                $check = true;
                 break;
             }
         }
-        if ($check_user == false) {
+        if ($check == false) {
             return "error1";
         }
-        $result1 = DB::select('SELECT * FROM mission WHERE mission_name= ?', array($mission_name));
-        $share_user = $result1[0]->collaborators;
-        if ($share_user == 'public' || $share_user == 'private') {
-            DB::update('UPDATE mission SET collaborators= ? WHERE mission_name= ?', array($value, $mission_name));
+        $result1 = DB::select('SELECT * FROM mission WHERE mission_name= ?', array($mission));
+        $share = $result1[0]->collaborators;
+        if ($share == 'public' || $share == 'private') {
+            DB::update('UPDATE mission SET collaborators= ? WHERE mission_name= ?', array($value, $mission));
             return "OK";
         } else {
-            $share_user_array = explode(',', $share_user);
-            $num = count($share_user_array);
+            $shareArray = explode(',', $share);
+            $num = count($shareArray);
             for ($i = 0; $i < $num; $i++) {
-                if($share_user_array[$i] == $value)
+                if($shareArray[$i] == $value)
                     return 'error2';
             }
-            $new_share_user = $share_user.','.$value;
-            DB::update('UPDATE mission SET collaborators= ? WHERE mission_name= ?', array($new_share_user, $mission_name));
+            $newShare = $share.','.$value;
+            DB::update('UPDATE mission SET collaborators= ? WHERE mission_name= ?', array($newShare, $mission));
             return "OK";
         }
     }
@@ -47,20 +47,20 @@ Class CollaboratorModel
     {
         $result = DB::select('SELECT * FROM mission WHERE mission_name= ?', array($mission));
         $listUser = $result[0]->collaborators;
-        $listUser_array = explode(',', $listUser);
-        $num = count($listUser_array);
+        $listUserArray = explode(',', $listUser);
+        $num = count($listUserArray);
         for ($i = 0 ; $i < $num; $i++){
-            if ($listUser_array[$i] == $user) {
+            if ($listUserArray[$i] == $user) {
                 // delete element of Array
-                unset($listUser_array[$i]);
+                unset($listUserArray[$i]);
             }
         }
-        if (count($listUser_array) == 0) {
+        if (count($listUserArray) == 0) {
             DB::update("UPDATE mission SET collaborators='private' WHERE mission_name= ?", array($mission));
             return "OK";
         }
-        $new_share = implode(",", $listUser_array);
-        DB::update("UPDATE mission SET collaborators= ? WHERE mission_name= ?", array($new_share,$mission));
+        $newShare = implode(",", $listUserArray);
+        DB::update("UPDATE mission SET collaborators= ? WHERE mission_name= ?", array($newShare,$mission));
         return "OK";
     }
 
@@ -68,14 +68,14 @@ Class CollaboratorModel
     {
         $result = DB::select('SELECT * FROM mission WHERE mission_name= ?', array($mission));
         $listUser = $result[0]->collaborators;
-        $listUser_array = explode(',', $listUser);
-        if ($listUser_array[0] == 'public') {
+        $listUserArray = explode(',', $listUser);
+        if ($listUserArray[0] == 'public') {
             return json_encode(array('public'));
         }
-        if($listUser_array[0] == 'private') {
+        if($listUserArray[0] == 'private') {
             return json_encode(array('private'));
         }
-        return json_encode($listUser_array);
+        return json_encode($listUserArray);
     }
 
     public function findUser($user, $mission)
@@ -84,23 +84,23 @@ Class CollaboratorModel
             'result' => array(),
         );
         $alluser = array();
-        $result = DB::select('SELECT * FROM user WHERE user != ?', array($user));
+        $result  = DB::select('SELECT * FROM user WHERE user != ?', array($user));
         foreach ($result as $result) {
             $alluser[] = $result->user;
         }
         $result1 = DB::select('SELECT * FROM mission WHERE mission_name = ?', array($mission));
         $share = $result1[0]->collaborators;
-        $share_array = explode(',',$share);
-        $num_alluser = count($alluser);
-        $num_share_array = count($share_array);
-        for ($i=0;$i<$num_alluser;$i++) {
+        $shareArray = explode(',', $share);
+        $countUser = count($alluser);
+        $countShareArray = count($shareArray);
+        for ($i = 0; $i < $countUser; $i++) {
             $count =0;
-            for ($j=0;$j<$num_share_array;$j++) {
-                if ($alluser[$i] == $share_array[$j]) {
+            for ($j = 0; $j < $countShareArray; $j++) {
+                if ($alluser[$i] == $shareArray[$j]) {
                     break;
                 } else {
                     $count++;
-                    if($count == $num_share_array)
+                    if($count == $countShareArray)
                         $list['result'][] = $alluser[$i];
                 }
             }

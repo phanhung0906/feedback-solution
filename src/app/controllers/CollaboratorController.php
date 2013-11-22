@@ -7,7 +7,7 @@ Class CollaboratorController extends Controller
     public function __construct()
     {
         $this->collaboratorModel = new CollaboratorModel();
-        $this->projectModel = new ProjectModel;
+        $this->projectModel = new ProjectModel();
     }
 
     public function indexAction()
@@ -19,15 +19,15 @@ Class CollaboratorController extends Controller
 
     public function addAction()
     {
-         $mission_name = $_POST['mission_name'];
-         $value = $_POST['value'];
-         echo $this->collaboratorModel->add($mission_name, $value);
+         $mission = $_POST['mission_name'];
+         $value   = $_POST['value'];
+         echo $this->collaboratorModel->add($mission, $value);
     }
 
     public function deleteAction()
     {
          $mission = $_POST['mission'];
-         $user = $_POST['user'];
+         $user    = $_POST['user'];
          echo $this->collaboratorModel->delete($mission, $user);
     }
 

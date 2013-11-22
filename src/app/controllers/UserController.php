@@ -48,7 +48,7 @@ Class UserController extends Controller
 
     public function postLogin()
     {
-        $error = View::make('error.login');
+        $error    = View::make('error.login');
         $userName = Input::get('user_name');
         $password = Input::get('password');
         $response = $this->userModel->login($userName, $password);

@@ -11,11 +11,11 @@ Class CommentController extends Controller
     public function addAction()
     {
          $user   = $_POST['user'];
-         $id_pro = $_POST['id_pro'];
+         $idProject = $_POST['id_pro'];
          $cmt    = $_POST['cmt'];
          $x      = $_POST['x'];
          $y      = $_POST['y'];
-         echo $this->commentModel->add($user, $id_pro, $cmt, $x, $y);
+         echo $this->commentModel->add($user, $idProject, $cmt, $x, $y);
     }
 
     public function deleteAction()
@@ -27,13 +27,14 @@ Class CommentController extends Controller
     public function editAction()
     {
         $id = $_POST['id'];
-        echo $this->commentModel->edit($id);
+        $newComment = $_POST['new_comment'];
+        echo $this->commentModel->edit($id, $newComment);
     }
 
     public function listAction()
     {
-        $id_btn = $_POST['id_btn'];
-        echo $this->commentModel->find($id_btn);
+        $id = $_POST['id_btn'];
+        echo $this->commentModel->find($id);
     }
 
 }

@@ -2,46 +2,45 @@
 Class ProjectModel
 {
 
-    public function add($user)
+    public function add($user, $missionName)
     {
-        $mission_name = $_POST['mission_name'];
-        $array = array();
+        $array  = array();
         $result = DB::select('SELECT * FROM mission WHERE user = ?', array($user));
         foreach ($result as $result) {
             $array[] = $result->mission_name;
         }
         for ($i=0 ; $i < count($array); $i++ ) {
-            if ($array[$i] == $mission_name) {
+            if ($array[$i] == $missionName) {
                 return false;
             }
         }
-        DB::insert('INSERT INTO mission (user,mission_name,collaborators) values (?, ?,?)', array($user, $mission_name, 'public'));
+        DB::insert('INSERT INTO mission (user,mission_name,collaborators) values (?, ?,?)', array($user, $missionName, 'public'));
         return true;
     }
 
     public function delete($id)
     {
-        $result = DB::select('SELECT * FROM mission WHERE id = ?', array($id));
-        $mission_name = $result[0]->mission_name;
+        $result      = DB::select('SELECT * FROM mission WHERE id = ?', array($id));
+        $missionName = $result[0]->mission_name;
         DB::delete('DELETE FROM mission WHERE id= ?', array($id));
-        $array = array(
-            'id_pro'=>array()
+        $arrayImage = array(
+            'id_pro' => array()
         );
-        $result2 = DB::select('SELECT * FROM project WHERE BINARY mission_name = ?', array($mission_name));
+        $result2 = DB::select('SELECT * FROM project WHERE BINARY mission_name = ?', array($missionName));
         foreach ($result2 as $result2) {
-            $array['id_pro'][] = $result2->id_pro;
+            $arrayImage['id_pro'][] = $result2->id_pro;
         }
-        DB::delete('DELETE FROM project WHERE BINARY mission_name= ?', array($mission_name));
-        $num = count($array['id_pro']);
+        DB::delete('DELETE FROM project WHERE BINARY mission_name= ?', array($missionName));
+        $num = count($arrayImage['id_pro']);
         for ($i = 0; $i < $num; $i++) {
-            DB::delete('DELETE FROM comment WHERE id_pro= ?', array($array['id_pro'][$i]));
+            DB::delete('DELETE FROM comment WHERE id_pro= ?', array($arrayImage['id_pro'][$i]));
         }
         return true;
     }
 
-    public function edit($id, $mission_name, $user)
+    public function edit($id, $missionName, $user)
     {
-        $temp = explode('(', $mission_name);
+        $temp = explode('(', $missionName);
         if (count($temp) > 1) {
             return false;
         }
@@ -52,29 +51,29 @@ Class ProjectModel
             $array[] = $result->mission_name;
         }
         $result2 = DB::select('SELECT COUNT(id) AS num FROM mission WHERE id != ? AND user=? AND (mission_name= ? OR mission_name LIKE ? )',
-            array($id, $user, $mission_name, $mission_name.'(%'));
+            array($id, $user, $missionName, $missionName.'(%'));
         $count_name = $result2[0]->num;
         if ($count_name > 0) {
             $result3 = DB::select('SELECT * FROM mission WHERE id = ? AND user=?', array($id, $user));
             $name = $result3[0]->mission_name;
-            $new_mission_name = $mission_name.'('.$count_name.')';
+            $newMissionName = $missionName.'('.$count_name.')';
             for ($i = 0; $i< count($array); $i++) {
-                if ($array[$i] == $new_mission_name) {
+                if ($array[$i] == $newMissionName) {
                     --$count_name;
-                    $new_mission_name = $mission_name.'('.$count_name.')';
+                    $new_mission_name = $missionName.'('.$count_name.')';
                     $i =0;
                 }
             }
-            if ($count_name == 0)  $new_mission_name = $mission_name;
-            DB::update('UPDATE mission SET mission_name = ? WHERE id = ?', array($new_mission_name, $id));
-            DB::update('UPDATE project SET mission_name = ? WHERE mission_name = ? AND user= ?', array($new_mission_name, $name, $user));
+            if ($count_name == 0)  $newMissionName = $missionName;
+            DB::update('UPDATE mission SET mission_name = ? WHERE id = ?', array($newMissionName, $id));
+            DB::update('UPDATE project SET mission_name = ? WHERE mission_name = ? AND user= ?', array($newMissionName, $name, $user));
             return $new_mission_name;
         }else{
             $result3 = DB::select('SELECT * FROM mission WHERE id = ?',array($id));
             $name = $result3[0]->mission_name;
-            DB::update('UPDATE mission SET mission_name = ? WHERE id = ?', array($mission_name,$id));
-            DB::update('UPDATE project SET mission_name = ? WHERE mission_name = ? AND user= ?', array($mission_name, $name, $user));
-            return $mission_name;
+            DB::update('UPDATE mission SET mission_name = ? WHERE id = ?', array($missionName,$id));
+            DB::update('UPDATE project SET mission_name = ? WHERE mission_name = ? AND user= ?', array($missionName, $name, $user));
+            return $missionName;
         }
     }
 
@@ -130,7 +129,7 @@ Class ProjectModel
         );
         $missionArray = array();
         $result = array();
-        $no_img = "/picture/no_image.gif";
+        $noImg = "/picture/no_image.gif";
         $results = DB::select('SELECT * FROM mission where user = ?  ORDER BY id DESC', array($user));
         foreach ($results as $results) {
             $result[] = $results;
@@ -145,9 +144,9 @@ Class ProjectModel
                             continue;
                         }
                         $userArray = explode(',', $result[$i]->collaborators);
-                        $numarray = count($userArray);
+                        $numArray = count($userArray);
                         $temp = true;
-                        for ($q=0; $q < $numarray; $q++) {
+                        for ($q=0; $q < $numArray; $q++) {
                             if ($userArray[$q] == Session::get('user')) {
                                 $temp = false;
                             }
@@ -182,9 +181,9 @@ Class ProjectModel
             if ($projectArray == null ) {
                 $arrayTemp = array(
                     'mission'       => $missionArray[$i]->mission_name,
-                    'img'           =>  $no_img,
+                    'img'           => $noImg,
                     'id'            => $missionArray[$i]->id,
-                    'collaborators' =>(string)$missionArray[$i]->collaborators,
+                    'collaborators' => (string)$missionArray[$i]->collaborators,
                     'num_img'       =>  $result2[0]->numImg
                 );
                 $list['result'][] = $arrayTemp;

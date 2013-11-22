@@ -70,16 +70,16 @@ Class ImageController extends Controller
 
     public function deleteAction()
     {
-        $id_pro = $_POST['id'];
-        echo $this->imageModel->delete($id_pro);
+        $id = $_POST['id'];
+        echo $this->imageModel->delete($id);
     }
 
     public function editAction()
     {
-         $id_pro = $_POST['id_pro'];
+         $id = $_POST['id_pro'];
          $name = $_POST['name'];
          $user = $_POST['user'];
          $mission = $_POST['mission'];
-         echo $this->imageModel->edit($id_pro, $name, $user, $mission);
+         echo $this->imageModel->edit($id, $name, $user, $mission);
     }
 }
