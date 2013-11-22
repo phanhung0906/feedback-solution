@@ -49,7 +49,7 @@
         {
             $projectModel = new ProjectModel();
             $user = Session::get('user');
-            $data = $projectModel->find($user);
+            $data = $projectModel->find($user,'');
             return View::make('user.'.$action)->with('error', '')->with('project', $data['result']);
         });
         Route::get('/{user}/{project}/{id_pro}', 'DesignController@indexAction');
