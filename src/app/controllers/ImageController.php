@@ -12,13 +12,14 @@ Class ImageController extends Controller
 
     public function indexAction()
     {
-        $get = $_GET['project_name'];
-        $newget = str_replace("-", " ", $get);
-        $user = $_GET['user'];
+        $get     = $_GET['project_name'];
+        $newget  = str_replace("-", " ", $get);
+        $user    = $_GET['user'];
         $mission = $newget;
-        $page = $_GET['page'];
-        $data = $this->projectModel->find($user);
-        $image = $this->imageModel->find($user, $mission, $page);
+        $page    = $_GET['page'];
+        $session = Session::get('user');
+        $data    = $this->projectModel->find($user, $session);
+        $image   = $this->imageModel->find($user, $mission, $page);
         return View::make('project.image')->with('project', $data['result'])->with('image', $image['result'])->with('numcmt', $image['cmt'])
             ->with('num_page', $image['num_page']);
     }

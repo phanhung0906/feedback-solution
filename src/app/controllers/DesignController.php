@@ -13,7 +13,8 @@ Class DesignController extends Controller
      public function indexAction()
      {
          $user = $_GET['user'];
-         $data = $this->projectModel->find($user);
+         $session = Session::get('user');
+         $data = $this->projectModel->find($user, $session);
          return View::make('design.design')->with('project', $data['result']);
      }
 

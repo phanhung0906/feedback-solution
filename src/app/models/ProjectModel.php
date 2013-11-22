@@ -77,7 +77,7 @@ Class ProjectModel
         }
     }
 
-    public function find($user)
+    public function find($user, $session)
     {
         $list = array(
             'result'     => array(),
@@ -90,8 +90,8 @@ Class ProjectModel
         }
         $num = count($result);
         for ($i = 0; $i < $num; $i++){
-            if (Session::has('user') && isset($_GET['user'])) {
-                if (Session::get('user') != $user ) {
+
+                if ($session != $user ) {
                     if ($result[$i]->collaborators != "public") {
                         if ($result[$i]->collaborators == "private") {
                             unset($result[$i]);
@@ -101,7 +101,7 @@ Class ProjectModel
                         $numarray = count($userArray);
                         $temp = true;
                         for ($q = 0; $q < $numarray; $q++){
-                                if ($userArray[$q] == Session::get('user')) {
+                                if ($userArray[$q] == $session) {
                                     $temp = false;
                                 }
                         }
@@ -111,7 +111,7 @@ Class ProjectModel
                         }
                     }
                 }
-            }
+
         }
         foreach ($result as $result) {
             $list['result'][] = $result;
@@ -119,7 +119,7 @@ Class ProjectModel
         return $list;
     }
 
-    public function findImg($user, $page)
+    public function findImg($user, $session, $page)
     {
         $PER_PAGE = 10;
         $list = array(
@@ -136,8 +136,8 @@ Class ProjectModel
         }
         $num = count($result);
         for ($i = 0 ;$i < $num; $i++) {
-            if (Session::has('user') && isset($_GET['user'])) {
-                if (Session::get('user') != $user ) {
+
+                if ($session != $user ) {
                     if ($result[$i]->collaborators != "public") {
                         if ($result[$i]->collaborators == "private") {
                             unset($result[$i]);
@@ -147,7 +147,7 @@ Class ProjectModel
                         $numArray = count($userArray);
                         $temp = true;
                         for ($q=0; $q < $numArray; $q++) {
-                            if ($userArray[$q] == Session::get('user')) {
+                            if ($userArray[$q] == $session) {
                                 $temp = false;
                             }
                         }
@@ -157,7 +157,7 @@ Class ProjectModel
                         }
                     }
                 }
-            }
+
         }
         foreach ($result as $result) {
             $missionArray[] = $result;

@@ -12,8 +12,9 @@ Class ProjectController extends Controller
     {
         $user    = $_GET['user'];
         $page    = $_GET['page'];
-        $data    = $this->projectModel->find($user);
-        $project = $this->projectModel->findImg($user, $page);
+        $session = Session::get('user');
+        $data    = $this->projectModel->find($user, $session);
+        $project = $this->projectModel->findImg($user, $session, $page);
         return View::make('project.project')->with('project', $data['result'])->with('projectImg', $project['result'])->with('num_page', $project['num_page']);
     }
 

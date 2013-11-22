@@ -63,13 +63,12 @@ Class UserController extends Controller
         $oldpass  = Input::get('oldpass');
         $newpass  = Input::get('newpass');
         $confirm  = Input::get('confirm');
-        $userName = Session::get('user');
         $user     = Session::get('user');
-        $data     = $this->projectModel->find($user);
+        $data     = $this->projectModel->find($user, '');
         $error    = View::make('error.password');
-        $response = $this->userModel->change($oldpass, $newpass, $confirm, $userName);
+        $response = $this->userModel->change($oldpass, $newpass, $confirm, $user);
         if ($response == true) {
-            return Redirect::to('/'.$userName);
+            return Redirect::to('/'.$user);
         } else
             return View::make('user.password')->with('error', $error)->with('project', $data['result']);
     }
