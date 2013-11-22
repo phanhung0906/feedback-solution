@@ -9,7 +9,6 @@ Class UserModel
         $results = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
         if ($results == null) {
             DB::insert('INSERT INTO user (user, passwd) values (?, ?)', array($userName, md5($password)));
-            Session::put('user', $userName);
             return 'login';
         }else
             return 'error2';
@@ -19,7 +18,6 @@ Class UserModel
     {
         $result = DB::select('SELECT * FROM user WHERE user = ? AND passwd = ?', array($userName, md5($password)));
         if (count($result) != 0) {
-            Session::put('user', $userName);
             return true;
         } else
             return false;

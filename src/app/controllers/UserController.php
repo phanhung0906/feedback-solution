@@ -39,6 +39,7 @@ Class UserController extends Controller
                 return View::make('user.register')->with('error', $error2);
                 break;
             case 'login':
+                Session::put('user', $userName);
                 return Redirect::to('/');
                 break;
             default:
@@ -53,6 +54,7 @@ Class UserController extends Controller
         $password = Input::get('password');
         $response = $this->userModel->login($userName, $password);
         if ($response == true) {
+            Session::put('user', $userName);
             return Redirect::to('/');
         } else
             return View::make('user.login')->with('error', $error);
