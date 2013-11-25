@@ -1,5 +1,6 @@
 <?php
-Class CommentModel
+
+class CommentModel
 {
 
     public function add($user, $idProject, $cmt, $x, $y)

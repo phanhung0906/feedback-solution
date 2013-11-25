@@ -1,5 +1,6 @@
 <?php
-Class CollaboratorController extends Controller
+
+class CollaboratorController extends Controller
 {
     protected $collaboratorModel;
     protected $projectModel;

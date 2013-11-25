@@ -1,5 +1,6 @@
 <?php
-Class UserController extends Controller
+
+class UserController extends Controller
 {
     protected $userModel;
     protected $projectModel;
@@ -32,13 +33,13 @@ Class UserController extends Controller
         $password = Input::get('password');
         $response = $this->userModel->register($userName, $password);
         switch($response){
-            case 'error1':
+            case (UserModel::EROR_EXIST_USER):
                 return View::make('user.register')->with('error', $error1);
                 break;
-            case 'error2':
+            case (UserModel::EROR_NAME_USER):
                 return View::make('user.register')->with('error', $error2);
                 break;
-            case 'login':
+            case (UserModel::SUCCESS):
                 Session::put('user', $userName);
                 return Redirect::to('/');
                 break;

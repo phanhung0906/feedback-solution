@@ -1,5 +1,6 @@
 <?php
-Class ImageController extends Controller
+
+class ImageController extends Controller
 {
     protected $imageModel;
     protected $projecModel;

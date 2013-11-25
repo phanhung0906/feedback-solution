@@ -1,5 +1,6 @@
 <?php
-Class ButtonController extends Controller
+
+class ButtonController extends Controller
 {
     protected $buttonModel;
 

@@ -1,5 +1,6 @@
 <?php
-Class DesignController extends Controller
+
+class DesignController extends Controller
 {
      protected $designModel;
      protected $projectModel;

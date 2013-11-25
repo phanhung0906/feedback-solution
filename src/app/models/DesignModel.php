@@ -1,5 +1,6 @@
 <?php
-Class DesignModel
+
+class DesignModel
 {
 
     public function find($name, $mission, $user)

@@ -1,5 +1,6 @@
 <?php
-Class SimpleImageController extends Controller
+
+class SimpleImageController extends Controller
 {
     var $image;
     var $image_type;

@@ -1,5 +1,6 @@
 <?php
-Class ProjectModel
+
+class ProjectModel
 {
 
     public function add($user, $missionName)

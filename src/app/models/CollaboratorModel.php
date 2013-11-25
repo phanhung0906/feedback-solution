@@ -1,5 +1,6 @@
 <?php
-Class CollaboratorModel
+
+class CollaboratorModel
 {
     protected $projectModel;
 

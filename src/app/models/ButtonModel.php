@@ -1,6 +1,8 @@
 <?php
-Class ButtonModel
+
+class ButtonModel
 {
+
     public function check($id)
     {
         $array_comment = array();

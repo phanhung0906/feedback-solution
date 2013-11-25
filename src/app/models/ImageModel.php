@@ -1,5 +1,6 @@
 <?php
-Class ImageModel
+
+class ImageModel
 {
 
     public function upload($user, $urlOriginal, $urlSquare, $mission, $name, $size)
