@@ -1,15 +1,25 @@
 <?php
 Class UserModel
 {
-    const cryptString = '$2a$07$usesomesillystringforsalt$';
+
+    static function better_crypt($input, $rounds = 7)
+    {
+        $salt = "";
+        $salt_chars = array_merge(range('A','Z'), range('a','z'), range(0,9));
+        for($i=0; $i < 22; $i++) {
+            $salt .= $salt_chars[array_rand($salt_chars)];
+        }
+        return crypt($input, sprintf('$2a$%02d$', $rounds) . $salt);
+    }
+
     public function register($userName, $password)
     {
         if ($userName == null || $userName == 'private' || $userName == 'public' || $userName == ' ')
             return 'error1';
         $results = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
         if ($results == null) {
-            $newPassword = crypt($password, UserModel::cryptString);
-            DB::insert('INSERT INTO user (user, passwd) values (?, ?)', array($userName, md5($newPassword)));
+            $newPassword = UserModel::better_crypt($password);
+            DB::insert('INSERT INTO user (user, passwd) values (?, ?)', array($userName, $newPassword));
             return 'login';
         }else
             return 'error2';
@@ -17,23 +27,22 @@ Class UserModel
 
     public function login($userName, $password)
     {
-        $cryptPassword = crypt($password, UserModel::cryptString);
         $result = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
         if (count($result) != 0) {
-            if (md5($cryptPassword) == $result[0]->passwd)
+            if(crypt($password, $result[0]->passwd) == $result[0]->passwd) {
                 return true;
+            }
         } else
             return false;
     }
 
     public function change($oldpass, $newpass, $confirm, $userName)
     {
-        $newPassword = crypt($oldpass, UserModel::cryptString);
         $result = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
-        if (md5($newPassword) == $result[0]->passwd) {
+        if(crypt($oldpass, $result[0]->passwd) == $result[0]->passwd) {
             if ($newpass == $confirm) {
-                $newPasswordInsert = crypt($newpass, UserModel::cryptString);
-                DB::update('UPDATE user SET passwd = ? WHERE user = ?', array(md5($newPasswordInsert), $userName));
+                $newPasswordInsert = UserModel::better_crypt($newpass);
+                DB::update('UPDATE user SET passwd = ? WHERE user = ?', array($newPasswordInsert, $userName));
                 return true;
             }
         } else
