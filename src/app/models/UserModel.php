@@ -1,15 +1,10 @@
 <?php
 Class UserModel
 {
+    protected $passwordHash;
 
-    static function better_crypt($input, $rounds = 7)
-    {
-        $salt = "";
-        $salt_chars = array_merge(range('A','Z'), range('a','z'), range(0,9));
-        for($i=0; $i < 22; $i++) {
-            $salt .= $salt_chars[array_rand($salt_chars)];
-        }
-        return crypt($input, sprintf('$2a$%02d$', $rounds) . $salt);
+    public function __construct(){
+        $this->passwordHash = new PasswordHash(8, FALSE);
     }
 
     public function register($userName, $password)
@@ -18,8 +13,8 @@ Class UserModel
             return 'error1';
         $results = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
         if ($results == null) {
-            $newPassword = UserModel::better_crypt($password);
-            DB::insert('INSERT INTO user (user, passwd) values (?, ?)', array($userName, $newPassword));
+            $hashPassword =  $this->passwordHash->HashPassword($password);
+            DB::insert('INSERT INTO user (user, passwd) values (?, ?)', array($userName, $hashPassword));
             return 'login';
         }else
             return 'error2';
@@ -29,9 +24,9 @@ Class UserModel
     {
         $result = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
         if (count($result) != 0) {
-            if(crypt($password, $result[0]->passwd) == $result[0]->passwd) {
+            $check =  $this->passwordHash->CheckPassword($password, $result[0]->passwd);
+            if ($check)
                 return true;
-            }
         } else
             return false;
     }
@@ -39,10 +34,11 @@ Class UserModel
     public function change($oldpass, $newpass, $confirm, $userName)
     {
         $result = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
-        if(crypt($oldpass, $result[0]->passwd) == $result[0]->passwd) {
+        $check =  $this->passwordHash->CheckPassword($oldpass, $result[0]->passwd);
+        if ($check){
             if ($newpass == $confirm) {
-                $newPasswordInsert = UserModel::better_crypt($newpass);
-                DB::update('UPDATE user SET passwd = ? WHERE user = ?', array($newPasswordInsert, $userName));
+                $hashPassword =  $this->passwordHash->HashPassword($newpass);
+                DB::update('UPDATE user SET passwd = ? WHERE user = ?', array($hashPassword, $userName));
                 return true;
             }
         } else
