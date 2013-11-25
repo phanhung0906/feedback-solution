@@ -9,7 +9,7 @@ Class UserModel
         $results = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
         if ($results == null) {
             $newPassword = crypt($password, UserModel::cryptString);
-            DB::insert('INSERT INTO user (user, passwd) values (?, ?)', array($userName, $newPassword));
+            DB::insert('INSERT INTO user (user, passwd) values (?, ?)', array($userName, md5($newPassword)));
             return 'login';
         }else
             return 'error2';
@@ -20,8 +20,8 @@ Class UserModel
         $cryptPassword = crypt($password, UserModel::cryptString);
         $result = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
         if (count($result) != 0) {
-            if ($cryptPassword == $result[0]->passwd)
-              return true;
+            if (md5($cryptPassword) == $result[0]->passwd)
+                return true;
         } else
             return false;
     }
@@ -30,10 +30,10 @@ Class UserModel
     {
         $newPassword = crypt($oldpass, UserModel::cryptString);
         $result = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
-        if ($newPassword == $result[0]->passwd) {
+        if (md5($newPassword) == $result[0]->passwd) {
             if ($newpass == $confirm) {
                 $newPasswordInsert = crypt($newpass, UserModel::cryptString);
-                DB::update('UPDATE user SET passwd = ? WHERE user = ?', array($newPasswordInsert, $userName));
+                DB::update('UPDATE user SET passwd = ? WHERE user = ?', array(md5($newPasswordInsert), $userName));
                 return true;
             }
         } else
