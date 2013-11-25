@@ -34,6 +34,7 @@ Class ProjectModel
         $num = count($arrayImage['id_pro']);
         for ($i = 0; $i < $num; $i++) {
             DB::delete('DELETE FROM comment WHERE id_pro= ?', array($arrayImage['id_pro'][$i]));
+            DB::delete('DELETE FROM button WHERE id_pro= ?', array($arrayImage['id_pro'][$i]));
         }
         return true;
     }
@@ -136,7 +137,6 @@ Class ProjectModel
         }
         $num = count($result);
         for ($i = 0 ;$i < $num; $i++) {
-
                 if ($session != $user ) {
                     if ($result[$i]->collaborators != "public") {
                         if ($result[$i]->collaborators == "private") {
@@ -157,12 +157,11 @@ Class ProjectModel
                         }
                     }
                 }
-
         }
         foreach ($result as $result) {
             $missionArray[] = $result;
         }
-        $num = count($missionArray); /* num: number of project */
+        $num = count($missionArray);            /* num: number of project */
         $list['num_page'] = ceil($num / $PER_PAGE);
         $start_page = ($page-1)*$PER_PAGE+1;
         if ($num > $page*$PER_PAGE) {
@@ -173,7 +172,7 @@ Class ProjectModel
         for ($i = $start_page-1 ;$i < $end_page; $i++){
             $projectArray = array();
             $results2     = DB::select('SELECT * FROM project where user = ?  AND BINARY mission_name= ?', array($user, $missionArray[$i]->mission_name));
-            $result2      = DB::select('SELECT COUNT(id_pro) AS numImg FROM project WHERE mission_name = ?', array($missionArray[$i]->mission_name));
+            $result2      = DB::select('SELECT COUNT(id_pro) AS numImg FROM project WHERE BINARY mission_name = ?', array($missionArray[$i]->mission_name));
             foreach ($results2 as $results2)
             {
                 $projectArray[] = $results2->id_pro;

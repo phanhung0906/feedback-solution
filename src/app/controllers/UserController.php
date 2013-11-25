@@ -71,7 +71,7 @@ Class UserController extends Controller
         $error    = View::make('error.password');
         $response = $this->userModel->change($oldpass, $newpass, $confirm, $user);
         if ($response == true) {
-            return Redirect::to('/'.$user);
+            return Redirect::to('/');
         } else
             return View::make('user.password')->with('error', $error)->with('project', $data['result']);
     }

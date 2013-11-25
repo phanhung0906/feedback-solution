@@ -8,7 +8,7 @@ Class DesignModel
             'result'     => array(),
             'btn'       => array(),
         );
-        $result = DB::select('SELECT * FROM project WHERE name= ? AND mission_name = ? AND user= ? ', array($name, $mission, $user));
+        $result = DB::select('SELECT * FROM project WHERE name= ? AND BINARY mission_name = ? AND user= ? ', array($name, $mission, $user));
         $id = $result[0]->id_pro;
         $result2 = DB::select('SELECT * FROM project WHERE id_pro= ? AND user= ?', array($id, $user));
         foreach ($result2 as $result2) {

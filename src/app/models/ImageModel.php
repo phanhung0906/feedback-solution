@@ -34,11 +34,11 @@ Class ImageModel
         if (count($temp) > 1)
             return false;
         $array1 = array();
-        $result = DB::select('SELECT * FROM project WHERE id_pro != ? AND user = ? AND mission_name = ?', array($id, $user, $mission));
+        $result = DB::select('SELECT * FROM project WHERE id_pro != ? AND user = ? AND BINARY mission_name = ?', array($id, $user, $mission));
         foreach ($result as $result){
             $array1[] = $result->name;
         }
-        $result2 = DB::select('SELECT COUNT(id_pro) AS num FROM project WHERE id_pro != ? AND user = ? AND mission_name = ? AND (name = ? OR name LIKE ? )',
+        $result2 = DB::select('SELECT COUNT(id_pro) AS num FROM project WHERE id_pro != ? AND user = ? AND BINARY mission_name = ? AND (name = ? OR name LIKE ? )',
             array($id, $user, $mission, $name, $name.'(%'));
         $countName = $result2[0]->num;
         if ($countName > 0) {
@@ -57,7 +57,7 @@ Class ImageModel
             return $newName;
         }
         $array = array();
-        $result3 = DB::select('SELECT * FROM project WHERE user = ? AND mission_name = ?',array($user, $mission));
+        $result3 = DB::select('SELECT * FROM project WHERE user = ? AND BINARY mission_name = ?',array($user, $mission));
         foreach ($result3 as $result3) {
             $array[] = $result3->name;
         }
