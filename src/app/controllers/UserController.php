@@ -33,10 +33,10 @@ class UserController extends Controller
         $password = Input::get('password');
         $response = $this->userModel->register($userName, $password);
         switch($response){
-            case (UserModel::EROR_EXIST_USER):
+            case (UserModel::ERROR_EXIST_USER):
                 return View::make('user.register')->with('error', $error1);
                 break;
-            case (UserModel::EROR_NAME_USER):
+            case (UserModel::ERROR_NAME_USER):
                 return View::make('user.register')->with('error', $error2);
                 break;
             case (UserModel::SUCCESS):

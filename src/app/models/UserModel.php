@@ -14,7 +14,7 @@ class UserModel
     public function register($userName, $password)
     {
         if ($userName == null || $userName == 'private' || $userName == 'public' || $userName == ' ') {
-            return UserModel::EROR_EXIST_USER;
+            return UserModel::ERROR_EXIST_USER;
         }
         $results = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
         if ($results == null) {
@@ -22,7 +22,7 @@ class UserModel
             DB::insert('INSERT INTO user (user, passwd) values (?, ?)', array($userName, $hashPassword));
             return UserModel::SUCCESS;
         }
-        return UserModel::EROR_NAME_USER;
+        return UserModel::ERROR_NAME_USER;
     }
 
     public function login($userName, $password)
