@@ -8,14 +8,14 @@ class CollaboratorController extends Controller
     public function __construct()
     {
         $this->collaboratorModel = new CollaboratorModel();
-        $this->projectModel = new ProjectModel();
+        $this->projectModel      = new ProjectModel();
     }
 
     public function indexAction()
     {
-        $user = $_GET['user'];
+        $user    = $_GET['user'];
         $session = Session::get('user');
-        $data = $this->projectModel->find($user, $session);
+        $data    = $this->projectModel->find($user, $session);
         return View::make('user.collaborator')->with('error', '')->with('project', $data['result']);
     }
 
@@ -41,7 +41,7 @@ class CollaboratorController extends Controller
 
     public function listUserAction()
     {
-        $user = $_POST['user'];
+        $user    = $_POST['user'];
         $mission = $_POST['mission'];
         echo $this->collaboratorModel->findUser($user, $mission);
     }
