@@ -7,7 +7,8 @@ class UserModel
     const SUCCESS = -3;
     protected $passwordHash;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->passwordHash = new PasswordHash(8, false);
     }
 
@@ -27,14 +28,14 @@ class UserModel
 
     public function login($userName, $password)
     {
-        $result = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
-        return (count($result) != 0 && $this->passwordHash->CheckPassword($password, $result[0]->passwd));
+        $result = DB::table('user')->where('user', $userName)->first();
+        return (($result != null) && $this->passwordHash->CheckPassword($password, $result->passwd));
     }
 
     public function change($oldpass, $newpass, $confirm, $userName)
     {
-        $result = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
-        if ($this->passwordHash->CheckPassword($oldpass, $result[0]->passwd)) {
+        $result = DB::table('user')->where('user', $userName)->first();
+        if ($this->passwordHash->CheckPassword($oldpass, $result->passwd)) {
             $hashPassword =  $this->passwordHash->HashPassword($newpass);
             DB::update('UPDATE user SET passwd = ? WHERE user = ?', array($hashPassword, $userName));
             return true;

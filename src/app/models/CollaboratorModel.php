@@ -2,13 +2,16 @@
 
 class CollaboratorModel
 {
+    const SUCCESS = 'OK';
+    const ERROR_NO_USER = 'error1';
+    const ERROR_SAME_USER = 'error2';
     protected $projectModel;
 
     public function add($mission, $value)
     {
         if ($value == 'public' || $value == 'private') {
             DB::update('UPDATE mission SET collaborators= ? WHERE mission_name= ?', array($value, $mission));
-            return "OK";
+            return CollaboratorModel::SUCCESS;
         }
         $allUser = array();
         $result = DB::select('SELECT * FROM user');
@@ -24,23 +27,23 @@ class CollaboratorModel
             }
         }
         if ($check == false) {
-            return "error1";
+            return CollaboratorModel::ERROR_NO_USER;
         }
-        $result1 = DB::select('SELECT * FROM mission WHERE mission_name= ?', array($mission));
-        $share = $result1[0]->collaborators;
+        $result1 = DB::table('mission')->where('mission_name', $mission)->first();
+        $share = $result1->collaborators;
         if ($share == 'public' || $share == 'private') {
             DB::update('UPDATE mission SET collaborators= ? WHERE mission_name= ?', array($value, $mission));
-            return "OK";
+            return CollaboratorModel::SUCCESS;
         } else {
             $shareArray = explode(',', $share);
             $num = count($shareArray);
             for ($i = 0; $i < $num; $i++) {
                 if($shareArray[$i] == $value)
-                    return 'error2';
+                    return CollaboratorModel::ERROR_SAME_USER;
             }
             $newShare = $share.','.$value;
             DB::update('UPDATE mission SET collaborators= ? WHERE mission_name= ?', array($newShare, $mission));
-            return "OK";
+            return CollaboratorModel::SUCCESS;
         }
     }
 
@@ -58,17 +61,17 @@ class CollaboratorModel
         }
         if (count($listUserArray) == 0) {
             DB::update("UPDATE mission SET collaborators='private' WHERE mission_name= ?", array($mission));
-            return "OK";
+            return true;
         }
         $newShare = implode(",", $listUserArray);
         DB::update("UPDATE mission SET collaborators= ? WHERE mission_name= ?", array($newShare,$mission));
-        return "OK";
+        return true;
     }
 
     public function find($mission)
     {
-        $result = DB::select('SELECT * FROM mission WHERE mission_name= ?', array($mission));
-        $listUser = $result[0]->collaborators;
+        $result = DB::table('mission')->where('mission_name', $mission)->first();
+        $listUser = $result->collaborators;
         $listUserArray = explode(',', $listUser);
         if ($listUserArray[0] == 'public') {
             return json_encode(array('public'));
@@ -89,8 +92,8 @@ class CollaboratorModel
         foreach ($result as $result) {
             $alluser[] = $result->user;
         }
-        $result1 = DB::select('SELECT * FROM mission WHERE mission_name = ?', array($mission));
-        $share = $result1[0]->collaborators;
+        $result1 = DB::table('mission')->where('mission_name', $mission)->first();
+        $share = $result1->collaborators;
         $shareArray = explode(',', $share);
         $countUser = count($alluser);
         $countShareArray = count($shareArray);

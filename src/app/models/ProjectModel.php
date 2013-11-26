@@ -21,8 +21,8 @@ class ProjectModel
 
     public function delete($id)
     {
-        $result      = DB::select('SELECT * FROM mission WHERE id = ?', array($id));
-        $missionName = $result[0]->mission_name;
+        $result = DB::table('mission')->where('id', $id)->first();
+        $missionName = $result->mission_name;
         DB::delete('DELETE FROM mission WHERE id= ?', array($id));
         $arrayImage = array(
             'id_pro' => array()
@@ -91,9 +91,8 @@ class ProjectModel
             $result[] = $results;
         }
         $num = count($result);
-        for ($i = 0; $i < $num; $i++){
-
-                if ($session != $user ) {
+        for ($i = 0; $i < $num; $i++) {
+                if ($session != $user) {
                     if ($result[$i]->collaborators != "public") {
                         if ($result[$i]->collaborators == "private") {
                             unset($result[$i]);
@@ -113,7 +112,6 @@ class ProjectModel
                         }
                     }
                 }
-
         }
         foreach ($result as $result) {
             $list['result'][] = $result;
@@ -127,7 +125,7 @@ class ProjectModel
         $list = array(
             'num_page'   => 1,
             'result'     => array(),
-            'numImg'     =>array()
+            'numImg'     => array()
         );
         $missionArray = array();
         $result = array();
@@ -137,7 +135,7 @@ class ProjectModel
             $result[] = $results;
         }
         $num = count($result);
-        for ($i = 0 ;$i < $num; $i++) {
+        for ($i = 0; $i < $num; $i++) {
                 if ($session != $user ) {
                     if ($result[$i]->collaborators != "public") {
                         if ($result[$i]->collaborators == "private") {
@@ -183,8 +181,8 @@ class ProjectModel
                     'mission'       => $missionArray[$i]->mission_name,
                     'img'           => $noImg,
                     'id'            => $missionArray[$i]->id,
-                    'collaborators' => (string)$missionArray[$i]->collaborators,
-                    'num_img'       =>  $result2[0]->numImg
+                    'collaborators' => $missionArray[$i]->collaborators,
+                    'num_img'       => $result2[0]->numImg
                 );
                 $list['result'][] = $arrayTemp;
                 continue;
@@ -198,10 +196,10 @@ class ProjectModel
             $results3 = DB::select('SELECT * FROM project where user = ?  AND id_pro= ?', array($user, $projectId));
             $arrayTemp = array(
                 'mission'       => $missionArray[$i]->mission_name,
-                'img'           =>  $results3[0]->url_square,
+                'img'           => $results3[0]->url_square,
                 'id'            => $missionArray[$i]->id,
-                'collaborators' => (string)$missionArray[$i]->collaborators,
-                'num_img'       =>  $result2[0]->numImg
+                'collaborators' => $missionArray[$i]->collaborators,
+                'num_img'       => $result2[0]->numImg
             );
             $list['result'][] = $arrayTemp;
         }
