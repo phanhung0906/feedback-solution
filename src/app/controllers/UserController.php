@@ -15,14 +15,16 @@ class UserController extends Controller
     {
         if (!Session::has('user')) {
             return View::make('user.login')->with('error', '');
-        } else return Redirect::to('/');
+        }
+        return Redirect::to('/');
     }
 
     public function getRegister()
     {
         if (!Session::has('user')) {
             return View::make('user.register')->with('error', '');
-        } else return Redirect::to('/');
+        }
+        return Redirect::to('/');
     }
 
     public function postRegister()
@@ -57,8 +59,8 @@ class UserController extends Controller
         if ($response == true) {
             Session::put('user', $userName);
             return Redirect::to('/');
-        } else
-            return View::make('user.login')->with('error', $error);
+        }
+        return View::make('user.login')->with('error', $error);
     }
 
     public function changeAction()
@@ -73,8 +75,8 @@ class UserController extends Controller
         $response = $this->userModel->change($oldpass, $newpass, $confirm, $user);
         if ($response == true) {
             return Redirect::to('/');
-        } else
-            return View::make('user.password')->with('error', $error)->with('project', $data['result']);
+        }
+        return View::make('user.password')->with('error', $error)->with('project', $data['result']);
     }
 
     public function logoutAction()

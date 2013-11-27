@@ -4,13 +4,15 @@
     {
         if (!Session::has('user')) {
             return View::make('index');
-        } else return Redirect::to('/'.Session::get('user').'/page/1');
+        }
+        return Redirect::to('/'.Session::get('user').'/page/1');
     });
 
     Route::filter('check-user',function()
     {
-        if (!Session::has('user'))
+        if (!Session::has('user')) {
             return Redirect::to('login');
+        }
     });
 
     if (!Session::has('user')) {
