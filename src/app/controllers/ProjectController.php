@@ -21,14 +21,15 @@ class ProjectController extends Controller
                         'projectImg' => $project['result'],
                         'num_page'   => $project['num_page'],
                         'user'       => $user,
-                        'session'    => $session
+                        'session'    => $session,
+                        'page'       => $page
                     );
         return View::make('project.project',$data);
     }
 
     public function addAction()
     {
-        $user = $_POST['user'];
+        $user        = $_POST['user'];
         $missionName = $_POST['missionName'];
         echo $this->projectModel->add($user, $missionName);
     }
@@ -41,9 +42,9 @@ class ProjectController extends Controller
 
     public function editAction()
     {
-        $id = $_POST['id'];
+        $id          = $_POST['id'];
         $missionName = $_POST['mission_name'];
-        $user = $_POST['user'];
+        $user        = $_POST['user'];
         echo $this->projectModel->edit($id, $missionName, $user);
     }
 }
