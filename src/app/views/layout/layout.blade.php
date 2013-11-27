@@ -28,6 +28,7 @@
     <div class="missionPageTemp hide">
         <a data-page="#page#">#numpage#</a>
     </div>
+
     <div class="pictemp hide">
         <li class='pull-left'>
             <span class="picture">
@@ -36,6 +37,12 @@
         </li>
     </div>
 
+    <div class="missionMenu hide">
+        <li><a href="#url#" data-id="#mission#">#mission#</a></li>
+    </div>
+    <div class="missioncurrent hide">
+        <span>Project / #mission#</span>
+    </div>
     <!-- temp -->
 </div>
 <script type="text/javascript">

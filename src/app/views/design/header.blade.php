@@ -57,11 +57,3 @@
         </ul>
     </div>
 </div>
-
-<!-- temp -->
-<div class="missionMenu hide">
-    <li><a href="#url#" data-id="#mission#">#mission#</a></li>
-</div>
-<div class="missioncurrent hide">
-    <span>Project / #mission#</span>
-</div>

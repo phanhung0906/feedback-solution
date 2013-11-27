@@ -10,16 +10,9 @@
 
             <li class="dropdown projectmenu" <?php if(count($project) == 0)  echo "style='display: none;'" ?>>
                 <a href="" class="dropdown-toggle" data-toggle="dropdown"> Project <b class="caret"></b></a>
-                <ul class="dropdown-menu project" style="overflow: auto;max-height: 400px;">
-                    <?php if(isset($user)): ?>
-                        @foreach($project as $project)
-                             <li><a href="http://<?= ROOT_URL . '/' . $user . '/' . $project->mission_name . '/page/1' ?>" data-id="<?= $project->mission_name ?>">{{$project->mission_name}}</a></li>
-                        @endforeach
-                    <?php else: ?>
                         @foreach($project as $project)
                              <li><a href="http://<?= ROOT_URL . '/' . $session . '/' . $project->mission_name . '/page/1' ?>" data-id="<?= $project->mission_name ?>">{{$project->mission_name}}</a></li>
                         @endforeach
-                    <?php endif; ?>
                 </ul>
             </li>
         </ul>
@@ -29,7 +22,7 @@
                 <a href="" class="dropdown-toggle glyphicon glyphicon-cog" data-toggle="dropdown"><b class="caret"></b></a>
                 <ul class="dropdown-menu showmenu" style="width:200px">
                     <li>
-                        <a href="http://<?= ROOT_URL . '/' . $session .'/page/1' ?>"><span class="fa fa-home"></span> Home</a>
+                        <a href="http://<?= ROOT_URL ?>"><span class="fa fa-home"></span> Home</a>
                     </li>
 
                     <!-- Change password -->
@@ -43,12 +36,4 @@
             </li>
         </ul>
     </div>
-</div>
-
-<!-- temp -->
-<div class="missionMenu hide">
-    <li><a href="#url#" data-id="#mission#">#mission#</a></li>
-</div>
-<div class="missioncurrent hide">
-    <span>Project / #mission#</span>
 </div>

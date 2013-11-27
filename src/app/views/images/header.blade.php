@@ -32,7 +32,7 @@
                 <a href="" class="dropdown-toggle glyphicon glyphicon-cog" data-toggle="dropdown"><b class="caret"></b></a>
                 <ul class="dropdown-menu showmenu" style="width:200px">
                     <li>
-                        <a href="http://<?= ROOT_URL . '/' . $session .'/page/1' ?>"><span class="fa fa-home"></span> Home</a>
+                        <a href="http://<?= ROOT_URL ?>"><span class="fa fa-home"></span> Home</a>
                     </li>
 
 
@@ -60,10 +60,3 @@
     </div>
 </div>
 
-<!-- temp -->
-<div class="missionMenu hide">
-    <li><a href="#url#" data-id="#mission#">#mission#</a></li>
-</div>
-<div class="missioncurrent hide">
-    <span>Project / #mission#</span>
-</div>

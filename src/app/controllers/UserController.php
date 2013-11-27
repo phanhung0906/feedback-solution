@@ -70,13 +70,19 @@ class UserController extends Controller
         $confirm  = Input::get('confirm');
         $user     = Session::get('user');
         $get      = '';
-        $data     = $this->projectModel->find($user, $get);
+        $list     = $this->projectModel->find($user, $get);
         $error    = View::make('error.password');
         $response = $this->userModel->change($oldpass, $newpass, $confirm, $user);
+        $data     = array(
+                        'user'        => $user,
+                        'session'     => $user,
+                        'error'       => $error,
+                        'project'     => $list['result'],
+                    );
         if ($response == true) {
             return Redirect::to('/');
         }
-        return View::make('user.password')->with('error', $error)->with('project', $data['result']);
+        return View::make('user.password',$data);
     }
 
     public function logoutAction()

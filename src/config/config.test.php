@@ -7,4 +7,5 @@ mysql_connect(DB_SERVER,DB_USER,DB_PASSWORD);
 mysql_select_db(DB_NAME);
 define("ROOT_URL",$_SERVER['SERVER_NAME']);
 define("IMAGES_URL",'phanhung.byethost9.com');
+define("ASSETS",'phanhung.byethost9.com/src/asset');
 define("IMAGES_DIR",$_SERVER['DOCUMENT_ROOT'].'/picture/uploads');

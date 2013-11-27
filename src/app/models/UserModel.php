@@ -14,7 +14,7 @@ class UserModel
 
     public function register($userName, $password)
     {
-        if ($userName == null || $userName == 'private' || $userName == 'public' || $userName == ' ') {
+        if ($userName == 'logout' || $userName == 'private' || $userName == 'public' || $userName == 'setting') {
             return UserModel::ERROR_EXIST_USER;
         }
         $results = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
