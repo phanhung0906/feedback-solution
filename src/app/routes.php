@@ -19,29 +19,29 @@
         Route::controller('/', 'UserController');
     }
 
-    Route::group(array('before'=>'check-user'), function()
+    Route::group(array('before' => 'check-user'), function()
     {
        # For ajax
        # Route::post('listproject','ProjectController@listProject');
        # Route::post('ProjectImg','ProjectController@ProjectImg');
-        Route::post('editProject', 'ProjectController@editAction');
-        Route::post('deleteProject', 'ProjectController@deleteAction');
-        Route::post('addProject', 'ProjectController@addAction');
-        Route::post('upload', 'ImageController@uploadAction');
+        Route::post('/project/edit', 'ProjectController@editAction');
+        Route::post('/project/delete', 'ProjectController@deleteAction');
+        Route::post('/project/add', 'ProjectController@addAction');
+        Route::post('/image/upload', 'ImageController@uploadAction');
        # Route::post('listImage','ImageController@listImage');
-        Route::post('editImage', 'ImageController@editAction');
-        Route::post('deleteImage', 'ImageController@deleteAction');
-        Route::post('design', 'DesignController@listAction');
-        Route::post('addComment', 'CommentController@addAction');
-        Route::post('deleteComment', 'CommentController@deleteAction');
-        Route::post('editComment', 'CommentController@editAction');
-        Route::post('listComment', 'CommentController@listAction');
-        Route::post('checkDeleteButton', 'ButtonController@checkAction');
-        Route::post('deleteButton', 'ButtonController@deleteAction');
-        Route::post('addCollaborator', 'CollaboratorController@addAction');
-        Route::post('deleteCollaborator', 'CollaboratorController@deleteAction');
-        Route::post('listCollaborator', 'CollaboratorController@listAction');
-        Route::post('userCollaborator', 'CollaboratorController@listUserAction');
+        Route::post('/image/edit', 'ImageController@editAction');
+        Route::post('/image/delete', 'ImageController@deleteAction');
+        Route::post('/design/list', 'DesignController@listAction');
+        Route::post('/comment/add', 'CommentController@addAction');
+        Route::post('/coomment/delete', 'CommentController@deleteAction');
+        Route::post('/comment/edit', 'CommentController@editAction');
+        Route::post('/comment/list', 'CommentController@listAction');
+        Route::post('/button/check', 'ButtonController@checkAction');
+        Route::post('/button/delete', 'ButtonController@deleteAction');
+        Route::post('/collaborator/add', 'CollaboratorController@addAction');
+        Route::post('/collaborator/delete', 'CollaboratorController@deleteAction');
+        Route::post('/collaborator/list', 'CollaboratorController@listAction');
+        Route::post('/collaborator/listuser', 'CollaboratorController@listUserAction');
 
         # Load page
         Route::get('/{user}/{project}/page/{num_page}', 'ImageController@indexAction');

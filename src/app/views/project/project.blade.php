@@ -38,15 +38,13 @@
                     @foreach($projectImg as $projectImg)
                         <li class='pull-left'>
                             <a href="http://<?= ROOT_URL.'/'. $user.'/'. $projectImg['mission'].'/page/1' ?>" class="picture">
-                                <img src="http://<?= IMAGES_URL.$projectImg['img'] ?>" class="img img-thumbnail"/>
+                                <img src="http://<?= IMAGES_URL . $projectImg['img'] ?>" class="img img-thumbnail"/>
                             </a>
                             <div class="missionName" style="overflow: hidden;height:43px;cursor:default;" title="Click to change name project">{{$projectImg['mission']}}</div>
                             <span class="numImg">Images <span class="badge">{{$projectImg['num_img']}}</span></span>
-                            <?php if(Session::has('user') && isset($_GET['user'])): ?>
-                                <?php if(Session::get('user') == ($_GET['user'])): ?>
-                                    <a class="deleteMission pull-right" data-toggle="modal" href="#modalDeleteMission" data-id={{$projectImg['id']}}><span class="fa fa-trash-o"></span></a>
-                                <?php endif; ?>
-                            <?php endif; ?>
+                            @if($user == $session)
+                                  <a class="deleteMission pull-right" data-toggle="modal" href="#modalDeleteMission" data-id={{$projectImg['id']}}><span class="fa fa-trash-o"></span></a>
+                            @endif
                         </li>
                     @endforeach
                 </ul>
@@ -56,7 +54,7 @@
                 <ul class="pagination missionPage">
                     @if($num_page > 1)
                         @for($i=1 ;$i<$num_page+1;$i++)
-                           <li <?php if($_GET['page'] == $i) echo "class='active'" ?>> <a href="http://<?= ROOT_URL.'/'.$_GET['user'].'/page/'.$i ?>">{{$i}}</a></li>
+                           <li <?php if($page == $i) echo "class='active'" ?>> <a href="http://<?= ROOT_URL . '/' . $user . '/page/' .$i ?>">{{$i}}</a></li>
                         @endfor
                     @endif
                 </ul>
@@ -70,19 +68,17 @@
                 </a>
                 <div class="missionName" style="overflow: hidden;height:43px;cursor:default;" title="Click to change name project">#mission#</div>
                 <span class="numImg">Images <span class="badge">#numImg#</span></span>
-                <?php if(Session::has('user') && isset($_GET['user'])): ?>
-                    <?php if(Session::get('user') == ($_GET['user'])): ?>
+                @if($user == $session)
                         <a class="deleteMission pull-right" data-toggle="modal" href="#modalDeleteMission" data-id="#id#"><span class="fa fa-trash-o"></span></a>
-                    <?php endif; ?>
-                <?php endif; ?>
+                @endif
             </li>
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function(){
-        <?php if( Session::has('user') && isset($_GET['user'])): ?>
-            <?php if( Session::get('user') == ($_GET['user'])): ?>
+       <?php if( $session == $user): ?>
             // Edit name of Project
             $('.missionImg').on('click','.missionName',function(){
                 $self = $(this);
@@ -104,8 +100,8 @@
                         break;
                     case 13:
                         var name = $(this).val();
-                        for(var i= 0; i<name.length ; i++){
-                            if(name.charAt(i)== '-'){
+                        for(var i = 0; i< name.length ; i++){
+                            if(name.charAt(i) == '-'){
                                 $.notify("Project's name have character '-'");
                                 return;
                             }
@@ -125,17 +121,17 @@
                         $('.opacity').show();
                         $.ajax({
                             type:'post',
-                            url: 'http://<?= ROOT_URL ?>/editProject',
+                            url: '/project/edit',
                             data: {
-                                id: $self.data('currentProjectId'),
-                                mission_name: name,
-                                user:"<?= $_GET['user'] ?>"
+                                id : $self.data('currentProjectId'),
+                                mission_name : name,
+                                user : "<?= $user ?>"
                             }
                         }).done(function(response){
                                 $('.opacity').hide();
                                 if (response != false) {
                                     $self.parent('li').find('.missionName').html('').show().html(response);
-                                    $url = "<?= 'http://'.ROOT_URL .'/'. $_GET['user'].'/' ?>" + response+'/page/1';
+                                    $url = "<?= 'http://'.ROOT_URL .'/'. $user . '/' ?>" + response+'/page/1';
                                     $self.prev().attr('href',$url);
                                     $self.hide().appendTo('.divchangename');
                                 }
@@ -152,8 +148,8 @@
             });
 
             $('.missionImg').on("click",".deleteMission",function(){
-                $self= $(this);
-                $id = $self.attr("data-id");
+                $self = $(this);
+                $id   = $self.attr("data-id");
                 $name = $self.parent('.pull-left').find('.missionName').html();
                 $('#modalDeleteMission').find('.modal-body').html('').append('<p>Are you sure want to delete project <b>' + $name +'</b></p>');
                 var template = $('.confirm1').html().replace(/#id#/g,$id);
@@ -166,7 +162,7 @@
                     $id = $self1.data("id");
                     $.ajax({
                         type:"post",
-                        url : 'http://<?= ROOT_URL ?>/deleteProject',
+                        url : '/project/delete',
                         data:{
                             id : $id
                         }
@@ -181,8 +177,7 @@
                         });
                 });
             });
-            <?php endif; ?>
-        <?php endif; ?>
+       <?php endif; ?>
     })
 </script>
 @endsection

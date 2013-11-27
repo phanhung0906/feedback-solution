@@ -54,7 +54,7 @@
                     $.ajax({
                         type:'post',
                         dataType:'json',
-                        url:'http://<?= ROOT_URL ?>/userCollaborator',
+                        url:'/collaborator/listuser',
                         data:{
                             user:"<?= $session ?>",
                             mission : mission
@@ -77,7 +77,7 @@
                     $.ajax({
                         type:'post',
                         dataType:'json',
-                        url:'http://<?= ROOT_URL ?>/listCollaborator',
+                        url:'/collaborator/list',
                         data:{
                             mission : mission
                         }
@@ -106,7 +106,7 @@
                     var user = $self.prev('.user_share').html();
                     $.ajax({
                         type:'post',
-                        url:'http://<?= ROOT_URL ?>/deleteCollaborator',
+                        url:'/collaborator/delete',
                         data:{
                             mission :'<?= $newget ?>',
                             user : user
@@ -127,7 +127,7 @@
                     var value = $self.prev('.inputShareUser').val();
                     $.ajax({
                         type:'post',
-                        url:'http://<?= ROOT_URL ?>/addCollaborator',
+                        url:'/collaborator/add',
                         data:{
                             mission_name :'<?= $newget ?>',
                             value : value

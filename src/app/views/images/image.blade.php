@@ -70,7 +70,6 @@
     <script type="text/javascript">
         $(document).ready(function() {
             <?php if($user == $session): ?>
-
                 // Edit name of Image in project_name
                 $('.projectImg').on('click','.name',function(){
                     $self = $(this);
@@ -116,12 +115,12 @@
                             $('.opacity').show();
                             $.ajax({
                                 type: 'POST',
-                                url: 'http://<?= ROOT_URL ?>/editImage',
+                                url: '/image/edit',
                                 data: {
-                                    id_pro: $self.data('currentImgId'),
-                                    name: name,
-                                    user:"<?= $user ?>",
-                                    mission: "<?= $newget ?>"
+                                    id_pro  : $self.data('currentImgId'),
+                                    name    : name,
+                                    user    : "<?= $user ?>",
+                                    mission : "<?= $newget ?>"
                                 }
                             }).done(function(response){
                                     $('.opacity').hide();
@@ -160,7 +159,7 @@
                         $id = $self1.data("id");
                         $.ajax({
                             type:"post",
-                            url : 'http://<?= ROOT_URL ?>/deleteImage',
+                            url : '/image/delete',
                             data:{
                                 id : $id
                             }

@@ -1,4 +1,3 @@
-
 <div class="menu hide">
 </div>
 <div class="navbar navbar-default navbar-fixed-top">

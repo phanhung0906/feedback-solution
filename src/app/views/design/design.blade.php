@@ -86,12 +86,12 @@
             function picture(user,mission,name){
                 $.ajax({
                     type: 'post',
-                    url : 'http://<?= ROOT_URL ?>/design',
+                    url : '/design/list',
                     dataType: 'json',
                     data:{
-                        user:user,
-                        mission:mission,
-                        name : name
+                        user    : user,
+                        mission : mission,
+                        name    : name
                     }
                 }).done(function(response){
                         $('.oneimg').html('');
@@ -110,7 +110,7 @@
                     });
             }
 
-            picture('<?= $user ?>', "<?= $newget ?>", "<?= $newget2 ?>");
+            picture('<?= $user ?>', '<?= $newget ?>', '<?= $newget2 ?>');
 
             $('.tool').click(function(){
                 action = $(this).attr('data-action');
@@ -179,7 +179,7 @@
                 $id_btn = $self.attr('data-id');  id_submit = $id_btn;
                 $.ajax({
                     type:"post",
-                    url : 'http://<?= ROOT_URL ?>/listComment',
+                    url : '/comment/list',
                     dataType:'json',
                     data:{
                         id_pro : $id_pro,
@@ -199,11 +199,10 @@
                             <?php endif; ?>
                         }
                         $('.showcmt').find("[data-user='"+"<?= $session ?>"+"']").find('.editcmt').show();
-
                         y = response.result[0].y ;
                         x = response.result[0].x ;
                         oy = y ; ox = x;
-                            $('.comment').css({'top':parseInt(y) , 'left':parseInt(x)+23,'position':'absolute' }).toggle();
+                        $('.comment').css({'top':parseInt(y) , 'left':parseInt(x)+23,'position':'absolute' }).toggle();
                     });
             });
 
@@ -213,7 +212,7 @@
                 $id = $self1.parents('.divcmt').attr('data-id');
                 $.ajax({
                     type:"post",
-                    url : 'http://<?= ROOT_URL ?>/deleteComment',
+                    url : '/comment/delete',
                     data:{
                         id : $id
                     }
@@ -222,7 +221,7 @@
                         $self1.parents('.divcmt').remove();
                         $.ajax({
                             type:"post",
-                            url : 'http://<?= ROOT_URL ?>/checkDeleteButton',
+                            url : '/button/check',
                             data:{
                                 id_btn : id_submit
                             }
@@ -244,7 +243,7 @@
             $('.oneimg').on('click','.deletebtn',function(){
                 $.ajax({
                     type:"post",
-                    url :'http://<?= ROOT_URL ?>/deleteButton',
+                    url :'/button/delete',
                     data:{
                         id_btn : id_submit
                     }
@@ -313,7 +312,7 @@
                         var id = $self.parent('.divcmt').attr('data-id');
                         $.ajax({
                             type:"post",
-                            url : 'http://<?= ROOT_URL ?>/editComment',
+                            url : '/comment/edit',
                             data:{
                                 id : id,
                                 new_comment : new_comment
@@ -332,22 +331,22 @@
             });
 
             $('.oneimg').on('click','.submit',function(){
-                $self = $(this);
-                $user = '<?= $session ?>';
+                $self   = $(this);
+                $user   = '<?= $session ?>';
                 $id_pro = $('.image').find('#move').attr('data-id');
-                $cmt = $self.parent('.comment').find('.cmt').val();
+                $cmt    = $self.parent('.comment').find('.cmt').val();
                 if( $cmt == ' ' || $cmt == ''){
                     return false;
                 }else{
                     $.ajax({
                         type:"post",
-                        url : 'http://<?= ROOT_URL ?>/addComment',
+                        url : '/comment/add',
                         data:{
-                            user : $user,
+                            user   : $user,
                             id_pro : $id_pro,
-                            x: ox,
-                            y: oy,
-                            cmt : $cmt
+                            x      : ox,
+                            y      : oy,
+                            cmt    : $cmt
                         }
                     }).done(function(response){
                             a= new Date();
@@ -365,7 +364,7 @@
                             $('.cmt').val('');
                             if(id_submit ==0){
                                 $('.comment').hide();
-                                picture('<?= $user ?>','<?= $newget ?>','<?= $newget2 ?>');
+                                picture('<?= $user ?>', '<?= $newget ?>', '<?= $newget2 ?>');
                             }
                         });
                 }
