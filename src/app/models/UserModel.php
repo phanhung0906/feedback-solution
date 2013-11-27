@@ -39,7 +39,7 @@ class UserModel
             $hashPassword =  $this->passwordHash->HashPassword($newpass);
             DB::update('UPDATE user SET passwd = ? WHERE user = ?', array($hashPassword, $userName));
             return true;
-        } else
-            return false;
+        }
+        return false;
     }
 }

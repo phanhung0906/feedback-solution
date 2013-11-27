@@ -13,8 +13,8 @@ class ButtonModel
         if ($array_comment == null) {
             DB::delete('DELETE FROM button WHERE id_btn= ?', array($id));
             return true;
-        } else
-            return false;
+        }
+        return false;
     }
 
     public function delete($id)

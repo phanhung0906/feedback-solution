@@ -34,17 +34,17 @@ class CollaboratorModel
         if ($share == 'public' || $share == 'private') {
             DB::update('UPDATE mission SET collaborators= ? WHERE mission_name= ?', array($value, $mission));
             return CollaboratorModel::SUCCESS;
-        } else {
-            $shareArray = explode(',', $share);
-            $num = count($shareArray);
-            for ($i = 0; $i < $num; $i++) {
-                if($shareArray[$i] == $value)
-                    return CollaboratorModel::ERROR_SAME_USER;
-            }
-            $newShare = $share.','.$value;
-            DB::update('UPDATE mission SET collaborators= ? WHERE mission_name= ?', array($newShare, $mission));
-            return CollaboratorModel::SUCCESS;
         }
+        $shareArray = explode(',', $share);
+        $num = count($shareArray);
+        for ($i = 0; $i < $num; $i++) {
+            if($shareArray[$i] == $value) {
+                return CollaboratorModel::ERROR_SAME_USER;
+            }
+        }
+        $newShare = $share.','.$value;
+        DB::update('UPDATE mission SET collaborators= ? WHERE mission_name= ?', array($newShare, $mission));
+        return CollaboratorModel::SUCCESS;
     }
 
     public function delete($mission, $user)

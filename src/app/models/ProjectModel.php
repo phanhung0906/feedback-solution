@@ -48,8 +48,7 @@ class ProjectModel
         }
         $array = array();
         $result = DB::select('SELECT * FROM mission WHERE id != ? AND user= ?', array($id, $user));
-        foreach ($result as $result)
-        {
+        foreach ($result as $result) {
             $array[] = $result->mission_name;
         }
         $result2 = DB::select('SELECT COUNT(id) AS num FROM mission WHERE id != ? AND user=? AND (mission_name= ? OR mission_name LIKE ? )',
@@ -66,17 +65,18 @@ class ProjectModel
                     $i =0;
                 }
             }
-            if ($count_name == 0)  $newMissionName = $missionName;
+            if ($count_name == 0) {
+                $newMissionName = $missionName;
+            }
             DB::update('UPDATE mission SET mission_name = ? WHERE id = ?', array($newMissionName, $id));
             DB::update('UPDATE project SET mission_name = ? WHERE mission_name = ? AND user= ?', array($newMissionName, $name, $user));
             return $new_mission_name;
-        }else{
+        }
             $result3 = DB::select('SELECT * FROM mission WHERE id = ?',array($id));
             $name = $result3[0]->mission_name;
             DB::update('UPDATE mission SET mission_name = ? WHERE id = ?', array($missionName,$id));
             DB::update('UPDATE project SET mission_name = ? WHERE mission_name = ? AND user= ?', array($missionName, $name, $user));
             return $missionName;
-        }
     }
 
     public function find($user, $session)
