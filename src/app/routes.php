@@ -48,9 +48,16 @@
         Route::get('setting/{action}', function($action)
         {
             $projectModel = new ProjectModel();
-            $user = Session::get('user');
-            $data = $projectModel->find($user,'');
-            return View::make('user.'.$action)->with('error', '')->with('project', $data['result']);
+            $user         = Session::get('user');
+            $session      = Session::get('user');
+            $list         = $projectModel->find($user, $session);
+            $data         = array(
+                'user'        => $user,
+                'session'     => $session,
+                'error'       => '',
+                'project'     => $list['result'],
+            );
+            return View::make('user.'.$action,$data);
         });
         Route::get('/{user}/{project}/{id_pro}', 'DesignController@indexAction');
         Route::get('/logout', 'UserController@logoutAction');

@@ -1,4 +1,5 @@
 @extends('layout.layout')
+@include('project.header')
 @section('page')
 <ol class="breadcrumb">
     <li class="active"><b>Dasbboard</b></li>
@@ -26,7 +27,6 @@
         </div>
         <!-- /Delete Mission -->
 
-
         <div class='container home'>
             <div>
                 <div class="alert alert-warning alertEditProject" style="display: none;">
@@ -37,7 +37,7 @@
                 <ul class='list-unstyled missionImg' style='display:inline-block'>
                     @foreach($projectImg as $projectImg)
                         <li class='pull-left'>
-                            <a href="http://<?= ROOT_URL.'/'.$_GET['user'].'/'. $projectImg['mission'].'/page/1' ?>" class="picture">
+                            <a href="http://<?= ROOT_URL.'/'. $user.'/'. $projectImg['mission'].'/page/1' ?>" class="picture">
                                 <img src="http://<?= IMAGES_URL.$projectImg['img'] ?>" class="img img-thumbnail"/>
                             </a>
                             <div class="missionName" style="overflow: hidden;height:43px;cursor:default;" title="Click to change name project">{{$projectImg['mission']}}</div>
@@ -106,13 +106,20 @@
                         var name = $(this).val();
                         for(var i= 0; i<name.length ; i++){
                             if(name.charAt(i)== '-'){
+                                $.notify("Project's name have character '-'");
                                 return;
                             }
                         }
                         if (name == '') {
+                            $.notify("Project's name must not empty");
                             return;
                         }
                         if (name == ' ') {
+                            $.notify("Project's name must not space");
+                            return;
+                        }
+                        if (name == 'page') {
+                            $.notify("Project's name must not 'page'");
                             return;
                         }
                         $('.opacity').show();
@@ -121,7 +128,8 @@
                             url: 'http://<?= ROOT_URL ?>/editProject',
                             data: {
                                 id: $self.data('currentProjectId'),
-                                mission_name: name
+                                mission_name: name,
+                                user:"<?= $_GET['user'] ?>"
                             }
                         }).done(function(response){
                                 $('.opacity').hide();
@@ -167,6 +175,8 @@
                             if(response ){
                                 $.notify('Delete successfully','success');
                                 $self.parent('.pull-left').remove();
+                            }else{
+                                $.notify('Delete was not successfully','error');
                             }
                         });
                 });

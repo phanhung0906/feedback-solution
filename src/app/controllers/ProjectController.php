@@ -14,9 +14,16 @@ class ProjectController extends Controller
         $user    = $_GET['user'];
         $page    = $_GET['page'];
         $session = Session::get('user');
-        $data    = $this->projectModel->find($user, $session);
+        $list    = $this->projectModel->find($user, $session);
         $project = $this->projectModel->findImg($user, $session, $page);
-        return View::make('project.project')->with('project', $data['result'])->with('projectImg', $project['result'])->with('num_page', $project['num_page']);
+        $data    = array(
+                        'project'    => $list['result'],
+                        'projectImg' => $project['result'],
+                        'num_page'   => $project['num_page'],
+                        'user'       => $user,
+                        'session'    => $session
+                    );
+        return View::make('project.project',$data);
     }
 
     public function addAction()

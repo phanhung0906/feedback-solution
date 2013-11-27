@@ -15,8 +15,20 @@ class DesignController extends Controller
      {
          $user    = $_GET['user'];
          $session = Session::get('user');
-         $data    = $this->projectModel->find($user, $session);
-         return View::make('design.design')->with('project', $data['result']);
+         $get = $_GET['project'];
+         $newget = str_replace("-"," ",$get);
+         $get2    = $_GET['id_pro'];
+         $newget2  = str_replace("-", " ", $get2);
+         $list    = $this->projectModel->find($user, $session);
+         $data    = array(
+                        'user'    => $user,
+                        'session' => $session,
+                        'project' => $list['result'],
+                        'get'     => $get,
+                        'newget'  => $newget,
+                        'newget2' => $newget2
+                    );
+         return View::make('design.design',$data);
      }
 
     public function listAction()

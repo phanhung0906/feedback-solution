@@ -1,11 +1,9 @@
 @extends('layout.layout')
+@include('user.header')
 @section('page')
-<?php $get = $_GET['project_name'];
-$newget = str_replace("-"," ",$get);
-?>
 <ol class="breadcrumb">
-    <li><a href="http://<?= ROOT_URL.'/'.Session::get('user') ?>">Dasbboard</a></li>
-    <li><a href="http://<?= ROOT_URL.'/'.$_GET['user'].'/'.$_GET['project_name'] ?>"><?= $newget ?></a></li>
+    <li><a href="http://<?= ROOT_URL ?>">Dasbboard</a></li>
+    <li><a href="http://<?= ROOT_URL . '/' . $user . '/' . $get . '/page/1' ?>">{{$newget}}</a></li>
     <li class="active"><b>Collaborators</b></li>
 </ol>
 <div class="page">
@@ -42,7 +40,7 @@ $newget = str_replace("-"," ",$get);
                 </div>
                 <ul class="listUser" style="padding-left: 0;"></ul>
                 <div class="formAddUser" style="margin-top: 10px;background:#f5f5f5;border:1px solid #ddd;padding:4px;">
-                    <input class="form-control inputShare pull-left" placeholder="Enter user here..." style="width:85%;margin-right: 10px">
+                    <input class="form-control inputShareUser pull-left" placeholder="Enter user here..." style="width:85%;margin-right: 10px">
                     <button class="btn btn-default addUser" style="display: inline-block">Add</button>
                     <div class="user hide"><li class="alert username" style="margin:5px 5px 5px 0;padding: 10px;list-style: none;background: #999999 ;border:1px solid #ccc"><b class="user_share">#user#</b><span class="text-danger pull-right deleteUser" style="cursor: pointer;">(remove)</span></li></div>
                 </div>
@@ -52,26 +50,22 @@ $newget = str_replace("-"," ",$get);
 </div>
         <script type="text/javascript">
             $(document).ready(function(){
-                <?php
-                          $get = $_GET['project_name'];
-                          $newget = str_replace("-"," ",$get);
-                ?>
                 function listUser(mission){
                     $.ajax({
                         type:'post',
                         dataType:'json',
                         url:'http://<?= ROOT_URL ?>/userCollaborator',
                         data:{
-                            user:"<?= Session::get('user') ?>",
+                            user:"<?= $session ?>",
                             mission : mission
                         }
                     }).done(function(response){
                             var availableTags = new Array();
                             $num = response.result.length;
-                            for(var i =0;i<$num;i++){
+                            for(var i =0; i < $num; i++){
                                 availableTags[i] =  response.result[i];
                             }
-                            $( ".inputShare" ).autocomplete({
+                            $( ".inputShareUser" ).autocomplete({
                                 source: availableTags
                             });
                         });
@@ -119,19 +113,18 @@ $newget = str_replace("-"," ",$get);
                         }
                     }).done(function(response){
                             $('.opacity').hide();
-                            if(response == "OK"){
+                            if(response){
                                 $.notify("Delete success", "success");
                                 $self.parent('li').remove();
                             }else
                                 $.notify("Delete false", "error");
-
                         });
                 });
 
                 $('.addUser').click(function(){
                     $('.opacity').show();
                     $self = $(this);
-                    var value = $self.prev('.inputShare').val();
+                    var value = $self.prev('.inputShareUser').val();
                     $.ajax({
                         type:'post',
                         url:'http://<?= ROOT_URL ?>/addCollaborator',
@@ -161,7 +154,7 @@ $newget = str_replace("-"," ",$get);
                     var value = $self.find('.options').val();
                     if(value == 'public'){
                         $('.formradio').find('.listUser').html('');
-                        $('.formradio').find('.inputShare').val('');
+                        $('.formradio').find('.inputShareUser').val('');
                         $('.opacity').show();
                         $.ajax({
                             type:'post',
@@ -173,7 +166,7 @@ $newget = str_replace("-"," ",$get);
                         }).done(function(response){
                                 $('.opacity').hide();
                                 if(response == "OK"){
-                                    console.log('ok');
+                                   //Do anything
                                 }
                             });
                     }
@@ -191,7 +184,7 @@ $newget = str_replace("-"," ",$get);
                             }).done(function(response){
                                     $('.opacity').hide();
                                     if(response == "OK"){
-                                        console.log('ok');
+                                        //Do anything
                                     }
                                 });
                         }

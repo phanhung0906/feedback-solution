@@ -13,10 +13,20 @@ class CollaboratorController extends Controller
 
     public function indexAction()
     {
-        $user    = $_GET['user'];
-        $session = Session::get('user');
-        $data    = $this->projectModel->find($user, $session);
-        return View::make('user.collaborator')->with('error', '')->with('project', $data['result']);
+        $user        = $_GET['user'];
+        $session     = Session::get('user');
+        $get         = $_GET['project_name'];
+        $newget      = str_replace("-"," ",$get);
+        $list        = $this->projectModel->find($user, $session);
+        $data        = array(
+                        'user'        => $user,
+                        'session'     => $session,
+                        'error'       => '',
+                        'project'     => $list['result'],
+                        'get'         => $get,
+                        'newget'      => $newget
+                     );
+        return View::make('user.collaborator',$data);
     }
 
     public function addAction()

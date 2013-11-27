@@ -1,4 +1,5 @@
 @extends('layout.layout')
+@include('user.header')
 @section('page')
         <div>
             <div class="form-inline missionForm" style="margin-top: 30px">
@@ -9,14 +10,14 @@
                 <span class="chooseProject" <?php if(count($project) ==0) echo "style='display: none;'" ?>>
                     <span style="font-size:18px;padding-left:3%;padding-right:3%">Or Choose Project:</span>
                     <div class="form-group">
-                        <select class="form-control listMission" style="min-width:100px">
+                        <select class="form-control listMission">
                             @for($i = 0; $i < count($project); $i++)
-                            <option>{{$project[$i]->mission_name}}</option>
+                                 <option>{{$project[$i]->mission_name}}</option>
                             @endfor
                         </select>
                     </div>
                 </span>
-                <button id="submit-all" class="btn btn-primary" style="margin-left:5%;display: none"><span class="fa fa-cloud-upload"> Upload all files</span></button>
+                <button id="submit-all" class="btn btn-primary"><span class="fa fa-cloud-upload"> Upload all files</span></button>
             </div>
             <div class="formuploads">
                 <div id="dropzone">
@@ -30,6 +31,10 @@
             </div>
         </div>
 
+        <!-- temp -->
+        <div class="option hide">
+            <option>#mission#</option>
+        </div>
         <script type='text/javascript'>
             $(document).ready(function(){
                 $('.addMission').click(function(){
@@ -41,14 +46,18 @@
                             return;
                         }
                     }
+                    if ($mission_name == 'page'){
+                        $.notify("Project's name must not have name like 'page'");
+                        return;
+                    }
                     if( $mission_name != '' && $mission_name !=' '){
                         $('.opacity').show();
                         $.ajax({
                             type:'post',
                             url :'http://<?= ROOT_URL .'/addProject' ?>',
                             data:{
-                                mission_name:$mission_name,
-                                user:'<?= Session::get('user') ?>'
+                                missionName : $mission_name,
+                                user         : '<?= $session ?>'
                             }
                         }).done(function(response){
                                 $('.opacity').hide();
@@ -56,7 +65,7 @@
                                     var template = $('.option').html().replace(/#mission#/g,$mission_name);
                                     $self.parent('.missionForm').find('.listMission').append(template);
                                     var template2 = $('.missionMenu').html().replace(/#mission#/g,$mission_name)
-                                        .replace(/#url#/g,'http://'+'<?= ROOT_URL.'/'.Session::get('user') ?>'+'/'+$mission_name);
+                                        .replace(/#url#/g,'http://'+'<?= ROOT_URL . '/' . $session ?>'+ '/' + $mission_name);
                                     $('.menu').html('');
                                     $('.menu').append(template2);
                                     $($('.menu').html()).appendTo($('.showmenu').find('.project'));
@@ -70,6 +79,7 @@
                             });
                     }
                 });
+
                 var myDropzone = new Dropzone("#target",{  parallelUploads: 100, autoProcessQueue: false });
                 myDropzone.on("addedfile", function(file) {
                     $('#target').find('.dz-message').hide();
@@ -83,12 +93,14 @@
                         }
                     });
                 });
+
                 $("#submit-all").on("click", function() {
                     myDropzone.processQueue();
                 });
+
                 myDropzone.on("success", function(file, response) {
                     $project = $('.listMission').val();
-                    window.location = "http://<?= ROOT_URL.'/'.Session::get('user') ?>/"+$project+'/page/1';
+                    window.location = "http://<?= ROOT_URL . '/' . $session ?>/" + $project + '/page/1';
                     $('.opacity').hide().css({'cursor':'auto'});
                 });
                 myDropzone.on("error", function(file, response) {

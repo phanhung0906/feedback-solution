@@ -6,7 +6,7 @@ class DesignModel
     public function find($name, $mission, $user)
     {
         $list = array(
-            'result'     => array(),
+            'result'    => array(),
             'btn'       => array(),
         );
         $result = DB::select('SELECT * FROM project WHERE name= ? AND BINARY mission_name = ? AND user= ? ', array($name, $mission, $user));
