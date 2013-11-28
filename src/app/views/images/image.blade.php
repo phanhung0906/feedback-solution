@@ -1,6 +1,6 @@
 @extends('layout.layout')
-@include('images.header')
 @section('page')
+@include('images.header')
 <ol class="breadcrumb">
     <li><a href="http://<?= ROOT_URL ?>">Dasbboard</a></li>
     <li class="active"><b >{{$newget}}</b></li>

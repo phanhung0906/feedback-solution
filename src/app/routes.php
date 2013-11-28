@@ -33,7 +33,7 @@
         Route::post('/image/delete', 'ImageController@deleteAction');
         Route::post('/design/list', 'DesignController@listAction');
         Route::post('/comment/add', 'CommentController@addAction');
-        Route::post('/coomment/delete', 'CommentController@deleteAction');
+        Route::post('/comment/delete', 'CommentController@deleteAction');
         Route::post('/comment/edit', 'CommentController@editAction');
         Route::post('/comment/list', 'CommentController@listAction');
         Route::post('/button/check', 'ButtonController@checkAction');

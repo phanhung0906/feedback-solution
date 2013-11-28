@@ -1,6 +1,6 @@
 @extends('layout.layout')
-@include('project.header')
 @section('page')
+@include('project.header')
 <ol class="breadcrumb">
     <li class="active"><b>Dasbboard</b></li>
 </ol>

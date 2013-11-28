@@ -4,7 +4,7 @@
             <title>The best way to feedback</title>
             <meta charset=utf-8 />
             <link rel="stylesheet" href="http://<?= ASSETS_URL ?>/asset/vendor/bootstrap/css/bootstrap.min.css" />
-            <link rel="icon" href="http://<?= IMAGES_URL ?>/asset/picture/red.png" type="image/x-icon" />
+            <link rel="icon" href="http://<?= IMAGES_URL ?>/picture/red.png" type="image/x-icon" />
             <link rel="stylesheet" href="http://<?= ASSETS_URL ?>/asset/vendor/css/style.css" />
             <link rel="stylesheet" href="http://<?= ASSETS_URL ?>/asset/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.3.custom.min.css" />
             <link rel="stylesheet" href="http://<?= ASSETS_URL ?>/asset/vendor/font-awesome/css/font-awesome.min.css">

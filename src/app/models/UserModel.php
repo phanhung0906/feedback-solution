@@ -12,7 +12,7 @@ class UserModel
         $this->passwordHash = new PasswordHash(8, false);
     }
 
-    public function register($userName, $password)
+    public function register($userName, $password, $email)
     {
         if ($userName == 'logout' || $userName == 'private' || $userName == 'public' || $userName == 'setting') {
             return UserModel::ERROR_EXIST_USER;
@@ -20,7 +20,7 @@ class UserModel
         $results = DB::select('SELECT * FROM user WHERE user = ?', array($userName));
         if ($results == null) {
             $hashPassword =  $this->passwordHash->HashPassword($password);
-            DB::insert('INSERT INTO user (user, passwd) values (?, ?)', array($userName, $hashPassword));
+            DB::insert('INSERT INTO user (user, passwd, email) values (?, ?, ?)', array($userName, $hashPassword, $email));
             return UserModel::SUCCESS;
         }
         return UserModel::ERROR_NAME_USER;

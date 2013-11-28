@@ -1,6 +1,6 @@
 @extends('layout.layout')
-@include('user.header')
 @section('page')
+@include('user.header')
 <ol class="breadcrumb">
     <li><a href="http://<?= ROOT_URL ?>">Dasbboard</a></li>
     <li><a href="http://<?= ROOT_URL . '/' . $user . '/' . $get . '/page/1' ?>">{{$newget}}</a></li>
@@ -166,7 +166,7 @@
                         }).done(function(response){
                                 $('.opacity').hide();
                                 if(response == "OK"){
-                                    $.notify("Public", "success");
+                             //       $.notify("Public", "success");
                                 }
                             });
                     }
@@ -184,7 +184,7 @@
                             }).done(function(response){
                                     $('.opacity').hide();
                                     if(response == "OK"){
-                                        $.notify("Private", "success");
+                                  //      $.notify("Private", "success");
                                     }
                                 });
                         }

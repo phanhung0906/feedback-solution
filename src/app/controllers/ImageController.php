@@ -73,10 +73,10 @@ class ImageController extends Controller
                  $name         = $arrayName[0];
                  echo $this->imageModel->upload($user, $url_original, $url_square, $mission, $name, $size);
              } else {
-                 echo "False to upload file\n";
+                 echo false;
              }
          }
-         echo 'False';
+         echo false;
     }
 
     public function deleteAction()

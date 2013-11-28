@@ -9,7 +9,7 @@
 
             <li class="dropdown projectmenu" <?php if(count($project) == 0)  echo "style='display: none;'" ?>>
                 <a href="" class="dropdown-toggle" data-toggle="dropdown"> Project <b class="caret"></b></a>
-                <ul>
+                <ul class="dropdown-menu project" style="overflow: auto;max-height: 400px;">
                         @foreach($project as $project)
                              <li><a href="http://<?= ROOT_URL . '/' . $session . '/' . $project->mission_name . '/page/1' ?>" data-id="<?= $project->mission_name ?>">{{$project->mission_name}}</a></li>
                         @endforeach

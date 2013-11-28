@@ -7,7 +7,7 @@ class ImageModel
     {
         DB::insert('INSERT INTO project (user,content,url_square,mission_name,name,size) values (?, ?,?, ?,?, ?)',
             array($user, $urlOriginal, $urlSquare, $mission, $name, $size));
-        return mysql_insert_id();
+        return true;
     }
 
     public function delete($id)

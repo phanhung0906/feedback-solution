@@ -1,7 +1,6 @@
 @extends('layout.layout')
-@include('design.header')
 @section('page')
-
+@include('design.header')
 <div class="page">
     <div class="maintain">
         <!-- Show Image design -->
@@ -80,6 +79,7 @@
                 }, function() {
                     $('.tickcmt').hide();
                     $('.tick').hide();
+                    $( ".comment").hide();
                 }
             );
 
@@ -135,7 +135,7 @@
             }
 
             ox = 0; oy = 0;
-            $( ".onepic").on('mousemove','img',function(e) {
+            $( ".oneimg").on('mousemove','img',function(e) {
                 if($('.action').find('.active').attr('data-action') == 'comment') {
                     $(this).css({'cursor':'url(https://redpen.io/assets/cursor-add-annotation.png),auto'});
                 }
@@ -146,8 +146,8 @@
                 x = e.pageX;
                 y = e.pageY;
                 var offset = $(this).offset();
-                var top = y - offset.top ; var left = x - offset.left;
-                $( ".onepic").find('img').click(function(e) {
+                var top = y - offset.top ; var left = x- offset.left;
+                $( ".oneimg").find('img').click(function(e) {
                     if($('.action').find('.active').attr('data-action') == 'comment') {
                         $('.changecmt').hide().appendTo('.divchangecmt');
                         $('.tick').css({'top' : top, 'left' : left, 'position' : 'absolute'}).show();
@@ -157,7 +157,7 @@
             });
 
             var id_submit;
-            $('.onepic').on('click','.tick',function(e) {
+            $('.oneimg').on('click','.tick',function(e) {
                 id_submit = 0;
                 var x =''; var y ='';
                 x = e.pageX;
@@ -166,11 +166,12 @@
                 oy = y - offset.top ;  ox = x - offset.left;
                 $self = $(this);
                 $('.comment').find('.showcmt').html('');
-                $('.comment').css({'top' : oy, 'left' : ox + 23, 'position' : 'absolute'}).toggle('blind', 300);
+                $('.comment').css({'top' : oy, 'left' : ox + 23, 'position' : 'absolute'}).show('blind',300);
             });
 
-            $('.onepic').on('click', '.tickcmt', function() {
+            $('.oneimg').on('click', '.tickcmt', function() {
                 $('.oneimg').find('.showdeletebtn').show().end().find('.deletebtn').hide();
+                $('.comment').hide();
                 $('.tick').hide();
                 $('.changecmt').hide().appendTo('.divchangecmt');
                 $self = $(this);
@@ -188,7 +189,7 @@
                 }).done(function(response){
                         $('.showcmt').html('');
                         var num = response.result.length;
-                        for(var i=0 ; i< num ; i++){
+                        for (var i=0 ; i< num ; i++) {
                             var template = $('.whocmt').html().replace(/#author#/g,response.result[i].user)
                                 .replace(/#content#/g,nl2br(response.result[i].comment))
                                 .replace(/#id#/g,response.result[i].id)
@@ -202,11 +203,11 @@
                         y = response.result[0].y;
                         x = response.result[0].x;
                         oy = y; ox = x;
-                        $('.comment').css({'top':parseInt(y) , 'left':parseInt(x)+23,'position':'absolute' }).toggle('blind',300);
+                        $('.comment').css({'top':parseInt(y) , 'left':parseInt(x)+23,'position':'absolute' }).show('blind',300);
                     });
             });
 
-            $('.onepic').on('click','.deletecmt',function() {
+            $('.oneimg').on('click', '.deletecmt', function() {
                 $self1= $(this);
                 $('.changecmt').hide().appendTo('.divchangecmt');
                 $id = $self1.parents('.divcmt').attr('data-id');
@@ -227,7 +228,7 @@
                             }
                         }).done(function(response) {
                                 if(response){
-                                    $('.onepic').find("[data-id='"+id_submit+"']").remove();
+                                    $('.onepic').find("[data-id='" + id_submit + "']").remove();
                                     $('.comment').hide();
                                 }
                             });
@@ -247,7 +248,7 @@
                     data:{
                         id_btn : id_submit
                     }
-                }).done(function(response){
+                }).done(function(response) {
                         if(response){
                             $('.onepic').find("[data-id='" + id_submit + "']").remove();
                             $('.comment').hide();
@@ -263,7 +264,7 @@
                 $('.divcmt').find('.contentcmt').show();
                 $self.parent('div').next().hide();
                 var new_value = value.replace(/<br>/g,"");console.log(new_value);
-                $('.changecmt').val(new_value).data('commentId',commentId).insertAfter($comment).show().focus();
+                $('.changecmt').val(new_value).data('commentId', commentId).insertAfter($comment).show().focus();
             });
 
             function getCaret(el) {
@@ -288,8 +289,7 @@
                 if (e.keyCode == 13 && e.shiftKey) {
                     var content = this.value;
                     var caret = getCaret(this);
-                    this.value = content.substring(0,caret)+
-                        content.substring(caret,content.length);
+                    this.value = content.substring(0,caret) + content.substring(caret,content.length);
                     event.stopPropagation();
                     return;
                 }
@@ -335,9 +335,9 @@
                 $user   = '<?= $session ?>';
                 $id_pro = $('.image').find('#move').attr('data-id');
                 $cmt    = $self.parent('.comment').find('.cmt').val();
-                if( $cmt == ' ' || $cmt == ''){
+                if( $cmt == ' ' || $cmt == '') {
                     return false;
-                }else{
+                } else {
                     $.ajax({
                         type:"post",
                         url : '/comment/add',

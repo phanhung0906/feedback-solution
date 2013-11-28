@@ -1,6 +1,6 @@
 @extends('layout.layout')
-@include('user.header')
 @section('page')
+@include('user.header')
 <ol class="breadcrumb">
     <li><a href="http://<?= ROOT_URL ?>">Dasbboard</a></li>
     <li class="active"><b>Password</b></li>

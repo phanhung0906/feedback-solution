@@ -1,6 +1,6 @@
 @extends('layout.layout')
-@include('user.header')
 @section('page')
+@include('user.header')
 <div>
     <div class="form-inline missionForm" style="margin-top: 30px">
         <div class="form-group">
