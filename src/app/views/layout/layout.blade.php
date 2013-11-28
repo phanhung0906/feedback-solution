@@ -20,29 +20,6 @@
     <div class="divchangename hide">
         <input class="form-control changename" style="display: none;width:135px;display: inline-block" data-placement="bottom" title="hit Enter to change or Esc to exit" placeholder="Enter name..." >
     </div>
-
-    <div class="removetemp hide">
-        <a class="btn btn-default btn-block delete" data-id='#id#'>Remove</a>
-    </div>
-
-    <div class="missionPageTemp hide">
-        <a data-page="#page#">#numpage#</a>
-    </div>
-
-    <div class="pictemp hide">
-        <li class='pull-left'>
-            <span class="picture">
-                  <img src="http://<?= IMAGES_URL ?>#url#" data-id="#id#" class="img img-thumbnail" style="box-shadow: 3px 3px 30px;"/>
-            </span>
-        </li>
-    </div>
-
-    <div class="missionMenu hide">
-        <li><a href="#url#" data-id="#mission#">#mission#</a></li>
-    </div>
-    <div class="missioncurrent hide">
-        <span>Project / #mission#</span>
-    </div>
     <!-- temp -->
 </div>
 <script type="text/javascript">

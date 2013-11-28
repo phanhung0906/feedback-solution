@@ -62,7 +62,7 @@
                     }).done(function(response){
                             var availableTags = new Array();
                             $num = response.result.length;
-                            for(var i =0; i < $num; i++){
+                            for(var i = 0; i < $num; i++){
                                 availableTags[i] =  response.result[i];
                             }
                             $( ".inputShareUser" ).autocomplete({
@@ -129,7 +129,7 @@
                         type:'post',
                         url:'/collaborator/add',
                         data:{
-                            mission_name :'<?= $newget ?>',
+                            mission_name : '<?= $newget ?>',
                             value : value
                         }
                     }).done(function(response){
@@ -141,24 +141,24 @@
                                 $(template).appendTo('.listUser');
                             }
                             if(response == "error2"){console.log('error1');
-                                $('.alertAddError1').show().delay(2000).fadeOut();
+                                $.notify("User has added !", "error");
                             }
                             if(response == "error1"){
-                                $('.alertAddError2').show().delay(2000).fadeOut();
+                                $.notify("User not alive !", "error");
                             }
                         });
                 });
 
-                $('.radio').click(function(){
+                $('.radio').click(function() {
                     $self = $(this);
                     var value = $self.find('.options').val();
-                    if(value == 'public'){
+                    if(value == 'public') {
                         $('.formradio').find('.listUser').html('');
                         $('.formradio').find('.inputShareUser').val('');
                         $('.opacity').show();
                         $.ajax({
                             type:'post',
-                            url:'http://<?= ROOT_URL ?>/addCollaborator',
+                            url:'/collaborator/add',
                             data:{
                                 mission_name :'<?= $newget ?>',
                                 value : value
@@ -166,17 +166,17 @@
                         }).done(function(response){
                                 $('.opacity').hide();
                                 if(response == "OK"){
-                                   //Do anything
+                                    $.notify("Public", "success");
                                 }
                             });
                     }
-                    if(value == 'private'){
+                    if(value == 'private') {
                         var template =$('.formradio').find('.listUser').html();
                         if(template == ''){
                             $('.opacity').show();
                             $.ajax({
                                 type:'post',
-                                url:'http://<?= ROOT_URL ?>/addCollaborator',
+                                url:'/collaborator/add',
                                 data:{
                                     mission_name :'<?= $newget ?>',
                                     value : value
@@ -184,7 +184,7 @@
                             }).done(function(response){
                                     $('.opacity').hide();
                                     if(response == "OK"){
-                                        //Do anything
+                                        $.notify("Private", "success");
                                     }
                                 });
                         }

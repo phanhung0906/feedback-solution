@@ -32,9 +32,12 @@
 </div>
 
 <!-- temp -->
-<div class="option hide">
-    <option>#mission#</option>
-</div>
+    <div class="option hide">
+        <option>#mission#</option>
+    </div>
+    <div class="missionMenu hide">
+        <li><a href="#url#" data-id="#mission#">#mission#</a></li>
+    </div>
 
 <script type='text/javascript'>
     $(document).ready(function(){

@@ -83,7 +83,7 @@
                 }
             );
 
-            function picture(user,mission,name){
+            function picture(user,mission,name) {
                 $.ajax({
                     type: 'post',
                     url : '/design/list',
@@ -93,7 +93,7 @@
                         mission : mission,
                         name    : name
                     }
-                }).done(function(response){
+                }).done(function(response) {
                         $('.oneimg').html('');
                         $('.breadImg').html('');
                         $('.breadImg').append("<b >"+response.result[0].name+"</b>");
@@ -105,14 +105,15 @@
                             var template1 = $('.btncmt').html().replace(/#id#/g,response.btn[i].id_btn);
                             var y= parseInt(response.btn[i].y);
                             var x= parseInt(response.btn[i].x);
-                            $(template1).appendTo('.oneimg').css({'top':y , 'left':x,'position':'absolute'});
+                            $(template1).appendTo('.oneimg').css({'top' : y ,'left' : x, 'position':'absolute'});
                         }
                     });
             }
 
             picture('<?= $user ?>', '<?= $newget ?>', '<?= $newget2 ?>');
 
-            $('.tool').click(function(){
+        // Change icon on mouse
+            $('.tool').click(function() {
                 action = $(this).attr('data-action');
                 switch (action) {
                     case 'move':
@@ -134,53 +135,52 @@
             }
 
             ox = 0; oy = 0;
-            $( ".onepic").on('mousemove','img',function(e){
-                if($('.action').find('.active').attr('data-action') == 'comment'){
+            $( ".onepic").on('mousemove','img',function(e) {
+                if($('.action').find('.active').attr('data-action') == 'comment') {
                     $(this).css({'cursor':'url(https://redpen.io/assets/cursor-add-annotation.png),auto'});
                 }
-                if($('.action').find('.active').attr('data-action') == 'move'){
+                if($('.action').find('.active').attr('data-action') == 'move') {
                     $(this).css({'cursor':'move'});
                 }
                 var x =''; var y ='';
                 x = e.pageX;
                 y = e.pageY;
                 var offset = $(this).offset();
-                var top = y- offset.top ; var left = x- offset.left;
+                var top = y - offset.top ; var left = x - offset.left;
                 $( ".onepic").find('img').click(function(e) {
-                    if($('.action').find('.active').attr('data-action') == 'comment'){
+                    if($('.action').find('.active').attr('data-action') == 'comment') {
                         $('.changecmt').hide().appendTo('.divchangecmt');
-                        $('.tick').css({'top':top , 'left':left,'position':'absolute' }).show();
+                        $('.tick').css({'top' : top, 'left' : left, 'position' : 'absolute'}).show();
                         $('.comment').hide();
                     }
                 });
             });
 
             var id_submit;
-            $('.onepic').on('click','.tick',function(e){
-                id_submit=0;
+            $('.onepic').on('click','.tick',function(e) {
+                id_submit = 0;
                 var x =''; var y ='';
                 x = e.pageX;
                 y = e.pageY;
                 var offset = $('.oneimg').find('#move').offset();
-                oy = y- offset.top ;  ox = x- offset.left;
+                oy = y - offset.top ;  ox = x - offset.left;
                 $self = $(this);
-
                 $('.comment').find('.showcmt').html('');
-                    $('.comment').css({'top':oy , 'left':ox+23,'position':'absolute' }).toggle();
+                $('.comment').css({'top' : oy, 'left' : ox + 23, 'position' : 'absolute'}).toggle('blind', 300);
             });
 
-            $('.onepic').on('click','.tickcmt',function(){
+            $('.onepic').on('click', '.tickcmt', function() {
                 $('.oneimg').find('.showdeletebtn').show().end().find('.deletebtn').hide();
                 $('.tick').hide();
                 $('.changecmt').hide().appendTo('.divchangecmt');
-                $self= $(this);
-                var y =''; var x='';
+                $self = $(this);
+                var y = ''; var x = '';
                 $id_pro = $('.image').find('#move').attr('data-id');
                 $id_btn = $self.attr('data-id');  id_submit = $id_btn;
                 $.ajax({
-                    type:"post",
-                    url : '/comment/list',
-                    dataType:'json',
+                    type : "post",
+                    url  : '/comment/list',
+                    dataType : 'json',
                     data:{
                         id_pro : $id_pro,
                         id_btn : $id_btn
@@ -198,15 +198,15 @@
                                 $('.showcmt').find('.deletecmt').show();
                             <?php endif; ?>
                         }
-                        $('.showcmt').find("[data-user='"+"<?= $session ?>"+"']").find('.editcmt').show();
-                        y = response.result[0].y ;
-                        x = response.result[0].x ;
-                        oy = y ; ox = x;
-                        $('.comment').css({'top':parseInt(y) , 'left':parseInt(x)+23,'position':'absolute' }).toggle();
+                        $('.showcmt').find("[data-user='" + "<?= $session ?>" + "']").find('.editcmt').show();
+                        y = response.result[0].y;
+                        x = response.result[0].x;
+                        oy = y; ox = x;
+                        $('.comment').css({'top':parseInt(y) , 'left':parseInt(x)+23,'position':'absolute' }).toggle('blind',300);
                     });
             });
 
-            $('.onepic').on('click','.deletecmt',function(){
+            $('.onepic').on('click','.deletecmt',function() {
                 $self1= $(this);
                 $('.changecmt').hide().appendTo('.divchangecmt');
                 $id = $self1.parents('.divcmt').attr('data-id');
@@ -225,7 +225,7 @@
                             data:{
                                 id_btn : id_submit
                             }
-                        }).done(function(response){
+                        }).done(function(response) {
                                 if(response){
                                     $('.onepic').find("[data-id='"+id_submit+"']").remove();
                                     $('.comment').hide();
@@ -235,12 +235,12 @@
                     });
             });
 
-            $('.oneimg').on('click','.showdeletebtn',function(){
+            $('.oneimg').on('click','.showdeletebtn',function() {
                 $(this).hide();
                 $(this).next().show();
             });
 
-            $('.oneimg').on('click','.deletebtn',function(){
+            $('.oneimg').on('click','.deletebtn',function() {
                 $.ajax({
                     type:"post",
                     url :'/button/delete',
@@ -249,7 +249,7 @@
                     }
                 }).done(function(response){
                         if(response){
-                            $('.onepic').find("[data-id='"+id_submit+"']").remove();
+                            $('.onepic').find("[data-id='" + id_submit + "']").remove();
                             $('.comment').hide();
                         }
                     });
