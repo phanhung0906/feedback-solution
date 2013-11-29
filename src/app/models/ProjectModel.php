@@ -51,11 +51,11 @@ class ProjectModel
         foreach ($result as $result) {
             $array[] = $result->mission_name;
         }
-        $result2 = DB::select('SELECT COUNT(id) AS num FROM mission WHERE id != ? AND user=? AND (mission_name= ? OR mission_name LIKE ? )',
+        $result2 = DB::select('SELECT COUNT(id) AS num FROM mission WHERE id != ? AND user = ? AND (BINARY mission_name= ? OR BINARY mission_name LIKE ? )',
             array($id, $user, $missionName, $missionName.'(%'));
         $count_name = $result2[0]->num;
         if ($count_name > 0) {
-            $result3 = DB::select('SELECT * FROM mission WHERE id = ? AND user=?', array($id, $user));
+            $result3 = DB::select('SELECT * FROM mission WHERE id = ? AND user = ?', array($id, $user));
             $name = $result3[0]->mission_name;
             $newMissionName = $missionName.'('.$count_name.')';
             for ($i = 0; $i< count($array); $i++) {

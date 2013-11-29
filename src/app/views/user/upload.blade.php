@@ -84,8 +84,11 @@
             }
         });
 
-        var myDropzone = new Dropzone("#target",{  parallelUploads: 100, autoProcessQueue: false });
+        var myDropzone = new Dropzone("#target",{ parallelUploads: 100, autoProcessQueue: false });
         myDropzone.on("addedfile", function(file) {
+            $fileName = file.name;
+            $fileLastName = $fileName.split('.');
+            $num = $fileLastName.length-1;
             $('#target').find('.dz-message').hide();
             $("#submit-all").show();
             //delete file
@@ -96,6 +99,12 @@
                     $("#submit-all").hide();
                 }
             });
+            if($fileLastName[$num].toLowerCase() == 'gif' || $fileLastName[$num].toLowerCase() == 'jpg' || $fileLastName[$num].toLowerCase() == 'png'){
+
+            } else {
+                $.notify("Uploas only file .png, .jpg and .gif", "error");
+                file.previewElement.children[0].children[4].click();
+            }
         });
 
         $("#submit-all").on("click", function() {
@@ -121,10 +130,9 @@
             formData.append("size", $size.toFixed(1) );
             $('#target').find('b').hide();
         });
-        $height = screen.height-300;
-        $('#target').css({'min-height': $height+'px'});
-        $('#target').find('.dz-message').css({'padding-top': ($height-150)/2+'px'});
-
+        $height = screen.height - 300;
+        $('#target').css({'min-height': $height + 'px'});
+        $('#target').find('.dz-message').css({'padding-top': ($height-150)/2 + 'px'});
     })
 </script>
 @endsection

@@ -167,11 +167,12 @@
                                 $('.opacity').hide();
                                 if(response == "OK"){
                              //       $.notify("Public", "success");
+                                    console.log('public');
                                 }
                             });
                     }
                     if(value == 'private') {
-                        var template =$('.formradio').find('.listUser').html();
+                        var template = $('.formradio').find('.listUser').html();
                         if(template == ''){
                             $('.opacity').show();
                             $.ajax({
@@ -185,6 +186,7 @@
                                     $('.opacity').hide();
                                     if(response == "OK"){
                                   //      $.notify("Private", "success");
+                                        console.log('private');
                                     }
                                 });
                         }

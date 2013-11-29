@@ -94,13 +94,21 @@
                         // Enter
                         case 13:
                             var name = $(this).val();
-                            for(var i= 0; i<name.length ; i++){
-                                if(name.charAt(i)== '-'){
-                                    $.notify("Image's name have character '-'");
-                                    return;
-                                }
-                                if(name.charAt(i)== '/'){
-                                    $.notify("Image's name have character '/'");
+                            for(var i= 0; i< name.length; i++){
+                                if(name.charAt(i) == '-' || name.charAt(i) == '/' ||
+                                    name.charAt(i) == '`' || name.charAt(i)== '~' ||
+                                    name.charAt(i)== '@' || name.charAt(i)== '.' ||
+                                    name.charAt(i) == '#' ||
+                                    name.charAt(i) == '%' || name.charAt(i) == '+' ||
+                                    name.charAt(i) == '&' || name.charAt(i) == '(' ||
+                                    name.charAt(i) == '|' || name.charAt(i) == '\\' ||
+                                    name.charAt(i) == '\"' || name.charAt(i) == '\'' ||
+                                    name.charAt(i) == '' || name.charAt(i) == ';' ||
+                                    name.charAt(i) == '<' || name.charAt(i) == '>' ||
+                                    name.charAt(i) == '[' || name.charAt(i) == ']' ||
+                                    name.charAt(i) == '{' || name.charAt(i) == '}'
+                                    ) {
+                                    $.notify("Project's name can only consist of alphabetical, number, underscore and some character like ! ^ ) = * $ ");
                                     return;
                                 }
                             }
@@ -143,7 +151,7 @@
                 });
 
                 //Delete Image in project page
-                $('.projectImg').on("click",".deleteImg",function(){
+                $('.projectImg').on("click",".deleteImg",function() {
                     $self= $(this);
                     $id = $self.attr("data-id");
                     $name = $self.parent('.pull-left').find('.name').html();
@@ -153,7 +161,7 @@
                     $(template).appendTo('.confirm');
 
                     //Modal delete image in project page
-                    $('#modalDelete').on('click','.delete',function(){
+                    $('.delete').click(function(){
                         $('.opacity').show();
                         $self1 = $(this);
                         $id = $self1.data("id");

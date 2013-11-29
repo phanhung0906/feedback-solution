@@ -63,6 +63,10 @@
                         stringLength: {
                             min: 3,
                             message: 'The password must be more than 3 long'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9_\.]+$/,
+                            message: 'The password can only consist of alphabetical, number, dot and underscore'
                         }
                     }
                 }

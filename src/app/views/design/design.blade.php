@@ -18,7 +18,7 @@
                 <textarea class="form-control changecmt" style="display: none;" data-placement="bottom" title="hit enter to post reply or Esc to exit" placeholder="Enter name..." ></textarea>
             </div>
             <div class="onepicture hide" style="text-align:center; ">
-                <img src="http://<?= IMAGES_URL ?>#url#" id='move' style="max-width:100%;margin: 0 auto;box-shadow: 2px 2px 20px black" data-id="#id#">
+                <img src="#url#" id='move' style="max-width:100%;margin: 0 auto;box-shadow: 2px 2px 20px black" data-id="#id#">
                 <span class="tick btn note" style='display: none;background: url(http://<?= IMAGES_URL ?>/picture/note1.png) no-repeat 0 0;' ></span>
                 <div class='box'></div>
                 <div class="comment" style="display: none;box-shadow: 2px 2px 20px ">
@@ -97,7 +97,7 @@
                         $('.oneimg').html('');
                         $('.breadImg').html('');
                         $('.breadImg').append("<b >"+response.result[0].name+"</b>");
-                        var template = $('.onepicture').html().replace(/#url#/g, response.result[0].content)
+                        var template = $('.onepicture').html().replace(/#url#/g,'http://<?= IMAGES_URL ?>' + response.result[0].content)
                             .replace(/#id#/g,response.result[0].id_pro);
                         $(template).appendTo('.oneimg');
                         var num =  response.btn.length;
@@ -137,7 +137,7 @@
             ox = 0; oy = 0;
             $( ".oneimg").on('mousemove','img',function(e) {
                 if($('.action').find('.active').attr('data-action') == 'comment') {
-                    $(this).css({'cursor':'url(https://redpen.io/assets/cursor-add-annotation.png),auto'});
+                    $(this).css({'cursor':'url(http://<?= IMAGES_URL ?>/picture/cursor-add-annotation.png),auto'});
                 }
                 if($('.action').find('.active').attr('data-action') == 'move') {
                     $(this).css({'cursor':'move'});

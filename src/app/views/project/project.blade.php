@@ -61,18 +61,7 @@
             </div>
         </div>
 
-        <div class="missiontemp hide">
-            <li class='pull-left'>
-                <a href="#link#" class="picture">
-                    <img src="http://<?= IMAGES_URL ?>#url#" class="img img-thumbnail"/>
-                </a>
-                <div class="missionName" style="overflow: hidden;height:43px;cursor:default;" title="Click to change name project">#mission#</div>
-                <span class="numImg">Images <span class="badge">#numImg#</span></span>
-                @if($user == $session)
-                        <a class="deleteMission pull-right" data-toggle="modal" href="#modalDeleteMission" data-id="#id#"><span class="fa fa-trash-o"></span></a>
-                @endif
-            </li>
-        </div>
+
     </div>
 </div>
 
@@ -101,8 +90,20 @@
                     case 13:
                         var name = $(this).val();
                         for(var i = 0; i< name.length ; i++){
-                            if(name.charAt(i) == '-'){
-                                $.notify("Project's name have character '-'");
+                             if(name.charAt(i) == '-' || name.charAt(i)== '/' ||
+                                 name.charAt(i) == '`' || name.charAt(i)== '~' ||
+                                 name.charAt(i)== '@' || name.charAt(i)== '.' ||
+                                 name.charAt(i) == '#' ||
+                                 name.charAt(i) == '%' || name.charAt(i) == '+' ||
+                                 name.charAt(i) == '&' || name.charAt(i) == '(' ||
+                                 name.charAt(i) == '|' || name.charAt(i) == '\\' ||
+                                 name.charAt(i) == '\"' || name.charAt(i) == '\'' ||
+                                 name.charAt(i) == '' || name.charAt(i) == ';' ||
+                                 name.charAt(i) == '<' || name.charAt(i) == '>' ||
+                                 name.charAt(i) == '[' || name.charAt(i) == ']' ||
+                                 name.charAt(i) == '{' || name.charAt(i) == '}'
+                                ) {
+                                $.notify("Project's name can only consist of alphabetical, number, underscore and some character like ! ^ ) = * $ ");
                                 return;
                             }
                         }
@@ -147,7 +148,7 @@
                 }
             });
 
-            $('.missionImg').on("click",".deleteMission",function(){
+            $('.deleteMission').click(function() {
                 $self = $(this);
                 $id   = $self.attr("data-id");
                 $name = $self.parent('.pull-left').find('.missionName').html();
@@ -156,7 +157,7 @@
                 $('#modalDeleteMission').find('.confirm').html('');
                 $(template).appendTo('.confirm');
                 //Modal Delete Mission
-                $('#modalDeleteMission').on('click','.delete',function(){
+                $('.delete').click(function() {
                     $('.opacity').show();
                     $self1 = $(this);
                     $id = $self1.data("id");

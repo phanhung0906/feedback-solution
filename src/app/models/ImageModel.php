@@ -40,7 +40,7 @@ class ImageModel
         foreach ($result as $result){
             $array1[] = $result->name;
         }
-        $result2 = DB::select('SELECT COUNT(id_pro) AS num FROM project WHERE id_pro != ? AND user = ? AND BINARY mission_name = ? AND (name = ? OR name LIKE ? )',
+        $result2 = DB::select('SELECT COUNT(id_pro) AS num FROM project WHERE id_pro != ? AND user = ? AND BINARY mission_name = ? AND (BINARY name = ? OR BINARY name LIKE ? )',
             array($id, $user, $mission, $name, $name.'(%'));
         $countName = $result2[0]->num;
         if ($countName > 0) {
@@ -56,7 +56,7 @@ class ImageModel
             if ($countName == 0) {
                 $newName = $name;
 			}
-            DB::update('UPDATE project SET name= ? WHERE id_pro = ?', array($newName, $id));
+            DB::update('UPDATE project SET name = ? WHERE id_pro = ?', array($newName, $id));
             return $newName;
         }
         $array = array();

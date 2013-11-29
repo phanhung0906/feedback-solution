@@ -158,9 +158,9 @@ li{
     font-weight: bold;
     padding-top: 5px;
 }
-.missionImg .numImg{
-    padding: 5px;
-}
+/*.missionImg .numImg{*/
+    /*padding: 5px;*/
+/*}*/
 .note{
     /*background: url(http://images.redpen.local/picture/notes-bg.png) no-repeat 0 0;*/
     width: 25px;
@@ -283,4 +283,12 @@ textarea{
 }
 .missionImg{
     display:inline-block;
+}
+/* Upload */
+#submit-all{
+    margin-left:5%;
+    display: none;
+}
+.listMission{
+    min-width:100px;
 }

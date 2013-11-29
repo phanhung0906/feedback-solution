@@ -6,7 +6,7 @@
     <div class="nav-collapse">
 
         <ul class="nav navbar-nav showmenu">
-            <li class="projectname"><a href="http://<?= ROOT_URL . '/' . $session . '/' . $get . '/page/1' ?>"><span class="fa fa-arrow-left"></span>{{$newget}}</a></li>
+            <li class="projectname"><a href="http://<?= ROOT_URL . '/' . $user . '/' . $get . '/page/1' ?>"><span class="fa fa-arrow-left"></span>{{$newget}}</a></li>
             <li class="dropdown projectmenu" <?php if((count($project) == 0)) echo "style='display: none;'" ?>>
                 <a href="" class="dropdown-toggle" data-toggle="dropdown"> Project <b class="caret"></b></a>
                 <ul class="dropdown-menu project" style="overflow: auto;max-height: 400px;">
@@ -32,7 +32,7 @@
                             <input type="radio" name="options" id="option1"><span class="fa fa-comments-o"></span>
                         </label>
                         <label class="btn btn-default tool" data-action='move'>
-                            <input type="radio" name="options" id="option2"><span class="fa fa-hand-o-up"></span>
+                            <input type="radio" name="options" id="option2"><span class="fa fa-arrows"></span>
                         </label>
                     </div>
                 </div>
