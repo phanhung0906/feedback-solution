@@ -58,10 +58,10 @@ class ProjectModel
             $result3 = DB::select('SELECT * FROM mission WHERE id = ? AND user = ?', array($id, $user));
             $name = $result3[0]->mission_name;
             $newMissionName = $missionName.'('.$count_name.')';
-            for ($i = 0; $i< count($array); $i++) {
+            for ($i = 0; $i < count($array); $i++) {
                 if ($array[$i] == $newMissionName) {
                     --$count_name;
-                    $new_mission_name = $missionName.'('.$count_name.')';
+                    $newMissionName = $missionName.'('.$count_name.')';
                     $i =0;
                 }
             }
@@ -70,7 +70,7 @@ class ProjectModel
             }
             DB::update('UPDATE mission SET mission_name = ? WHERE id = ?', array($newMissionName, $id));
             DB::update('UPDATE project SET mission_name = ? WHERE mission_name = ? AND user= ?', array($newMissionName, $name, $user));
-            return $new_mission_name;
+            return $newMissionName;
         }
             $result3 = DB::select('SELECT * FROM mission WHERE id = ?',array($id));
             $name = $result3[0]->mission_name;
@@ -94,14 +94,16 @@ class ProjectModel
         for ($i = 0; $i < $num; $i++) {
                 if ($session != $user) {
                     if ($result[$i]->collaborators != "public") {
+                        //Not Show project
                         if ($result[$i]->collaborators == "private") {
                             unset($result[$i]);
                             continue;
                         }
+                        //Choose project to show by collaborator
                         $userArray = explode(',',$result[$i]->collaborators);
                         $numarray = count($userArray);
                         $temp = true;
-                        for ($q = 0; $q < $numarray; $q++){
+                        for ($q = 0; $q < $numarray; $q++) {
                                 if ($userArray[$q] == $session) {
                                     $temp = false;
                                 }
@@ -170,8 +172,8 @@ class ProjectModel
         }
         for ($i = $start_page-1 ;$i < $end_page; $i++){
             $projectArray = array();
-            $results2     = DB::select('SELECT * FROM project where user = ?  AND BINARY mission_name= ?', array($user, $missionArray[$i]->mission_name));
-            $result2      = DB::select('SELECT COUNT(id_pro) AS numImg FROM project WHERE BINARY mission_name = ?', array($missionArray[$i]->mission_name));
+            $results2     = DB::select('SELECT * FROM project WHERE user = ?  AND BINARY mission_name= ?', array($user, $missionArray[$i]->mission_name));
+            $result2      = DB::select('SELECT COUNT(id_pro) AS numImg FROM project WHERE user = ? AND BINARY mission_name = ?', array($user, $missionArray[$i]->mission_name));
             foreach ($results2 as $results2)
             {
                 $projectArray[] = $results2->id_pro;

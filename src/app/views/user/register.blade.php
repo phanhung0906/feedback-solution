@@ -19,6 +19,9 @@
                 <div class="form-group">
                         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                 </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="confirm" name="confirm" placeholder="ConfirmPassword">
+            </div>
 			    <button type="submit" class="btn btn-primary" name="signin">Register</button>
         </form>
    </div>
@@ -36,8 +39,8 @@
                         },
                         stringLength: {
                             min: 3,
-                            max: 10,
-                            message: 'The username must be more than 3 and less than 10 characters long'
+                            max: 15,
+                            message: 'The username must be more than 3 and less than 15 characters long'
                         },
                         regexp: {
                             regexp: /^[a-zA-Z0-9_\.]+$/,
@@ -60,6 +63,10 @@
                         notEmpty: {
                             message: 'The password is required and can\'t be empty'
                         },
+                        identical: {
+                            field: 'password',
+                            message: 'The password and its confirm are not the same'
+                        },
                         stringLength: {
                             min: 3,
                             message: 'The password must be more than 3 long'
@@ -67,6 +74,21 @@
                         regexp: {
                             regexp: /^[a-zA-Z0-9_\.]+$/,
                             message: 'The password can only consist of alphabetical, number, dot and underscore'
+                        }
+                    }
+                },
+                confirm: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The password is required and can\'t be empty'
+                        },
+                        identical: {
+                            field: 'password',
+                            message: 'The password and its confirm are not the same'
+                        },
+                        stringLength: {
+                            min: 3,
+                            message: 'The password must be more than 3 long'
                         }
                     }
                 }

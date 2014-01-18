@@ -1,34 +1,18 @@
 @extends('layout.layout')
 @section('page')
 @include('user.header')
-<div>
-    <div class="form-inline missionForm" style="margin-top: 30px">
-        <div class="form-group">
-            <input type="text" class="form-control textMission" placeholder="Add to project ...">
-        </div>
-        <button type="submit" class="btn btn-default addMission"><span class="fa fa-plus"></span> Create</button>
-        <span class="chooseProject" <?php if(count($project) ==0) echo "style='display: none;'" ?>>
-            <span style="font-size:18px;padding-left:3%;padding-right:3%">Or Choose Project:</span>
-            <div class="form-group">
-                <select class="form-control listMission">
-                    @for($i = 0; $i < count($project); $i++)
-                         <option>{{$project[$i]->mission_name}}</option>
-                    @endfor
-                </select>
-            </div>
-        </span>
-        <button id="submit-all" class="btn btn-primary"><span class="fa fa-cloud-upload"> Upload all files</span></button>
+<div id='upload-content'>
+    <?php $newCurrentProject = str_replace('-',' ',$currentProject); ?>
+    <h3 style='text-align: center'>{{$newCurrentProject}}</h3>
+    <div class="form-inline missionForm" style="margin-top: 30px;margin-bottom: 30px;">
+        <h4><span class="fa fa-cloud-upload"></span> Upload New Image</h4>
     </div>
     <div class="formuploads">
-        <div id="dropzone">
-            <form action="/image/upload" enctype="multipart/form-data" method="post" id="target" class="col-md-8" <?php if(count($project) ==0) echo "style='display: none;'" ?>>
-                <input id="uploader" type="file" name="file" class="hide file"> <br>
-                <div class="text-center dz-default dz-message">
-                    <h1>Click or drag files here to upload ...</h1>
-                </div>
+            <form action="/image/upload" enctype="multipart/form-data" method="post" id="my-dropzone" class='dropzone' style='min-height: 360px;border:dashed 3px darkgray'>
+
             </form>
-        </div>
     </div>
+    <button id="submit-all" class="btn btn-primary" style='margin-top: 20px;'><span class="fa fa-upload"> Upload all files</span></button>
 </div>
 
 <!-- temp -->
@@ -41,98 +25,85 @@
 
 <script type='text/javascript'>
     $(document).ready(function(){
-        $('.addMission').click(function(){
-            $self = $(this);
-            $mission_name = $self.parent('.missionForm').find('.textMission').val();
-            for(var i=0; i< $mission_name.length; i++){
-                if ($mission_name.charAt(i) == '-'){
-                    $.notify("Project's name must not have '-'");
-                    return;
-                }
-            }
-            if ($mission_name == 'page') {
-                $.notify("Project's name must not have name like 'page'");
-                return;
-            }
-            if( $mission_name != '' && $mission_name !=' '){
-                $('.opacity').show();
-                $.ajax({
-                    type:'post',
-                    url :'/project/add',
-                    data:{
-                        missionName  : $mission_name,
-                        user         : '<?= $session ?>'
-                    }
-                }).done(function(response){
-                        $('.opacity').hide();
-                        if(response){
-                            var template = $('.option').html().replace(/#mission#/g,$mission_name);
-                            $self.parent('.missionForm').find('.listMission').append(template);
-                            var template2 = $('.missionMenu').html().replace(/#mission#/g,$mission_name)
-                                .replace(/#url#/g,'http://'+'<?= ROOT_URL . '/' . $session ?>'+ '/' + $mission_name);
-                            $('.menu').html('');
-                            $('.menu').append(template2);
-                            $($('.menu').html()).appendTo($('.showmenu').find('.project'));
-                            $('.chooseProject').show();
-                            $('#target').show();
-                            $.notify("Creat project successfully",'success');
-                        }else{
-                            $.notify("There is same project's name.Please create another project's name");
-                        }
-                        $self.parent('.missionForm').find('.textMission').val('');
-                    });
-            }
-        });
+        //Dropzone
+        var myDropzone = new Dropzone("#my-dropzone",{ parallelUploads: 100, autoProcessQueue: false, uploadMultiple: true });
+        Dropzone.options.myDropzone = false;
+        Dropzone.autoDiscover = false;
 
-        var myDropzone = new Dropzone("#target",{ parallelUploads: 100, autoProcessQueue: false });
         myDropzone.on("addedfile", function(file) {
             $fileName = file.name;
             $fileLastName = $fileName.split('.');
             $num = $fileLastName.length-1;
             $('#target').find('.dz-message').hide();
             $("#submit-all").show();
-            //delete file
-            file.previewElement.children[0].children[4].addEventListener("click", function() {
-                myDropzone.removeFile(file);
-                if(myDropzone.getQueuedFiles().length == 0){
-                    $('#target').find('.dz-message').show();
-                    $("#submit-all").hide();
-                }
-            });
-            if($fileLastName[$num].toLowerCase() == 'gif' || $fileLastName[$num].toLowerCase() == 'jpg' || $fileLastName[$num].toLowerCase() == 'png'){
 
+            // Create the remove button
+            var removeButton = Dropzone.createElement("<button class='btn btn-primary'>Remove file</button>");
+
+            // Capture the Dropzone instance as closure.
+            var _this = this;
+
+            // Listen to the click event
+            removeButton.addEventListener("click", function(e) {
+                // Make sure the button click doesn't submit the form:
+                e.preventDefault();
+                e.stopPropagation();
+
+                // Remove the file preview.
+                _this.removeFile(file);
+                // If you want to the delete the file on the server as well,
+                // you can do the AJAX request here.
+            });
+
+            // Add the button to the file preview element.
+            file.previewElement.appendChild(removeButton);
+
+            //Delete file not an image
+            if($fileLastName[$num].toLowerCase() == 'gif' || $fileLastName[$num].toLowerCase() == 'jpg' || $fileLastName[$num].toLowerCase() == 'png'){
+                //Do nothing
             } else {
                 $.notify("Uploas only file .png, .jpg and .gif", "error");
-                file.previewElement.children[0].children[4].click();
+                file.previewElement.children[5].click();
             }
         });
 
-        $("#submit-all").on("click", function() {
-            myDropzone.processQueue();
+        myDropzone.on("successmultiple", function(file, response) {
+            $.notify("Uploads images successfully", "success");
+            var delay = 2000;//2 seconds
+            setTimeout(function(){
+                $mission_name = '<?= $currentProject ?>';
+                window.location = "http://<?= ROOT_URL . '/' . $session ?>/" + $mission_name + '/page/1';
+            },delay);
         });
 
-        myDropzone.on("success", function(file, response) {
-            $project = $('.listMission').val();
-            window.location = "http://<?= ROOT_URL . '/' . $session ?>/" + $project + '/page/1';
-            $('.opacity').hide().css({'cursor':'auto'});
+        myDropzone.on("maxfilesexceeded", function(file) {
+            $('.navbar-fixed-top').notify("Maximum uploads is 10 file", {position:'bottom right'});
+            this.removeFile(file);
         });
-        myDropzone.on("error", function(file, response) {
-            $.notify("Uploas error", "error");
-        });
-        myDropzone.on("sending", function(file, xhr,formData) {
-            $('.opacity').show().css({'cursor':'progress'});
-            $('.maintain').find('.alertUploads').hide();
-            $('#target').find('.dz-message').hide();
-            $project = $('.listMission').val();
-            $size = file.size/(1024*1024);
+        myDropzone.on("sendingmultiple", function(file, xhr,formData) {
+            <?php $newCurrentProject = str_replace('-',' ',$currentProject); ?>
+            $project = '<?= $newCurrentProject ?>';
             formData.append("project", $project);
-            formData.append("name", file.name);
-            formData.append("size", $size.toFixed(1) );
-            $('#target').find('b').hide();
+            var num = file.length;
+            var size = [];
+            for(var i = 0; i < num; i++ ){
+                $size = (file[i].size/(1024*1024)).toFixed(1) + 'MB';
+                if((file[i].size/(1024*1024)).toFixed(1) <= 0) $size = (file[i].size/1024).toFixed(1) + 'KB';
+                size.push($size);
+            }
+            formData.append("size", size );
         });
-        $height = screen.height - 300;
-        $('#target').css({'min-height': $height + 'px'});
-        $('#target').find('.dz-message').css({'padding-top': ($height-150)/2 + 'px'});
+
+        $('#submit-all').click(function() {
+            if($('#my-dropzone').find('.dz-preview').length > 0) {
+                        myDropzone.processQueue();
+            } else {
+                $('.navbar-fixed-top').notify('You need to add new image before submit',{position:'bottom right'});
+            }
+        });
+
+        $height = screen.height - 600;
+        $('#upload-content').css({'min-height': $height + 'px'});
     })
 </script>
 @endsection

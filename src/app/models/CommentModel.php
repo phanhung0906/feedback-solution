@@ -46,7 +46,7 @@ class CommentModel
         $list = array(
             'result'     => array(),
         );
-        $result = DB::select('SELECT * FROM comment WHERE id_btn= ?', array($id));
+        $result = DB::select('SELECT * FROM comment WHERE id_btn= ? ORDER BY id ASC', array($id));
         foreach ($result as $result) {
             $list['result'][] = $result;
         }

@@ -3,13 +3,13 @@ body{
     padding-top: 49.5px;
     overflow: auto;
 }
-body.modal-open-noscroll {
-    margin-right: 0!important;
-    overflow: hidden;
-}
-.modal-open-noscroll .navbar-fixed-top, .modal-open .navbar-fixed-bottom {
-    margin-right: 0!important;
-}
+/*body.modal-open-noscroll {*/
+    /*margin-right: 0!important;*/
+    /*overflow: hidden;*/
+/*}*/
+/*.modal-open-noscroll .navbar-fixed-top, .modal-open .navbar-fixed-bottom {*/
+    /*margin-right: 0!important;*/
+/*}*/
 html, body
 {
     height: 100%;
@@ -30,7 +30,6 @@ button:active {
     margin-top:11px;
 }
 #move{
-    box-shadow: 3px 3px 30px ;
     max-width:100%;
     margin: 0 auto;
     box-shadow: 2px 2px 20px black;
@@ -43,17 +42,13 @@ button:active {
     border-top-left-radius: 0px;
     min-height: 35px;
     max-height: 100px;
-    border: 1px solid #EBEBEB;
     background: #F6F6F6;
     color: #8B8B8B;
     padding: 8px 5px;
+    border: none;
 }
 .onepicture{
     text-align:center;
-}
-.divcmt{
-    border-radius: 10px;
-    width:100%;
 }
 .showdeletebtn{
     color:red;
@@ -88,7 +83,6 @@ footer{
 /*.projectPage a{*/
     /*cursor: pointer;*/
 /*}*/
-
 li{
     margin-left: 3px;
 }
@@ -123,7 +117,7 @@ li{
     height: 100%
 }
 .onepic{
-    padding-bottom: 50px;
+    padding-bottom: 10px;
     margin-top:30px;
     text-align: center;
     height:100%;
@@ -136,6 +130,7 @@ li{
     font-weight: bold;
 }
 .oneimg{
+    text-align: center;
     position: relative;
     display: inline-block;
 }
@@ -145,7 +140,7 @@ li{
 .missionImg li{
     background: #ffffff;
     width:182px;
-    /*height:280px;*/
+    height:246px;
     padding:9px;
     margin-left:24px;
     margin-bottom: 40px;
@@ -158,6 +153,7 @@ li{
     font-weight: bold;
     padding-top: 5px;
 }
+
 /*.missionImg .numImg{*/
     /*padding: 5px;*/
 /*}*/
@@ -165,29 +161,19 @@ li{
     /*background: url(http://images.redpen.local/picture/notes-bg.png) no-repeat 0 0;*/
     width: 25px;
     height: 25px;
-    /*background-position: -150px 0;*/
-    /*background-position-x: -150px;*/
-    /*background-position-y: 0px;*/
+    cursor: pointer;
 }
 .contentcmt{
-    font-size: 12px;
+    font-size: 12.5px;
     background:#F6F5F5;
     padding:5px 0 10px 13px;
 }
-.deletecmt{
-    margin-left: 5px;
-    display: none;
-}
+
 .divlink{
     margin-top: 11px;
 }
 textarea{
     resize: none;
-}
-.comment{
-    text-align: left;
-    display: none;
-    box-shadow: 2px 2px 20px;
 }
 .container1{
     padding-right: 55px;
@@ -205,26 +191,13 @@ textarea{
     border:dashed 2px #848484;
     margin-top:10px;
 }
-/*::-webkit-scrollbar{*/
-    /*width: 10px;*/
-/*}*/
-/*::-webkit-scrollbar-track {*/
-    /*background-color: #eaeaea;*/
-    /*border-left: 1px solid #ccc;*/
-/*}*/
-/*::-webkit-scrollbar-thumb {*/
-    /*background-color: #ccc;*/
-    /*border-radius: 10px;*/
-/*}*/
-/*::-webkit-scrollbar-thumb:hover {*/
-    /*background-color: #aaa;*/
-/*}*/
+
 .modal-open{
     overflow: auto;
 }
-#modalDelete{
-    overflow: hidden;
-}
+/*#modalDelete{*/
+    /*overflow: hidden;*/
+/*}*/
 /* header */
 .projectmenu{
     display:none;
@@ -250,6 +223,8 @@ textarea{
     width:135px;
     display: inline-block;
 }
+/* /layout */
+
 /* Image */
 .projectImg{
     display: inline-block;
@@ -265,18 +240,24 @@ textarea{
     padding-top: 5px;
 }
 .projectImg li{
-    margin-left:32px;
-    margin-right:32px;
+    margin-left:24px;
+    margin-right:24px;
     margin-bottom:40px;
     padding:7px;
     border:1px solid #acacac;
     box-shadow: 1px 1px 8px rgba(0,0,0,0.16);
-    width:165px;
+    width:182px;
+    height:246px;
     text-align:left;
 }
 .deleteImg{
     padding-left: 2px;
 }
+#addImage .modal-dialog{
+    width:750px;
+}
+/* /Image */
+
 /* Project */
 .alertEditProject{
     display: none;
@@ -284,11 +265,75 @@ textarea{
 .missionImg{
     display:inline-block;
 }
+/* /Project */
+
 /* Upload */
-#submit-all{
-    margin-left:5%;
-    display: none;
-}
+/*#submit-all{*/
+    /*margin-left:5%;*/
+    /*display: none;*/
+/*}*/
 .listMission{
     min-width:100px;
+}
+/* Design */
+#wPaint{
+    position:relative;
+    width:500px;
+    height:200px;
+    margin:50px auto 0 auto;
+}
+#revision_image_wrapper{
+    float:left;
+}
+
+.tick{
+    display: none;
+    z-index: 2;
+    height:27px;
+}
+.comment{
+    text-align: left;
+    display: none;
+    box-shadow: 2px 2px 20px;
+    z-index: 2;
+    cursor: default;
+}
+.showcmt{
+    overflow-y: scroll;
+    min-height: 150px;
+    max-height:340px;
+    width:300px;
+}
+.divcmt{
+    border-radius: 10px;
+    width:100%;
+}
+.divcmt_child1{
+    background: #eeeeee;
+    padding:5px 0 5px 13px ;
+}
+.divcmt_child1 b{
+    background-color: #2879ff;
+    border-radius: 3px;
+    padding: 1px 3px;
+    color: #fff;
+}
+.divcmt_child1 b i{
+    font-size: 12px;
+}
+.deletecmt{
+    margin-left: 5px;
+    display: none;
+    cursor: pointer;
+}
+.editcmt{
+    display: none;
+    cursor: pointer;
+}
+/* /Design */
+.navbar-fixed-top {
+    box-shadow: rgb(61, 61, 61) 1px 2px 10px;
+}
+#upload-content{
+    margin-top: 40px;
 }

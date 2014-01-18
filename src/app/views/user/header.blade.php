@@ -5,8 +5,6 @@
     <div class="nav-collapse">
 
         <ul class="nav navbar-nav showmenu">
-            <li data-id="Uploads" class="uploads"><a href="http://<?= ROOT_URL.'/setting/upload' ?>"><span class="fa fa-plus"></span> Upload</a></li>
-
             <li class="dropdown projectmenu" <?php if(count($project) == 0)  echo "style='display: none;'" ?>>
                 <a href="" class="dropdown-toggle" data-toggle="dropdown"> Project <b class="caret"></b></a>
                 <ul class="dropdown-menu project" style="overflow: auto;max-height: 400px;">

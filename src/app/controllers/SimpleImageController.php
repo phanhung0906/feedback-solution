@@ -68,7 +68,8 @@ class SimpleImageController extends Controller
         $this->resize($width, $height);
     }
 
-    function resizeToWidth($width) {
+    function resizeToWidth($width)
+    {
         $ratio = $width / $this->getWidth();
         $height = $this->getheight() * $ratio;
         $this->resize($width, $height);

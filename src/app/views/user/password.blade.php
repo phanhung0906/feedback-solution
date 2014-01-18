@@ -53,6 +53,10 @@
                                     field: 'confirm',
                                     message: 'The password and its confirm are not the same'
                                 },
+                                stringLength: {
+                                    min: 3,
+                                    message: 'The password must be more than 3 long'
+                                },
                                 different: {
                                     field: 'oldpass',
                                     message: 'The password can\'t be the same as oldpass'
@@ -67,6 +71,10 @@
                                 identical: {
                                     field: 'newpass',
                                     message: 'The password and its confirm are not the same'
+                                },
+                                stringLength: {
+                                    min: 3,
+                                    message: 'The password must be more than 3 long'
                                 },
                                 different: {
                                     field: 'oldpass',

@@ -28,6 +28,7 @@ class ProjectController extends Controller
     }
 
     public function addAction()
+
     {
         $user        = $_POST['user'];
         $missionName = $_POST['missionName'];
@@ -46,5 +47,19 @@ class ProjectController extends Controller
         $missionName = $_POST['mission_name'];
         $user        = $_POST['user'];
         echo $this->projectModel->edit($id, $missionName, $user);
+    }
+
+    public function setAction($action)
+    {
+        $user         = Session::get('user');
+        $session      = Session::get('user');
+        $list         =  $this->projectModel->find($user, $session);
+        $data         = array(
+            'user'        => $user,
+            'session'     => $session,
+            'error'       => '',
+            'project'     => $list['result'],
+        );
+        return View::make('user.'.$action,$data);
     }
 }

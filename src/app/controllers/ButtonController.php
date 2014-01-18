@@ -20,4 +20,12 @@ class ButtonController extends Controller
         $id = $_POST['id_btn'];
         echo $this->buttonModel->delete($id);
     }
+
+    public function listAction()
+    {
+        $user    = $_POST['user'];
+        $name    = $_POST['name'];
+        $mission = $_POST['mission'];
+        echo $this->buttonModel->find($name, $mission, $user);
+    }
 }

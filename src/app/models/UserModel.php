@@ -42,4 +42,79 @@ class UserModel
         }
         return false;
     }
+
+    public function forgotPassword($email)
+    {
+        $result = DB::table('user')->where('email',$email)->first();
+        $token = uniqid();
+        DB::table('password_remind')->where('email',$email)->delete();
+        DB::table('password_remind')->insert(
+            array('email' => $email, 'token' => $token)
+        );
+        if ($result != null) {
+           return $list = array('email' => $email,'token' => $token);
+        }
+        return false;
+    }
+
+    public function checkToken($email,$token)
+    {
+        $result = DB::table('password_remind')->where('token',$token)->where('email',$email)->first();
+        if ($result != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public function resetPassword($email,$token,$password)
+    {
+        $hashPassword =  $this->passwordHash->HashPassword($password);
+        $result = DB::table('password_remind')->where('token',$token)->where('email',$email)->first();
+        DB::table('password_remind')->where('email',$email)->delete();
+        if ($result != null) {
+            DB::table('user')->where('email', $result->email)->update(array('passwd' => $hashPassword));
+            return true;
+        }
+        return false;
+    }
+
+    public function userEmail($user, $id_btn)
+    {
+        $result1 = DB::table('user')->where('user',$user)->first();
+        $listEmail = array(
+            'owner' => $result1->email,
+            'guess' => array()
+        );
+        if ($id_btn == 0) {
+           //Do nothing
+        } else {
+            $result2 = DB::table('user')
+                ->join('comment', 'user.user', '=', 'comment.user')
+                ->where('comment.id_btn',$id_btn)
+                ->select('user.email')->get();
+//            print_r($result2);die();
+//            $result2 = DB::table('comment')->where('id_btn',$id_btn)->get();
+//            foreach ($result2 as $result2) {
+//                $result3 = DB::table('user')->where('user',$result2->user)->get();
+//            }
+//            foreach ($result3 as $result3) {
+//                if ($result3->user == $user) continue;
+//                $listEmail['guess'][] = $result3->email;
+//            }
+            $num = count($result2);
+            for ($i = 0;$i < $num;$i++) {
+                $compare = $result2[$i];
+                for ($j = 1;$j < $num;$j++) {
+                    if($result2[$j] == $compare) {
+                        unset($result2[$j]);
+                        $i++;
+                    }
+                }
+            }
+            foreach($result2 as $result2) {
+               $listEmail['guess'][] = $result2->email;
+            }
+        }
+        return $listEmail;
+    }
 }
